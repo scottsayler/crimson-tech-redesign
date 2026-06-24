@@ -1,0 +1,57 @@
+import { CTABand } from "@/components/sections/CTABand";
+import { ProjectCard } from "@/components/sections/ProjectCard";
+import { Section } from "@/components/ui/Section";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { projects } from "@/content/projects";
+import { createMetadata } from "@/lib/seo";
+
+export const metadata = createMetadata({
+  title: "Projects",
+  description:
+    "Advisory engagements, CX transformations, AI workflow projects, and digital products from Crimson Technology.",
+  path: "/projects",
+});
+
+const categories = [
+  "Advisory Engagements",
+  "CX Transformation",
+  "AI & Workflow",
+  "Digital Experiences",
+];
+
+export default function ProjectsPage() {
+  return (
+    <>
+      <Section className="!pb-12">
+        <SectionHeader
+          eyebrow="Projects"
+          title="Advisory work and built products"
+          description="We measure success by decisions made well and systems that work in production."
+        />
+      </Section>
+
+      <Section variant="muted" className="!py-8">
+        <div className="flex flex-wrap gap-3">
+          {categories.map((cat) => (
+            <span
+              key={cat}
+              className="rounded-full border border-stone-200 bg-white px-4 py-2 text-sm text-ink-muted"
+            >
+              {cat}
+            </span>
+          ))}
+        </div>
+      </Section>
+
+      <Section className="!pt-8">
+        <div className="grid gap-6 md:grid-cols-2">
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </div>
+      </Section>
+
+      <CTABand />
+    </>
+  );
+}
