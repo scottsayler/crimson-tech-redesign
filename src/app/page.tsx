@@ -1,247 +1,266 @@
 import Link from "next/link";
 import { CTABand } from "@/components/sections/CTABand";
-import { InsightCard } from "@/components/sections/InsightCard";
-import { ProcessSteps } from "@/components/sections/ProcessSteps";
-import { ProjectCard } from "@/components/sections/ProjectCard";
+import { ResearchCard } from "@/components/sections/ResearchCard";
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { insights } from "@/content/insights";
-import { projects } from "@/content/projects";
-import { services } from "@/content/services";
+import { industries } from "@/content/industries";
+import { solutions } from "@/content/solutions";
+import { getFeaturedResearch } from "@/lib/relationships";
 
-const pillars = [
+const missionGaps = [
+  "The real business problem",
+  "Organizational readiness",
+  "Integration impacts",
+  "Long-term operational complexity",
+];
+
+const capabilities = [
   {
-    title: "Problem first",
+    title: "Advisory",
     description:
-      "We start with the business and operational reality, not a product catalog.",
+      "Independent guidance for evaluating technology strategy, vendors, and long-term investments.",
+    href: "/solutions",
+    cta: "Explore advisory",
   },
   {
-    title: "Vendor fit, not vendor favor",
+    title: "Research",
     description:
-      "We help you compare options honestly and avoid expensive mismatches.",
+      "Crimson Signal Research provides buying guides, problem libraries, industry insights, technology evaluations, and decision frameworks.",
+    href: "/research",
+    cta: "Explore research",
   },
   {
-    title: "Implementation realism",
+    title: "Execution",
     description:
-      "We clarify what rollout, integration, and adoption actually require.",
-  },
-  {
-    title: "Defined success",
-    description:
-      "We align stakeholders on outcomes before contracts and timelines lock in.",
+      "When implementation is needed, we help connect organizations with trusted technology partners while remaining focused on the client's outcomes.",
+    href: "/contact",
+    cta: "Talk with us",
   },
 ];
 
-const outcomes = [
-  "Vendor-neutral guidance grounded in operations, not sales demos",
-  "Practical roadmaps that account for people, process, and technology",
-  "Hands-on execution when you need more than a slide deck",
+const differentiators = [
+  {
+    title: "Independent",
+    description:
+      "No vendor commissions. No platform bias. Advice aligned to your outcomes.",
+  },
+  {
+    title: "Vendor Neutral",
+    description:
+      "We evaluate options on fit—not on who funds the recommendation.",
+  },
+  {
+    title: "Research Driven",
+    description:
+      "Published research and decision frameworks inform every engagement.",
+  },
+  {
+    title: "Outcome Focused",
+    description:
+      "Decisions are measured by operational results, not slide decks or demos.",
+  },
 ];
 
 export default function HomePage() {
-  const featuredProjects = [
-    ...projects.filter((p) => p.featured),
-    ...projects.filter((p) => !p.featured),
-  ].slice(0, 3);
-  const latestInsights = insights.slice(0, 3);
+  const featuredResearch = getFeaturedResearch(3);
 
   return (
     <>
-      {/* Hero */}
+      {/* 1. Hero */}
       <section className="relative overflow-hidden bg-white py-20 md:py-28">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#f5f5f4_1px,transparent_1px),linear-gradient(to_bottom,#f5f5f4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
         <Container className="relative">
           <p className="text-sm font-semibold uppercase tracking-wider text-crimson">
-            Independent Technology Advisory
+            Independent Technology Advisory &amp; Research
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Technology decisions are harder than ever.
+            Helping Organizations Make Better Technology Decisions
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-ink-muted leading-relaxed md:text-xl">
-            We help organizations evaluate, simplify, modernize, and execute
-            technology initiatives—without vendor confusion, platform chaos, or
-            endless AI hype.
+          <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed md:text-xl">
+            Crimson Technology is an independent technology advisory firm helping
+            organizations navigate communications, networking, AI, collaboration,
+            customer experience, security, and digital infrastructure through
+            research, strategic guidance, and vendor-neutral expertise.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Button href="/contact">Start a Conversation</Button>
-            <Button href="/services" variant="outline">
-              Explore Services
+            <Button href="/research">Explore Research</Button>
+            <Button href="/contact" variant="outline">
+              Talk With Us
             </Button>
           </div>
-          <p className="mt-10 text-sm text-ink-muted">
-            Technology advisory · AI &amp; workflow automation · Customer experience ·
-            Connectivity &amp; infrastructure
-          </p>
         </Container>
       </section>
 
-      {/* What We Do */}
+      {/* 2. Mission */}
       <Section>
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionHeader
-              title="Clarity before commitment. Execution after the decision."
-            />
+            <SectionHeader title="Technology decisions shouldn't start with vendors." />
             <p className="text-ink-muted leading-relaxed">
-              Crimson Technology is an independent advisory and digital execution
-              partner. We sit at the intersection of strategy, operations, and
-              technology—helping leadership teams understand what problem actually
-              exists, which options matter, and what it takes to deliver results.
-            </p>
-            <p className="mt-4 text-ink-muted leading-relaxed">
-              Whether you are evaluating communications platforms, modernizing
-              infrastructure, exploring AI, improving customer experience, or
-              launching a digital product, we turn complexity into a structured
-              path forward.
+              Organizations often evaluate technology before fully understanding
+              what they are solving for. Crimson Technology helps leadership teams
+              answer the foundational questions first—so vendor conversations,
+              platform selections, and investments follow clarity, not urgency.
             </p>
           </div>
           <ul className="space-y-4">
-            {outcomes.map((outcome) => (
+            {missionGaps.map((gap) => (
               <li
-                key={outcome}
+                key={gap}
                 className="flex gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4"
               >
                 <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-crimson" />
-                <span className="text-ink leading-relaxed">{outcome}</span>
+                <span className="text-ink leading-relaxed">{gap}</span>
               </li>
             ))}
           </ul>
         </div>
       </Section>
 
-      {/* Areas of Expertise */}
+      {/* 3. Three Capability Cards */}
       <Section variant="muted">
         <SectionHeader
-          eyebrow="Where we help"
-          title="Areas of expertise"
-          description="Broad capability. Focused advice. One accountable partner."
+          eyebrow="How we help"
+          title="Advisory, research, and execution—connected"
+          description="Authority through research. Clarity through advisory. Progress through trusted partners when implementation is required."
+          align="center"
         />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
-            <ServiceCard key={service.slug} service={service} />
+        <div className="grid gap-6 md:grid-cols-3">
+          {capabilities.map((capability) => (
+            <Link
+              key={capability.title}
+              href={capability.href}
+              className="group flex flex-col rounded-lg border border-stone-200 bg-white p-6 transition-all hover:border-crimson/30 hover:shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-ink group-hover:text-crimson">
+                {capability.title}
+              </h3>
+              <p className="mt-3 flex-1 text-sm text-ink-muted leading-relaxed">
+                {capability.description}
+              </p>
+              <span className="mt-4 text-sm font-medium text-crimson">
+                {capability.cta} →
+              </span>
+            </Link>
           ))}
         </div>
       </Section>
 
-      {/* Crimson CX */}
-      <Section variant="crimson">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div>
-            <SectionHeader
-              eyebrow="Flagship Practice"
-              title="Crimson CX — customer experience advisory for financial institutions"
-            />
-            <p className="text-ink-muted leading-relaxed">
-              Banks and credit unions face a familiar challenge: more vendors, more
-              channels, and more pressure to modernize—while day-to-day operations
-              still have to run. Crimson CX helps institutions move from confusion
-              and vendor noise to structured decisions on contact centers, AI
-              readiness, workflow automation, and operational transformation.
-            </p>
-            <p className="mt-4 text-sm text-ink-muted">
-              Crimson CX is a specialized practice within Crimson Technology—not our
-              only focus.
-            </p>
-            <div className="mt-8">
-              <Button href="/crimson-cx">Explore Crimson CX</Button>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              "CCaaS strategy",
-              "AI readiness",
-              "Workflow automation",
-              "Vendor evaluation",
-              "CX friction analysis",
-              "Contact center transformation",
-            ].map((topic) => (
-              <div
-                key={topic}
-                className="rounded-lg border border-crimson/10 bg-white p-4 text-sm font-medium text-ink"
-              >
-                {topic}
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* Featured Projects */}
+      {/* 4. Featured Research */}
       <Section>
         <SectionHeader
-          eyebrow="Proof in execution"
-          title="Featured projects"
-          description="Advisory work builds confidence. Built products prove we can deliver."
+          eyebrow="Crimson Signal Research"
+          title="Featured research"
+          description="Buying guides, decision frameworks, and technology analysis to inform your next move."
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+          {featuredResearch.map((item) => (
+            <ResearchCard key={item.slug} item={item} />
           ))}
         </div>
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <Button href="/research">Explore Research</Button>
           <Link
-            href="/projects"
+            href="/research"
             className="text-sm font-medium text-crimson hover:text-crimson-dark"
           >
-            View all projects →
+            View all research →
           </Link>
         </div>
       </Section>
 
-      {/* Why Independent */}
+      {/* 5. Areas of Expertise */}
       <Section variant="muted">
         <SectionHeader
-          title="We are not tied to a single platform. That is the point."
-          description="Our job is to help you avoid expensive technology mistakes—not to sell you another platform."
+          eyebrow="Advisory expertise"
+          title="Areas of expertise"
+          description="Vendor-neutral guidance across the technology domains where organizations face the hardest decisions."
+        />
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {solutions.map((solution) => (
+            <ServiceCard key={solution.slug} service={solution} />
+          ))}
+        </div>
+        <div className="mt-8">
+          <Link
+            href="/solutions"
+            className="text-sm font-medium text-crimson hover:text-crimson-dark"
+          >
+            View all advisory areas →
+          </Link>
+        </div>
+      </Section>
+
+      {/* 6. Industries */}
+      <Section>
+        <SectionHeader
+          eyebrow="Industries"
+          title="Sector context matters"
+          description="Technology decisions play out differently across industries. We bring sector-specific perspective to every engagement."
+        />
+        <div className="grid gap-6 md:grid-cols-2">
+          {industries.map((industry) => (
+            <Link
+              key={industry.slug}
+              href={`/industries/${industry.slug}`}
+              className="group rounded-lg border border-stone-200 bg-white p-6 transition-all hover:border-crimson/30 hover:shadow-md"
+            >
+              <h3 className="text-xl font-semibold text-ink group-hover:text-crimson">
+                {industry.title}
+              </h3>
+              <p className="mt-2 text-sm text-ink-muted leading-relaxed">
+                {industry.shortDescription}
+              </p>
+              <span className="mt-4 inline-block text-sm font-medium text-crimson">
+                Learn more →
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-8">
+          <Link
+            href="/industries"
+            className="text-sm font-medium text-crimson hover:text-crimson-dark"
+          >
+            View all industries →
+          </Link>
+        </div>
+      </Section>
+
+      {/* 7. Why Crimson Technology */}
+      <Section variant="muted">
+        <SectionHeader
+          title="Why Crimson Technology"
+          description="Built for executives who need independent perspective—not another vendor pitch."
           align="center"
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {pillars.map((pillar) => (
+          {differentiators.map((item) => (
             <div
-              key={pillar.title}
+              key={item.title}
               className="rounded-lg border border-stone-200 bg-white p-6"
             >
-              <h3 className="text-lg font-semibold text-ink">{pillar.title}</h3>
+              <h3 className="text-lg font-semibold text-ink">{item.title}</h3>
               <p className="mt-2 text-sm text-ink-muted leading-relaxed">
-                {pillar.description}
+                {item.description}
               </p>
             </div>
           ))}
         </div>
       </Section>
 
-      {/* How We Work */}
-      <Section>
-        <SectionHeader
-          eyebrow="Our approach"
-          title="A disciplined path from uncertainty to outcomes"
-        />
-        <ProcessSteps />
-      </Section>
-
-      {/* Insights */}
-      <Section variant="muted">
-        <SectionHeader
-          eyebrow="Perspectives"
-          title="Insights for technology leaders"
-          description="Practical thinking on advisory, CX, AI, communications, and execution—without the buzzwords."
-        />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {latestInsights.map((insight) => (
-            <InsightCard key={insight.slug} insight={insight} />
-          ))}
-        </div>
-        <div className="mt-8 text-center">
-          <Button href="/insights" variant="outline">
-            View all insights
-          </Button>
-        </div>
-      </Section>
-
-      <CTABand />
+      {/* 8. Final CTA */}
+      <CTABand
+        title="Let's make your next technology decision your best one."
+        description=""
+        primaryLabel="Start a Conversation"
+        primaryHref="/contact"
+        secondaryLabel="Explore Research"
+        secondaryHref="/research"
+      />
     </>
   );
 }

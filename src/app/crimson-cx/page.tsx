@@ -1,6 +1,12 @@
 import { CTABand } from "@/components/sections/CTABand";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { getIndustry } from "@/content/industries";
+import {
+  getResearchForPractice,
+  getSolutionsForIndustrySlug,
+} from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -37,6 +43,10 @@ const audiences = [
 ];
 
 export default function CrimsonCXPage() {
+  const relatedResearch = getResearchForPractice("crimson-cx");
+  const relatedSolutions = getSolutionsForIndustrySlug("financial-services");
+  const financialServices = getIndustry("financial-services");
+
   return (
     <>
       <Section className="!pb-12" variant="crimson">
@@ -127,6 +137,12 @@ export default function CrimsonCXPage() {
           </div>
         </div>
       </Section>
+
+      <ContextualLinks
+        research={relatedResearch}
+        solutions={relatedSolutions}
+        industries={financialServices ? [financialServices] : []}
+      />
 
       <CTABand
         title="Discuss your CX priorities"

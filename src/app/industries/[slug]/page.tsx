@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { getIndustry, industries } from "@/content/industries";
-import { getService } from "@/content/services";
+import { getSolution } from "@/content/solutions";
+import { getResearchForIndustry } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -33,8 +35,9 @@ export default async function IndustryDetailPage({ params }: Props) {
   if (!industry) notFound();
 
   const relatedServices = industry.relatedServices
-    .map((s) => getService(s))
+    .map((s) => getSolution(s))
     .filter(Boolean);
+  const relatedResearch = getResearchForIndustry(slug);
 
   return (
     <>
@@ -90,7 +93,7 @@ export default async function IndustryDetailPage({ params }: Props) {
               service && (
                 <Link
                   key={service.slug}
-                  href={`/services/${service.slug}`}
+                  href={`/solutions/${service.slug}`}
                   className="rounded-lg border border-stone-200 p-5 transition-colors hover:border-crimson/30"
                 >
                   <h3 className="font-semibold text-ink">{service.title}</h3>
@@ -102,6 +105,8 @@ export default async function IndustryDetailPage({ params }: Props) {
           )}
         </div>
       </Section>
+
+      <ContextualLinks research={relatedResearch} />
 
       <CTABand />
     </>

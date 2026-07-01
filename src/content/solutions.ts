@@ -1,4 +1,4 @@
-export type Service = {
+export type Solution = {
   slug: string;
   title: string;
   shortDescription: string;
@@ -7,7 +7,7 @@ export type Service = {
   typicalSituations: string[];
 };
 
-export const services: Service[] = [
+export const solutions: Solution[] = [
   {
     slug: "technology-advisory",
     title: "Technology Advisory",
@@ -130,6 +130,6 @@ export const services: Service[] = [
   },
 ];
 
-export function getService(slug: string): Service | undefined {
-  return services.find((s) => s.slug === slug);
+export function getSolution(slug: string): Solution | undefined {
+  return solutions.find((s) => s.slug === slug);
 }

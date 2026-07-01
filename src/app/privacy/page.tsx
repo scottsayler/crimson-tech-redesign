@@ -1,5 +1,7 @@
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { Section } from "@/components/ui/Section";
 import { site } from "@/content/site";
+import { getFeaturedResearch } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -9,7 +11,10 @@ export const metadata = createMetadata({
 });
 
 export default function PrivacyPage() {
+  const featuredResearch = getFeaturedResearch(2);
+
   return (
+    <>
     <Section>
       <h1 className="text-4xl font-semibold text-ink">Privacy Policy</h1>
       <div className="prose mt-8 max-w-3xl">
@@ -46,5 +51,8 @@ export default function PrivacyPage() {
         </p>
       </div>
     </Section>
+
+    <ContextualLinks research={featuredResearch} />
+    </>
   );
 }

@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { getProject, projects } from "@/content/projects";
+import { getResearchForProject } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -29,6 +31,8 @@ export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
+
+  const relatedResearch = getResearchForProject(slug);
 
   return (
     <>
@@ -78,6 +82,8 @@ export default async function ProjectDetailPage({ params }: Props) {
           </p>
         </Section>
       )}
+
+      <ContextualLinks research={relatedResearch} />
 
       <CTABand
         title="Have a project in mind?"

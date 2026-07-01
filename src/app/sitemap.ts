@@ -1,30 +1,30 @@
 import type { MetadataRoute } from "next";
-import { insights } from "@/content/insights";
 import { industries } from "@/content/industries";
 import { projects } from "@/content/projects";
-import { services } from "@/content/services";
+import { RESEARCH_HUB_PATHS, research } from "@/content/research";
+import { solutions } from "@/content/solutions";
 import { site } from "@/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     "",
     "/about",
-    "/services",
+    "/solutions",
+    "/research",
     "/industries",
     "/crimson-cx",
     "/projects",
-    "/insights",
     "/contact",
     "/privacy",
   ].map((path) => ({
     url: `${site.url}${path}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
-    priority: path === "" ? 1 : 0.8,
+    priority: path === "" ? 1 : path === "/research" ? 0.9 : 0.8,
   }));
 
-  const servicePages = services.map((s) => ({
-    url: `${site.url}/services/${s.slug}`,
+  const solutionPages = solutions.map((s) => ({
+    url: `${site.url}/solutions/${s.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.7,
@@ -44,18 +44,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const insightPages = insights.map((i) => ({
-    url: `${site.url}/insights/${i.slug}`,
-    lastModified: new Date(i.date),
+  const researchHubPages = Object.values(RESEARCH_HUB_PATHS).map((path) => ({
+    url: `${site.url}${path}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
+
+  const researchPages = research.map((r) => ({
+    url: `${site.url}/research/${r.slug}`,
+    lastModified: new Date(r.date),
     changeFrequency: "yearly" as const,
-    priority: 0.5,
+    priority: 0.8,
   }));
 
   return [
     ...staticPages,
-    ...servicePages,
+    ...solutionPages,
     ...industryPages,
     ...projectPages,
-    ...insightPages,
+    ...researchHubPages,
+    ...researchPages,
   ];
 }

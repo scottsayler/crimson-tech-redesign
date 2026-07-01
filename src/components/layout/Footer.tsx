@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { industries } from "@/content/industries";
 import { primaryNav } from "@/content/navigation";
-import { services } from "@/content/services";
+import { practices } from "@/content/practices";
+import { solutions } from "@/content/solutions";
 import { site } from "@/content/site";
 
 export function Footer() {
@@ -23,36 +24,42 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-ink">Company</h3>
             <ul className="mt-4 space-y-2">
-              {primaryNav
-                .filter((item) => !item.children)
-                .map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-ink-muted hover:text-crimson"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              <li>
-                <Link href="/contact" className="text-sm text-ink-muted hover:text-crimson">
-                  Contact
-                </Link>
-              </li>
+              {primaryNav.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-ink-muted hover:text-crimson"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h3 className="text-sm font-semibold text-ink">Services</h3>
             <ul className="mt-4 space-y-2">
-              {services.map((service) => (
-                <li key={service.slug}>
+              {solutions.map((solution) => (
+                <li key={solution.slug}>
                   <Link
-                    href={`/services/${service.slug}`}
+                    href={`/solutions/${solution.slug}`}
                     className="text-sm text-ink-muted hover:text-crimson"
                   >
-                    {service.title}
+                    {solution.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <h3 className="mt-6 text-sm font-semibold text-ink">Practice Areas</h3>
+            <ul className="mt-4 space-y-2">
+              {practices.map((practice) => (
+                <li key={practice.slug}>
+                  <Link
+                    href={practice.href}
+                    className="text-sm text-ink-muted hover:text-crimson"
+                  >
+                    {practice.title}
                   </Link>
                 </li>
               ))}

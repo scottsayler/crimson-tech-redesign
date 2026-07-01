@@ -16,6 +16,7 @@ export function createMetadata({
   return {
     title: fullTitle,
     description,
+    alternates: path ? { canonical: `${site.url}${path}` } : undefined,
     openGraph: {
       title: fullTitle,
       description,

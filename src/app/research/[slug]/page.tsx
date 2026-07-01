@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { Section } from "@/components/ui/Section";
-import { getInsight, insights } from "@/content/insights";
+import { getResearch, research, researchTypeLabels } from "@/content/research";
+import {
+  getIndustriesForResearch,
+  getRelatedResearch,
+  getSolutionsForResearch,
+} from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -10,27 +16,31 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  return insights.map((insight) => ({ slug: insight.slug }));
+  return research.map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const insight = getInsight(slug);
-  if (!insight) return {};
+  const item = getResearch(slug);
+  if (!item) return {};
 
   return createMetadata({
-    title: insight.title,
-    description: insight.excerpt,
-    path: `/insights/${slug}`,
+    title: item.title,
+    description: item.excerpt,
+    path: `/research/${slug}`,
   });
 }
 
-export default async function InsightDetailPage({ params }: Props) {
+export default async function ResearchDetailPage({ params }: Props) {
   const { slug } = await params;
-  const insight = getInsight(slug);
-  if (!insight) notFound();
+  const item = getResearch(slug);
+  if (!item) notFound();
 
-  const date = new Date(insight.date).toLocaleDateString("en-US", {
+  const relatedSolutions = getSolutionsForResearch(item);
+  const relatedIndustries = getIndustriesForResearch(item);
+  const moreResearch = getRelatedResearch(item, 3);
+
+  const date = new Date(item.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -40,32 +50,39 @@ export default async function InsightDetailPage({ params }: Props) {
     <>
       <Section className="!pb-8">
         <Link
-          href="/insights"
+          href="/research"
           className="text-sm font-medium text-crimson hover:text-crimson-dark"
         >
           ← All insights
         </Link>
         <div className="mt-6 flex items-center gap-3">
           <span className="text-sm font-semibold uppercase tracking-wider text-crimson">
-            {insight.category}
+            {researchTypeLabels[item.type]}
           </span>
+          <span className="text-sm text-ink-muted">{item.category}</span>
           <span className="text-sm text-ink-muted">{date}</span>
         </div>
         <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl">
-          {insight.title}
+          {item.title}
         </h1>
         <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed">
-          {insight.excerpt}
+          {item.excerpt}
         </p>
       </Section>
 
       <Section variant="muted" className="!py-12">
         <article className="prose mx-auto max-w-3xl">
-          {insight.content.map((paragraph) => (
+          {item.content.map((paragraph) => (
             <p key={paragraph.slice(0, 40)}>{paragraph}</p>
           ))}
         </article>
       </Section>
+
+      <ContextualLinks
+        solutions={relatedSolutions}
+        industries={relatedIndustries}
+        research={moreResearch}
+      />
 
       <CTABand />
     </>

@@ -1,7 +1,9 @@
 import { ContactForm } from "@/components/ContactForm";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { site } from "@/content/site";
+import { getFeaturedResearch } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -12,6 +14,8 @@ export const metadata = createMetadata({
 });
 
 export default function ContactPage() {
+  const featuredResearch = getFeaturedResearch(3);
+
   return (
     <>
       <Section className="!pb-8">
@@ -59,6 +63,8 @@ export default function ContactPage() {
           </div>
         </div>
       </Section>
+
+      <ContextualLinks research={featuredResearch} />
     </>
   );
 }

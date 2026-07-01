@@ -1,17 +1,75 @@
-export type Insight = {
+export const RESEARCH_TYPES = [
+  "problem-page",
+  "buying-guide",
+  "industry-guide",
+  "technology-guide",
+  "vendor-comparison",
+  "decision-framework",
+  "checklist",
+] as const;
+
+export type ResearchType = (typeof RESEARCH_TYPES)[number];
+
+export const researchTypeLabels: Record<ResearchType, string> = {
+  "problem-page": "Problem Page",
+  "buying-guide": "Buying Guide",
+  "industry-guide": "Industry Guide",
+  "technology-guide": "Technology Guide",
+  "vendor-comparison": "Vendor Comparison",
+  "decision-framework": "Decision Framework",
+  checklist: "Checklist",
+};
+
+export const researchTypeDescriptions: Record<ResearchType, string> = {
+  "problem-page":
+    "Clarify the business problem before evaluating vendors or platforms.",
+  "buying-guide":
+    "Structured guidance for technology purchases and platform selection.",
+  "industry-guide":
+    "Sector-specific context for technology decisions and modernization.",
+  "technology-guide":
+    "Deep dives on emerging capabilities, trends, and operational impact.",
+  "vendor-comparison":
+    "Side-by-side analysis to cut through demos and marketing claims.",
+  "decision-framework":
+    "Repeatable models for evaluating options and aligning stakeholders.",
+  checklist:
+    "Practical evaluation criteria you can use in active buying cycles.",
+};
+
+export const RESEARCH_HUB_PATHS: Record<ResearchType, string> = {
+  "problem-page": "/research/problems",
+  "technology-guide": "/research/technology",
+  "buying-guide": "/research/buying-guides",
+  "industry-guide": "/research/industry-guides",
+  "vendor-comparison": "/research/vendor-comparisons",
+  "decision-framework": "/research/decision-frameworks",
+  checklist: "/research/checklists",
+};
+
+export function getResearchHubPath(type: ResearchType): string {
+  return RESEARCH_HUB_PATHS[type];
+}
+
+export type Research = {
   slug: string;
   title: string;
   date: string;
+  type: ResearchType;
   category: string;
   excerpt: string;
   content: string[];
+  relatedSolutions?: string[];
+  relatedIndustries?: string[];
+  featured?: boolean;
 };
 
-export const insights: Insight[] = [
+export const research: Research[] = [
   {
     slug: "ccaas-vendor-checklist",
     title: "6 Question Checklist for Choosing a CCaaS Vendor",
     date: "2025-09-29",
+    type: "checklist",
     category: "Communications",
     excerpt:
       "Selecting the right CCaaS partner requires more than a polished demo. Use this checklist to evaluate vendors on what actually matters.",
@@ -23,11 +81,15 @@ export const insights: Insight[] = [
       "Assess the vendor's implementation methodology and timeline realism. Sales timelines and implementation timelines are rarely the same.",
       "Plan for adoption, not just deployment. Technology that agents and supervisors don't use is wasted investment.",
     ],
+    relatedSolutions: ["communications-collaboration", "customer-experience"],
+    relatedIndustries: ["financial-services", "multi-location-businesses"],
+    featured: true,
   },
   {
     slug: "ai-auto-summarization-contact-centers",
     title: "The Power of Auto-Summarization in Contact Centers",
     date: "2025-10-09",
+    type: "technology-guide",
     category: "AI & Automation",
     excerpt:
       "Auto-summarization is one of the most practical AI applications in contact centers—but only when workflow and governance are designed first.",
@@ -38,11 +100,14 @@ export const insights: Insight[] = [
       "Governance matters. Who reviews summaries? How are errors caught? What happens when summarization misses critical details? Answer these before scaling.",
       "Measure impact on agent productivity, supervisor efficiency, and data quality—not just the fact that summarization is running.",
     ],
+    relatedSolutions: ["ai-workflow-automation", "customer-experience"],
+    relatedIndustries: ["financial-services", "healthcare"],
   },
   {
     slug: "ccaas-addon-vs-point-solution",
     title: "CCaaS Add-On vs. Point Solution: Choosing the Right Path",
     date: "2025-10-03",
+    type: "decision-framework",
     category: "Communications",
     excerpt:
       "When your CCaaS vendor offers an add-on versus a best-of-breed point solution, the decision isn't just technical—it's strategic.",
@@ -53,11 +118,14 @@ export const insights: Insight[] = [
       "Consider your team's capacity to manage multiple vendors versus their need for best-in-class capability in specific areas.",
       "The right answer depends on your operational complexity, integration requirements, and internal technical capacity—not vendor marketing.",
     ],
+    relatedSolutions: ["communications-collaboration"],
+    relatedIndustries: ["financial-services", "technology-driven-organizations"],
   },
   {
     slug: "independent-technology-advisory",
     title: "Why Independent Technology Advisory Matters",
     date: "2025-11-15",
+    type: "problem-page",
     category: "Advisory",
     excerpt:
       "When technology vendors fund the advice, the advice follows the incentive. Independent advisory puts your outcomes first.",
@@ -68,11 +136,18 @@ export const insights: Insight[] = [
       "We help you build evaluation frameworks, facilitate stakeholder alignment, and structure vendor engagements so you see real capability—not rehearsed demos.",
       "The result: decisions you can defend, implementations you can execute, and technology that actually fits.",
     ],
+    relatedSolutions: ["technology-advisory"],
+    relatedIndustries: [
+      "professional-services",
+      "technology-driven-organizations",
+    ],
+    featured: true,
   },
   {
     slug: "sales-vs-implementation",
     title: "Don't Confuse Sales with Implementation",
     date: "2025-08-22",
+    type: "problem-page",
     category: "Advisory",
     excerpt:
       "The team that sells you a platform is rarely the team that implements it. Plan for the gap.",
@@ -83,11 +158,14 @@ export const insights: Insight[] = [
       "Build implementation requirements into your evaluation criteria. Ask for implementation references, not just product references.",
       "The best technology decision can still fail if implementation planning is an afterthought.",
     ],
+    relatedSolutions: ["technology-advisory"],
+    relatedIndustries: ["multi-location-businesses", "professional-services"],
   },
   {
     slug: "ccaas-trends-2025",
     title: "CCaaS Trends to Watch in 2025",
     date: "2025-09-24",
+    type: "technology-guide",
     category: "Communications",
     excerpt:
       "AI integration, composable architecture, and agent experience are reshaping contact center technology. Here's what matters for your evaluation.",
@@ -98,9 +176,31 @@ export const insights: Insight[] = [
       "Agent experience is becoming a competitive differentiator. Technology that makes agents' jobs harder will fail regardless of feature count.",
       "Evaluation frameworks need to account for these trends without chasing every new capability. Start with operational requirements, then map technology to them.",
     ],
+    relatedSolutions: ["communications-collaboration"],
+    relatedIndustries: ["financial-services", "healthcare"],
   },
 ];
 
-export function getInsight(slug: string): Insight | undefined {
-  return insights.find((i) => i.slug === slug);
+export function getResearch(slug: string): Research | undefined {
+  return research.find((r) => r.slug === slug);
+}
+
+export function getResearchByType(type: ResearchType): Research[] {
+  return research.filter((r) => r.type === type);
+}
+
+export function getResearchByTypeSorted(type: ResearchType): Research[] {
+  return getResearchByType(type).sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+}
+
+export function getResearchTypeCount(type: ResearchType): number {
+  return research.filter((r) => r.type === type).length;
+}
+
+export function getResearchSortedByDate(): Research[] {
+  return [...research].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
 }

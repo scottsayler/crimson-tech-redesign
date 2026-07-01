@@ -1,9 +1,14 @@
 import { notFound } from "next/navigation";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
-import { getService, services } from "@/content/services";
+import { getSolution, solutions } from "@/content/solutions";
+import {
+  getIndustriesForSolution,
+  getResearchForSolution,
+} from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -11,25 +16,28 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
+  return solutions.map((solution) => ({ slug: solution.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const service = getService(slug);
-  if (!service) return {};
+  const solution = getSolution(slug);
+  if (!solution) return {};
 
   return createMetadata({
-    title: service.title,
-    description: service.shortDescription,
-    path: `/services/${slug}`,
+    title: solution.title,
+    description: solution.shortDescription,
+    path: `/solutions/${slug}`,
   });
 }
 
-export default async function ServiceDetailPage({ params }: Props) {
+export default async function SolutionDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = getService(slug);
-  if (!service) notFound();
+  const solution = getSolution(slug);
+  if (!solution) notFound();
+
+  const relatedResearch = getResearchForSolution(slug);
+  const relatedIndustries = getIndustriesForSolution(slug);
 
   return (
     <>
@@ -38,10 +46,10 @@ export default async function ServiceDetailPage({ params }: Props) {
           Services
         </p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-ink md:text-5xl">
-          {service.title}
+          {solution.title}
         </h1>
         <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed">
-          {service.description}
+          {solution.description}
         </p>
       </Section>
 
@@ -50,7 +58,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           <div>
             <h2 className="text-2xl font-semibold text-ink">What we help with</h2>
             <ul className="mt-4 space-y-3">
-              {service.helpsWith.map((item) => (
+              {solution.helpsWith.map((item) => (
                 <li key={item} className="flex gap-3 text-ink-muted">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-crimson" />
                   {item}
@@ -61,7 +69,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           <div>
             <h2 className="text-2xl font-semibold text-ink">When to call</h2>
             <ul className="mt-4 space-y-3">
-              {service.typicalSituations.map((item) => (
+              {solution.typicalSituations.map((item) => (
                 <li
                   key={item}
                   className="rounded-lg border border-stone-200 bg-white p-4 text-sm text-ink-muted leading-relaxed"
@@ -95,6 +103,11 @@ export default async function ServiceDetailPage({ params }: Props) {
           <Button href="/contact">Discuss this service</Button>
         </div>
       </Section>
+
+      <ContextualLinks
+        research={relatedResearch}
+        industries={relatedIndustries}
+      />
 
       <CTABand />
     </>

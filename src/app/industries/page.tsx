@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { industries } from "@/content/industries";
+import { solutions } from "@/content/solutions";
+import { getFeaturedResearch } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -13,6 +16,8 @@ export const metadata = createMetadata({
 });
 
 export default function IndustriesPage() {
+  const featuredResearch = getFeaturedResearch(3);
+
   return (
     <>
       <Section className="!pb-12">
@@ -44,6 +49,8 @@ export default function IndustriesPage() {
           ))}
         </div>
       </Section>
+
+      <ContextualLinks research={featuredResearch} solutions={solutions.slice(0, 3)} />
 
       <CTABand />
     </>

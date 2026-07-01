@@ -1,8 +1,10 @@
 import { CTABand } from "@/components/sections/CTABand";
+import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { ProjectCard } from "@/components/sections/ProjectCard";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { projects } from "@/content/projects";
+import { getFeaturedResearch } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -20,6 +22,8 @@ const categories = [
 ];
 
 export default function ProjectsPage() {
+  const featuredResearch = getFeaturedResearch(3);
+
   return (
     <>
       <Section className="!pb-12">
@@ -50,6 +54,8 @@ export default function ProjectsPage() {
           ))}
         </div>
       </Section>
+
+      <ContextualLinks research={featuredResearch} />
 
       <CTABand />
     </>
