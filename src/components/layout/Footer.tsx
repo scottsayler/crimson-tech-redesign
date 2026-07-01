@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/brand/Logo";
 import { industries } from "@/content/industries";
 import { primaryNav } from "@/content/navigation";
 import { practices } from "@/content/practices";
@@ -11,10 +12,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-crimson" />
-              <span className="text-lg font-semibold text-ink">{site.name}</span>
-            </Link>
+            <Logo imageClassName="h-7 w-auto" />
             <p className="mt-4 text-sm text-ink-muted leading-relaxed">
               Independent technology advisory and digital execution.
             </p>

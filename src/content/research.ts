@@ -1,3 +1,5 @@
+import { restaurantResearch } from "./restaurant-research";
+
 export const RESEARCH_TYPES = [
   "problem-page",
   "buying-guide",
@@ -64,7 +66,7 @@ export type Research = {
   featured?: boolean;
 };
 
-export const research: Research[] = [
+const legacyResearch: Research[] = [
   {
     slug: "ccaas-vendor-checklist",
     title: "6 Question Checklist for Choosing a CCaaS Vendor",
@@ -180,6 +182,8 @@ export const research: Research[] = [
     relatedIndustries: ["financial-services", "healthcare"],
   },
 ];
+
+export const research: Research[] = [...legacyResearch, ...restaurantResearch];
 
 export function getResearch(slug: string): Research | undefined {
   return research.find((r) => r.slug === slug);

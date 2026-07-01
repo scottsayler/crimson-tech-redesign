@@ -7,7 +7,7 @@ import { ctaNav, primaryNav } from "@/content/navigation";
 import { practices } from "@/content/practices";
 import { research, researchTypeLabels } from "@/content/research";
 import { solutions } from "@/content/solutions";
-import { site } from "@/content/site";
+import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
 
 type DropdownType = "solutions" | "industries" | "research";
@@ -145,12 +145,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-crimson" />
-          <span className="text-lg font-semibold tracking-tight text-ink">
-            {site.name}
-          </span>
-        </Link>
+        <Logo />
 
         <nav className="hidden items-center gap-1 lg:flex">
           {primaryNav.map((item) => {

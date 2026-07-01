@@ -10,6 +10,32 @@ export type Industry = {
 
 export const industries: Industry[] = [
   {
+    slug: "restaurants",
+    title: "Restaurants",
+    shortDescription:
+      "Store networking, downtime risk, internet connectivity, POTS replacement, and managed IT for multi-location restaurant operators.",
+    description:
+      "Restaurant operators depend on store-level technology that guests notice immediately when it fails. A single internet outage can stop POS transactions, kitchen routing, and online orders at the same time. Franchise models add another layer — corporate standards, franchisee-owned infrastructure, and inconsistent vendor relationships across locations.",
+    challenges: [
+      "Repeated POS or internet outages during peak hours",
+      "New store openings with tight technology deadlines",
+      "Rising POTS line bills with no clear inventory of remaining analog lines",
+      "Franchisee network inconsistency creating brand and compliance risk",
+      "Lean internal IT team unable to support every location directly",
+    ],
+    howWeHelp: [
+      "Connectivity and carrier evaluation for store networks",
+      "Network standardization and failover planning across locations",
+      "POTS replacement and legacy line modernization",
+      "Independent technology advisory for vendor and architecture decisions",
+    ],
+    relatedServices: [
+      "connectivity-infrastructure",
+      "technology-advisory",
+      "customer-experience",
+    ],
+  },
+  {
     slug: "financial-services",
     title: "Financial Services",
     shortDescription:

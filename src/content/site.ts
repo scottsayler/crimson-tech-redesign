@@ -1,10 +1,14 @@
 export const site = {
   name: "Crimson Technology",
-  tagline: "Independent Technology Advisory & Digital Execution",
+  tagline: "Independent Technology Research. Smarter Decisions.",
   description:
-    "Crimson Technology helps organizations evaluate, simplify, modernize, and execute technology initiatives without vendor confusion, platform chaos, or endless AI hype.",
+    "Independent technology research and advisory to help leaders make smarter decisions.",
+  socialDescription:
+    "Independent technology research and advisory to help leaders make smarter decisions.",
   url: "https://crimsontech.co",
   email: "info@crimsontech.co",
   location: "Downers Grove, IL",
   linkedin: "https://www.linkedin.com/company/crimson-technology-llc",
+  logo: "/brand/logo.png",
+  ogImage: "/og.png",
 } as const;

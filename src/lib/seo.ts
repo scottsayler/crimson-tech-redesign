@@ -12,17 +12,48 @@ export function createMetadata({
 }): Metadata {
   const fullTitle =
     title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
+  const url = `${site.url}${path}`;
+  const ogImageUrl = `${site.url}${site.ogImage}`;
 
   return {
     title: fullTitle,
     description,
-    alternates: path ? { canonical: `${site.url}${path}` } : undefined,
+    alternates: path ? { canonical: url } : undefined,
+    icons: {
+      icon: [
+        { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: [
+        {
+          url: "/apple-touch-icon.png",
+          sizes: "180x180",
+          type: "image/png",
+        },
+      ],
+      shortcut: "/favicon.ico",
+    },
     openGraph: {
       title: fullTitle,
       description,
-      url: `${site.url}${path}`,
+      url,
       siteName: site.name,
       type: "website",
+      locale: "en_US",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${site.name} — ${site.tagline}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: fullTitle,
+      description,
+      images: [ogImageUrl],
     },
   };
 }
