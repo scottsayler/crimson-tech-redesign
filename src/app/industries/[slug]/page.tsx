@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { IndustryLibrary } from "@/components/research/navigation/IndustryLibrary";
+import { RelatedTools } from "@/components/tools/RelatedTools";
 import {
   RelatedResearchSection,
   RelatedSolutionsSection,
@@ -96,6 +97,12 @@ export default async function IndustryDetailPage({ params }: Props) {
           </div>
         </div>
       </Section>
+
+      {industry.relatedTools && industry.relatedTools.length > 0 ? (
+        <Section variant="muted" className="!py-12">
+          <RelatedTools items={industry.relatedTools} />
+        </Section>
+      ) : null}
 
       {library ? (
         <IndustryLibrary industrySlug={slug} variant="default" />

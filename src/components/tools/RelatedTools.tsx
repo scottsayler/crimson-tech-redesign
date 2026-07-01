@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getTool } from "@/content/tools";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import { getToolBadgeLabel, getToolCompletionTime } from "@/lib/content-badges";
 
 type RelatedToolLink = {
   slug: string;
@@ -22,15 +24,23 @@ export function RelatedTools({ items }: { items: RelatedToolLink[] }) {
       <p className="text-xs font-semibold uppercase tracking-wider text-crimson">
         Interactive tools
       </p>
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        Quantify outage impact and score network readiness with calculators built for restaurant
+        operators.
+      </p>
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {resolved.map((item) => (
           <Link
             key={item.slug}
             href={`/tools/${item.slug}`}
-            className="inline-flex items-center gap-2 rounded-lg border border-crimson/20 bg-white px-4 py-3 text-sm font-medium text-ink transition-colors hover:border-crimson/40 hover:text-crimson"
+            className="flex flex-col rounded-lg border border-crimson/20 bg-white p-4 transition-colors hover:border-crimson/40"
           >
-            {item.label}
-            <span aria-hidden>→</span>
+            <ContentBadge
+              label={getToolBadgeLabel(item.tool)}
+              completionTime={getToolCompletionTime(item.tool)}
+            />
+            <span className="mt-3 text-sm font-semibold text-ink">{item.label}</span>
+            <span className="mt-2 text-sm text-crimson">Open tool →</span>
           </Link>
         ))}
       </div>

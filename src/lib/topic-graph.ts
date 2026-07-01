@@ -9,10 +9,10 @@ import {
   getResearch,
   getResearchHubPath,
   research,
-  researchTypeLabels,
   type Research,
 } from "@/content/research";
 import { getRelatedResearch } from "@/lib/relationships";
+import { researchTypeHubTitles } from "@/lib/content-badges";
 
 export type BreadcrumbItem = {
   label: string;
@@ -61,7 +61,7 @@ export function getTopicBreadcrumb(item: Research): BreadcrumbItem[] {
     }
   } else {
     crumbs.push({
-      label: researchTypeLabels[item.type],
+      label: researchTypeHubTitles[item.type],
       href: getResearchHubPath(item.type),
     });
   }

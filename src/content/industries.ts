@@ -6,6 +6,7 @@ export type Industry = {
   challenges: string[];
   howWeHelp: string[];
   relatedServices: string[];
+  relatedTools?: { slug: string; label: string }[];
   resourcesTitle?: string;
   resourcesDescription?: string;
   servicesDescription?: string;
@@ -36,6 +37,16 @@ export const industries: Industry[] = [
       "connectivity-infrastructure",
       "technology-advisory",
       "customer-experience",
+    ],
+    relatedTools: [
+      {
+        slug: "downtime-cost-calculator",
+        label: "Calculate outage cost",
+      },
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
     ],
     resourcesTitle: "Restaurant Technology Resources",
     resourcesDescription:

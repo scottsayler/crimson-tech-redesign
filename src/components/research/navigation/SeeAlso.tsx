@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Research } from "@/content/research";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import { getResearchBadgeLabel, getResearchCompletionTime } from "@/lib/content-badges";
 
 export function SeeAlso({ items }: { items: Research[] }) {
   if (items.length === 0) return null;
@@ -17,8 +19,12 @@ export function SeeAlso({ items }: { items: Research[] }) {
               href={`/research/${item.slug}`}
               className="flex items-start justify-between gap-4 rounded-lg border border-stone-200 bg-white px-4 py-3 transition-colors hover:border-crimson/30"
             >
-              <span>
-                <span className="block font-medium text-ink">{item.title}</span>
+              <span className="min-w-0">
+                <ContentBadge
+                  label={getResearchBadgeLabel(item.type)}
+                  completionTime={getResearchCompletionTime(item)}
+                />
+                <span className="mt-2 block font-medium text-ink">{item.title}</span>
                 <span className="mt-1 block text-sm text-ink-muted line-clamp-2">
                   {item.excerpt}
                 </span>

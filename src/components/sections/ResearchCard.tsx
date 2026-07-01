@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Research } from "@/content/research";
-import { researchTypeLabels } from "@/content/research";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import { getResearchBadgeLabel, getResearchCompletionTime } from "@/lib/content-badges";
 
 export function ResearchCard({
   item,
@@ -22,10 +23,11 @@ export function ResearchCard({
         featured ? "p-8" : "p-6"
       }`}
     >
-      <div className="flex items-center gap-3">
-        <span className="text-xs font-semibold uppercase tracking-wider text-crimson">
-          {researchTypeLabels[item.type]}
-        </span>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <ContentBadge
+          label={getResearchBadgeLabel(item.type)}
+          completionTime={getResearchCompletionTime(item)}
+        />
         <span className="text-xs text-ink-muted">{date}</span>
       </div>
       <h3

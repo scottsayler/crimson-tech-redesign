@@ -1,4 +1,6 @@
 import type { ExecutiveResource as ExecutiveResourceConfig } from "@/content/research";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import { contentBadgeLabels } from "@/lib/content-badges";
 
 function DocumentIcon() {
   return (
@@ -116,9 +118,7 @@ export function ExecutiveResource({
             <CardIcon />
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-crimson">
-              Executive Resource
-            </p>
+            <ContentBadge label={contentBadgeLabels["executive-brief"]} />
             <h3 className="mt-2 text-xl font-semibold tracking-tight text-ink md:text-2xl">
               {resolvedHeading}
             </h3>

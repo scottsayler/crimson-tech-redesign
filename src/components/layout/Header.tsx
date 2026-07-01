@@ -5,10 +5,15 @@ import { useState } from "react";
 import { industries } from "@/content/industries";
 import { ctaNav, primaryNav } from "@/content/navigation";
 import { practices } from "@/content/practices";
-import { research, researchTypeLabels } from "@/content/research";
+import { research } from "@/content/research";
 import { solutions } from "@/content/solutions";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
+import {
+  formatContentBadgeText,
+  getResearchBadgeLabel,
+  getResearchTypeDefaultCompletionTime,
+} from "@/lib/content-badges";
 
 type DropdownType = "solutions" | "industries" | "research";
 
@@ -80,7 +85,10 @@ export function Header() {
             >
               <span className="block text-sm font-medium text-ink">{child.title}</span>
               <span className="mt-0.5 block text-xs text-ink-muted line-clamp-1">
-                {researchTypeLabels[child.type]}
+                {formatContentBadgeText(
+                  getResearchBadgeLabel(child.type),
+                  getResearchTypeDefaultCompletionTime(child.type)
+                )}
               </span>
             </Link>
           ))}

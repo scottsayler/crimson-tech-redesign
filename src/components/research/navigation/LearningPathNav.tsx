@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getResearch } from "@/content/research";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import { contentBadgeLabels } from "@/lib/content-badges";
 import type { LearningPathContext } from "@/lib/topic-graph";
 
 export function LearningPathNav({
@@ -11,9 +13,7 @@ export function LearningPathNav({
 }) {
   return (
     <div className="rounded-2xl border border-stone-200 bg-white p-6 md:p-8">
-      <p className="text-xs font-semibold uppercase tracking-wider text-crimson">
-        Learning Path
-      </p>
+      <ContentBadge label={contentBadgeLabels.playbook} />
       <h2 className="mt-2 text-2xl font-semibold text-ink">{context.path.title}</h2>
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-muted">
         {context.path.description}
@@ -42,7 +42,7 @@ export function LearningPathNav({
                 >
                   {index + 1}
                 </span>
-                <span>
+                <span className="min-w-0">
                   <span className="block font-medium text-ink">{article.title}</span>
                   {!isCurrent ? (
                     <span className="mt-1 block text-sm leading-relaxed text-ink-muted">

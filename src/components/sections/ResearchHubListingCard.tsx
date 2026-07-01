@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Research } from "@/content/research";
-import { researchTypeLabels } from "@/content/research";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import { getResearchBadgeLabel, getResearchCompletionTime } from "@/lib/content-badges";
 import {
   getIndustriesForResearch,
   getSolutionsForResearch,
@@ -12,9 +13,10 @@ export function ResearchHubListingCard({ item }: { item: Research }) {
 
   return (
     <article className="flex flex-col rounded-lg border border-stone-200 bg-white p-6 transition-all hover:border-crimson/30 hover:shadow-md">
-      <p className="text-xs font-semibold uppercase tracking-wider text-crimson">
-        {researchTypeLabels[item.type]}
-      </p>
+      <ContentBadge
+        label={getResearchBadgeLabel(item.type)}
+        completionTime={getResearchCompletionTime(item)}
+      />
       <h2 className="mt-3 text-xl font-semibold text-ink">
         <Link href={`/research/${item.slug}`} className="hover:text-crimson">
           {item.title}

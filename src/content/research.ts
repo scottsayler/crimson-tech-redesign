@@ -14,12 +14,12 @@ export const RESEARCH_TYPES = [
 export type ResearchType = (typeof RESEARCH_TYPES)[number];
 
 export const researchTypeLabels: Record<ResearchType, string> = {
-  "problem-page": "Problem Page",
+  "problem-page": "Problem",
   "buying-guide": "Buying Guide",
   "industry-guide": "Industry Guide",
-  "technology-guide": "Technology Guide",
-  "vendor-comparison": "Vendor Comparison",
-  "decision-framework": "Decision Framework",
+  "technology-guide": "Guide",
+  "vendor-comparison": "Comparison",
+  "decision-framework": "Decision Guide",
   checklist: "Checklist",
 };
 
@@ -78,6 +78,7 @@ export type Research = {
   category: string;
   excerpt: string;
   content: string[];
+  readingTime?: string;
   relatedSolutions?: string[];
   relatedIndustries?: string[];
   featured?: boolean;

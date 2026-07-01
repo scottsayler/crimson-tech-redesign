@@ -14,8 +14,13 @@ import {
   getResearch,
   getResearchHubPath,
   research,
-  researchTypeLabels,
 } from "@/content/research";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import {
+  getResearchBadgeLabel,
+  getResearchCompletionTime,
+  researchTypeHubTitles,
+} from "@/lib/content-badges";
 import {
   getIndustriesForResearch,
   getSolutionsForResearch,
@@ -76,14 +81,15 @@ export default async function ResearchDetailPage({ params }: Props) {
             href={getResearchHubPath(item.type)}
             className="text-sm font-medium text-crimson hover:text-crimson-dark"
           >
-            ← {researchTypeLabels[item.type]}
+            ← {researchTypeHubTitles[item.type]}
           </Link>
           <TopicBreadcrumb items={breadcrumb} />
         </div>
-        <div className="mt-6 flex flex-wrap items-center gap-3">
-          <span className="text-sm font-semibold uppercase tracking-wider text-crimson">
-            {researchTypeLabels[item.type]}
-          </span>
+        <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <ContentBadge
+            label={getResearchBadgeLabel(item.type)}
+            completionTime={getResearchCompletionTime(item)}
+          />
           <span className="text-sm text-ink-muted">{item.category}</span>
           {item.libraryCategory ? (
             <span className="rounded-full bg-stone-100 px-2.5 py-1 text-xs font-medium text-ink-muted">

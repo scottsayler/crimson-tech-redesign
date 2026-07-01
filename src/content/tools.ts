@@ -82,7 +82,7 @@ export const tools: Tool[] = [
       "Estimate revenue at risk, labor waste, and recovery cost when POS or connectivity fails at restaurant locations. Compare outage impact against backup internet and network investments.",
     hubSection: "calculators",
     interactiveType: "calculator",
-    completionTime: "3–5 minutes",
+    completionTime: "2 min",
     audience: ["CFO", "Operations", "IT Director", "Franchise Leader"],
     solves:
       "Leadership needs a credible dollar figure for outage impact before approving backup internet, SD-WAN, or managed network investments.",
@@ -165,7 +165,7 @@ export const tools: Tool[] = [
       "Interactive self-assessment for multi-location restaurant operators to score network maturity across redundancy, monitoring, security, standardization, vendor management, and legacy voice services.",
     hubSection: "assessments",
     interactiveType: "assessment",
-    completionTime: "10–15 minutes",
+    completionTime: "5 min",
     audience: ["IT Director", "CIO", "Operations", "Franchise Leader"],
     solves:
       "Leadership wants a portfolio-wide baseline before SD-WAN, managed services, or major network projects — without waiting for a third-party audit.",

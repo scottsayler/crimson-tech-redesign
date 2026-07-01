@@ -1,31 +1,143 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  trackCalculatorCompleted,
+  trackCalculatorResultGenerated,
+  trackCalculatorStarted,
+} from "@/lib/analytics/calculator-events";
 import {
   calculateDowntimeCost,
   DOWNTIME_COST_DEFAULTS,
   formatCurrency,
   type DowntimeCostInputs,
 } from "@/lib/tools/downtime-cost";
+import { CalculatorIntro } from "./calculator/CalculatorIntro";
 import { NumberField, ToolPanel } from "./primitives/CalculatorPrimitives";
 import { ResultRow } from "./primitives/ResultRow";
+
+const INTRO_HIGHLIGHTS = [
+  "Estimate revenue at risk during outages",
+  "Model labor waste and recovery cost",
+  "Approximately 2 minutes",
+  "No registration required",
+];
+
+const SESSION_KEYS = {
+  started: "downtime_calculator_started_tracked",
+  result: "downtime_calculator_result_tracked",
+  completed: "downtime_calculator_completed_tracked",
+};
 
 type DowntimeCostCalculatorProps = {
   onResultsVisible?: () => void;
 };
 
 export function DowntimeCostCalculator({ onResultsVisible }: DowntimeCostCalculatorProps) {
+  const [showIntro, setShowIntro] = useState(true);
   const [inputs, setInputs] = useState<DowntimeCostInputs>(DOWNTIME_COST_DEFAULTS);
   const [hasInteracted, setHasInteracted] = useState(false);
 
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const hasTrackedStartedRef = useRef(false);
+  const hasTrackedResultRef = useRef(false);
+  const hasTrackedCompletedRef = useRef(false);
+  const resultDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const results = useMemo(() => calculateDowntimeCost(inputs), [inputs]);
+
+  function markSessionTracked(key: keyof typeof SESSION_KEYS) {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(SESSION_KEYS[key], "true");
+    }
+  }
+
+  function wasSessionTracked(key: keyof typeof SESSION_KEYS) {
+    if (typeof window === "undefined") return false;
+    return sessionStorage.getItem(SESSION_KEYS[key]) === "true";
+  }
+
+  function handleStart() {
+    setShowIntro(false);
+    if (!wasSessionTracked("started") && !hasTrackedStartedRef.current) {
+      trackCalculatorStarted();
+      hasTrackedStartedRef.current = true;
+      markSessionTracked("started");
+    }
+  }
 
   function updateField<K extends keyof DowntimeCostInputs>(field: K, value: number) {
     if (!hasInteracted) {
       setHasInteracted(true);
       onResultsVisible?.();
     }
+
+    if (!hasTrackedStartedRef.current && !wasSessionTracked("started")) {
+      trackCalculatorStarted();
+      hasTrackedStartedRef.current = true;
+      markSessionTracked("started");
+    }
+
     setInputs((current) => ({ ...current, [field]: value }));
+  }
+
+  useEffect(() => {
+    if (!hasInteracted) return;
+
+    if (resultDebounceRef.current) {
+      clearTimeout(resultDebounceRef.current);
+    }
+
+    resultDebounceRef.current = setTimeout(() => {
+      if (!hasTrackedResultRef.current && !wasSessionTracked("result")) {
+        trackCalculatorResultGenerated({
+          totalImpact: results.totalImpact,
+          locationsAffected: inputs.locationsAffected,
+          outageDurationMinutes: inputs.outageDurationMinutes,
+        });
+        hasTrackedResultRef.current = true;
+        markSessionTracked("result");
+      }
+    }, 800);
+
+    return () => {
+      if (resultDebounceRef.current) {
+        clearTimeout(resultDebounceRef.current);
+      }
+    };
+  }, [hasInteracted, inputs, results.totalImpact]);
+
+  useEffect(() => {
+    if (!hasInteracted || !resultsRef.current) return;
+
+    const element = resultsRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5);
+        if (!isVisible) return;
+        if (hasTrackedCompletedRef.current || wasSessionTracked("completed")) return;
+
+        trackCalculatorCompleted();
+        hasTrackedCompletedRef.current = true;
+        markSessionTracked("completed");
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [hasInteracted]);
+
+  if (showIntro) {
+    return (
+      <CalculatorIntro
+        title="Restaurant Internet Outage Cost Calculator"
+        subtitle="Estimate revenue at risk, labor waste, and recovery cost when POS, card processing, or online ordering fails during service."
+        highlights={INTRO_HIGHLIGHTS}
+        onStart={handleStart}
+        continueLabel="Start Calculator"
+      />
+    );
   }
 
   return (
@@ -152,6 +264,7 @@ export function DowntimeCostCalculator({ onResultsVisible }: DowntimeCostCalcula
       </ToolPanel>
 
       <div
+        ref={resultsRef}
         aria-live="polite"
         className="rounded-xl border border-crimson/20 bg-crimson-50 p-5 sm:p-6"
       >

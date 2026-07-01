@@ -1,5 +1,7 @@
-import { getResearch, researchTypeLabels, type ResearchType } from "@/content/research";
+import { getResearch, researchTypeLabels } from "@/content/research";
+import { getTool } from "@/content/tools";
 import type { AssessmentDefinition, AssessmentPriority } from "@/lib/assessments/types";
+import { contentBadgeLabels, getToolBadgeLabel } from "@/lib/content-badges";
 
 export type ClassifiedLink = {
   href: string;
@@ -30,11 +32,14 @@ function classifyHref(
   description: string
 ): ClassifiedLink & { bucket: keyof Omit<ClassifiedRecommendations, "nextSteps"> } {
   if (href.startsWith("/tools/")) {
+    const slug = href.replace("/tools/", "");
+    const tool = getTool(slug);
+
     return {
       href,
       title,
       description,
-      typeLabel: "Interactive Tool",
+      typeLabel: tool ? getToolBadgeLabel(tool) : contentBadgeLabels.calculator,
       bucket: "tools",
     };
   }
@@ -58,7 +63,7 @@ function classifyHref(
       href,
       title,
       description,
-      typeLabel: type ? researchTypeLabels[type as ResearchType] : "Research",
+      typeLabel: type ? researchTypeLabels[type] : undefined,
       bucket: "research",
     };
   }

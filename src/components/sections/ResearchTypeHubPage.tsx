@@ -6,10 +6,11 @@ import { ResearchTypeNav } from "@/components/sections/ResearchTypeNav";
 import { Section } from "@/components/ui/Section";
 import {
   getResearchByTypeSorted,
+  getResearchHubPath,
   researchTypeDescriptions,
-  researchTypeLabels,
   type ResearchType,
 } from "@/content/research";
+import { researchTypeHubTitles } from "@/lib/content-badges";
 import {
   getFeaturedResearchForType,
   getRelatedIndustriesForResearchType,
@@ -37,7 +38,7 @@ export function ResearchTypeHubPage({ type }: { type: ResearchType }) {
           Crimson Signal
         </p>
         <h1 className="mt-3 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl">
-          {researchTypeLabels[type]}
+          {researchTypeHubTitles[type]}
         </h1>
         <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed">
           {researchTypeDescriptions[type]}
@@ -61,7 +62,7 @@ export function ResearchTypeHubPage({ type }: { type: ResearchType }) {
             <h2 className="text-xl font-semibold text-ink">New research coming soon</h2>
             <p className="mt-3 max-w-2xl text-sm text-ink-muted leading-relaxed">
               This library is being expanded. Check back for new{" "}
-              {researchTypeLabels[type].toLowerCase()} publications from Crimson Signal.
+              {researchTypeHubTitles[type].toLowerCase()} publications from Crimson Signal.
             </p>
             <Link
               href="/research"

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
+import { ContentBadge } from "@/components/ui/ContentBadge";
 import { getIndustryLibrary } from "@/content/industry-libraries";
-import { researchTypeLabels, type Research } from "@/content/research";
+import type { Research } from "@/content/research";
+import { getResearchBadgeLabel, getResearchCompletionTime } from "@/lib/content-badges";
 import { getIndustryLibraryByCategory } from "@/lib/topic-graph";
 
 function categoryAnchor(category: string): string {
@@ -15,7 +17,7 @@ function LibraryArticleLink({ item }: { item: Research }) {
       className="group rounded-xl border border-stone-200 bg-white p-5 transition-colors hover:border-crimson/30"
     >
       <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0">
           <h3 className="font-semibold text-ink group-hover:text-crimson">
             {item.title}
           </h3>
@@ -23,9 +25,11 @@ function LibraryArticleLink({ item }: { item: Research }) {
             {item.excerpt}
           </p>
         </div>
-        <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-ink-muted">
-          {researchTypeLabels[item.type]}
-        </span>
+        <ContentBadge
+          className="shrink-0 text-right"
+          label={getResearchBadgeLabel(item.type)}
+          completionTime={getResearchCompletionTime(item)}
+        />
       </div>
     </Link>
   );

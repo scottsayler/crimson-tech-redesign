@@ -15,10 +15,14 @@ import {
   getResearchTypeCount,
   research,
   researchTypeDescriptions,
-  researchTypeLabels,
 } from "@/content/research";
 import { solutions } from "@/content/solutions";
 import { getFeaturedTools } from "@/content/tools";
+import { ContentBadge } from "@/components/ui/ContentBadge";
+import {
+  getResearchBadgeLabel,
+  getResearchTypeDefaultCompletionTime,
+} from "@/lib/content-badges";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -116,9 +120,10 @@ export default function ResearchPage() {
                 className="group flex flex-col rounded-lg border border-stone-200 bg-white p-5 transition-all hover:border-crimson/30 hover:shadow-md"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <h3 className="text-sm font-semibold text-ink group-hover:text-crimson">
-                    {researchTypeLabels[researchType]}
-                  </h3>
+                  <ContentBadge
+                    label={getResearchBadgeLabel(researchType)}
+                    completionTime={getResearchTypeDefaultCompletionTime(researchType)}
+                  />
                   <span className="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs font-medium text-ink-muted">
                     {count}
                   </span>

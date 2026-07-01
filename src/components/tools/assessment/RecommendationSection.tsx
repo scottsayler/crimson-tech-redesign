@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContentBadge } from "@/components/ui/ContentBadge";
 import type { ClassifiedLink } from "./classify-recommendations";
 
 type RecommendationSectionProps = {
@@ -44,9 +45,7 @@ export function RecommendationSection({
                     {link.title}
                   </Link>
                   {link.typeLabel ? (
-                    <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-ink-muted">
-                      {link.typeLabel}
-                    </span>
+                    <ContentBadge label={link.typeLabel} variant="chip" />
                   ) : null}
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-ink-muted">{link.description}</p>
