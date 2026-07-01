@@ -1,4 +1,5 @@
 import { restaurantResearch } from "./restaurant-research";
+import { researchNavigationMeta } from "./research-metadata";
 
 export const RESEARCH_TYPES = [
   "problem-page",
@@ -53,6 +54,11 @@ export function getResearchHubPath(type: ResearchType): string {
   return RESEARCH_HUB_PATHS[type];
 }
 
+export type ResearchNextStep = {
+  slug: string;
+  rationale: string;
+};
+
 export type Research = {
   slug: string;
   title: string;
@@ -64,6 +70,13 @@ export type Research = {
   relatedSolutions?: string[];
   relatedIndustries?: string[];
   featured?: boolean;
+  tags?: string[];
+  libraryCategory?: string;
+  related?: string[];
+  nextSteps?: ResearchNextStep[];
+  learningPath?: string;
+  learningOrder?: number;
+  linkAliases?: string[];
 };
 
 const legacyResearch: Research[] = [
@@ -183,7 +196,15 @@ const legacyResearch: Research[] = [
   },
 ];
 
-export const research: Research[] = [...legacyResearch, ...restaurantResearch];
+function enrichResearch(item: Research): Research {
+  const meta = researchNavigationMeta[item.slug];
+  if (!meta) return item;
+  return { ...item, ...meta };
+}
+
+export const research: Research[] = [...legacyResearch, ...restaurantResearch].map(
+  enrichResearch,
+);
 
 export function getResearch(slug: string): Research | undefined {
   return research.find((r) => r.slug === slug);

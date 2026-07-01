@@ -70,7 +70,7 @@ const HEADER_ALIASES: Record<string, { kind: SectionKind; title: string }> = {
     title: "What We See Across Organizations",
   },
   "common mistakes": { kind: "mistakes", title: "Common Mistakes" },
-  "key takeaways": { kind: "takeaways", title: "Key Takeaways" },
+  "key takeaways": { kind: "takeaways", title: "Executive Takeaways" },
 };
 
 function normalizeHeader(line: string): string {
@@ -168,7 +168,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
 
     return {
       kind: paragraphs.length > 0 ? "executive-summary" : "takeaways",
-      title: paragraphs.length > 0 ? "Executive Summary" : "Key Takeaways",
+      title: paragraphs.length > 0 ? "Executive Summary" : "Executive Takeaways",
       paragraphs,
       bullets,
       pairs: [],
@@ -577,7 +577,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   if (takeaways.length > 0) {
     structured.push({
       kind: "takeaways",
-      title: "Key Takeaways",
+      title: "Executive Takeaways",
       paragraphs: [],
       bullets: takeaways,
       pairs: [],
