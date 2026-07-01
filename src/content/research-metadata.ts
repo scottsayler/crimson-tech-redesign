@@ -126,4 +126,63 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
     ],
     linkAliases: ["network checklist"],
   },
+  "ccaas-vendor-checklist": {
+    tags: ["ccaas", "contact center", "checklist", "vendor evaluation", "communications"],
+    libraryCategory: "Communications",
+    related: [
+      "ccaas-addon-vs-point-solution",
+      "ccaas-trends-2025",
+      "independent-technology-advisory",
+    ],
+    linkAliases: ["CCaaS vendor", "contact center vendor"],
+  },
+  "ai-auto-summarization-contact-centers": {
+    tags: ["ai", "auto-summarization", "contact center", "workflow", "governance"],
+    libraryCategory: "AI & Automation",
+    related: [
+      "ccaas-vendor-checklist",
+      "ccaas-trends-2025",
+      "independent-technology-advisory",
+    ],
+    linkAliases: ["auto-summarization", "contact centers"],
+  },
+  "ccaas-addon-vs-point-solution": {
+    tags: ["ccaas", "decision framework", "point solution", "communications"],
+    libraryCategory: "Communications",
+    related: [
+      "ccaas-vendor-checklist",
+      "ccaas-trends-2025",
+      "independent-technology-advisory",
+    ],
+    linkAliases: ["CCaaS add-on", "point solution"],
+  },
+  "independent-technology-advisory": {
+    tags: ["advisory", "vendor neutral", "technology strategy", "evaluation"],
+    libraryCategory: "Advisory",
+    related: [
+      "sales-vs-implementation",
+      "ccaas-vendor-checklist",
+      "ccaas-addon-vs-point-solution",
+    ],
+    linkAliases: ["independent technology advisory", "independent advisory"],
+  },
+  "sales-vs-implementation": {
+    tags: ["implementation", "advisory", "vendor evaluation", "deployment"],
+    libraryCategory: "Advisory",
+    related: [
+      "independent-technology-advisory",
+      "ccaas-vendor-checklist",
+    ],
+    linkAliases: ["sales with implementation", "implementation planning"],
+  },
+  "ccaas-trends-2025": {
+    tags: ["ccaas", "contact center", "ai", "technology trends", "communications"],
+    libraryCategory: "Communications",
+    related: [
+      "ai-auto-summarization-contact-centers",
+      "ccaas-vendor-checklist",
+      "ccaas-addon-vs-point-solution",
+    ],
+    linkAliases: ["CCaaS trends", "contact center technology"],
+  },
 };

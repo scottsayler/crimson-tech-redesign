@@ -69,7 +69,7 @@ export function getTopicBreadcrumb(item: Research): BreadcrumbItem[] {
   if (item.libraryCategory && primaryIndustry) {
     crumbs.push({
       label: item.libraryCategory,
-      href: `/industries/${primaryIndustry}`,
+      href: getIndustryLibraryCategoryHref(primaryIndustry, item.libraryCategory),
     });
   } else if (!primaryIndustry) {
     crumbs.push({ label: item.category });
@@ -206,6 +206,42 @@ export function getIndustryLibraryArticles(
     if (category && item.libraryCategory !== category) return false;
     return Boolean(item.libraryCategory);
   });
+}
+
+export function getIndustryLibraryByCategory(
+  industrySlug: string,
+): Record<string, Research[]> {
+  const articles = getIndustryLibraryArticles(industrySlug);
+
+  const grouped: Record<string, Research[]> = {};
+
+  for (const article of articles) {
+    const category = article.libraryCategory ?? "General";
+    if (!grouped[category]) grouped[category] = [];
+    grouped[category].push(article);
+  }
+
+  for (const category of Object.keys(grouped)) {
+    grouped[category].sort((a, b) => {
+      const orderA = a.learningOrder ?? Number.MAX_SAFE_INTEGER;
+      const orderB = b.learningOrder ?? Number.MAX_SAFE_INTEGER;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.title.localeCompare(b.title);
+    });
+  }
+
+  return grouped;
+}
+
+function categoryAnchor(category: string): string {
+  return category.toLowerCase().replace(/\s+/g, "-");
+}
+
+export function getIndustryLibraryCategoryHref(
+  industrySlug: string,
+  category: string,
+): string {
+  return `/industries/${industrySlug}#${categoryAnchor(category)}`;
 }
 
 export function buildLinkIndex(): Map<string, string> {

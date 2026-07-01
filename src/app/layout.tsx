@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
+import { SiteGoogleAnalytics } from "@/components/analytics/SiteGoogleAnalytics";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { site } from "@/content/site";
@@ -56,6 +58,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <Analytics />
+        <SiteGoogleAnalytics />
+        <MicrosoftClarity />
       </body>
     </html>
   );

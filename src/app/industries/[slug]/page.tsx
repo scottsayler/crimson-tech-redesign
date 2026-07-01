@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { IndustryLibrary } from "@/components/research/navigation/IndustryLibrary";
 import {
   RelatedResearchSection,
   RelatedSolutionsSection,
@@ -7,6 +8,7 @@ import { CTABand } from "@/components/sections/CTABand";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { getIndustry, industries } from "@/content/industries";
+import { getIndustryLibrary } from "@/content/industry-libraries";
 import { getSolution } from "@/content/solutions";
 import { getResearchForIndustry } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
@@ -46,6 +48,7 @@ export default async function IndustryDetailPage({ params }: Props) {
   const relatedServices = industry.relatedServices
     .map((s) => getSolution(s))
     .filter((service): service is NonNullable<typeof service> => Boolean(service));
+  const library = getIndustryLibrary(slug);
   const relatedResearch = getResearchForIndustry(slug);
 
   return (
@@ -94,18 +97,22 @@ export default async function IndustryDetailPage({ params }: Props) {
         </div>
       </Section>
 
-      <RelatedResearchSection
-        items={relatedResearch}
-        variant="default"
-        title={industry.resourcesTitle ?? DEFAULT_RESOURCES_TITLE}
-        description={
-          industry.resourcesDescription ?? DEFAULT_RESOURCES_DESCRIPTION
-        }
-      />
+      {library ? (
+        <IndustryLibrary industrySlug={slug} variant="default" />
+      ) : (
+        <RelatedResearchSection
+          items={relatedResearch}
+          variant="default"
+          title={industry.resourcesTitle ?? DEFAULT_RESOURCES_TITLE}
+          description={
+            industry.resourcesDescription ?? DEFAULT_RESOURCES_DESCRIPTION
+          }
+        />
+      )}
 
       <RelatedSolutionsSection
         items={relatedServices}
-        variant="muted"
+        variant={library ? "muted" : "default"}
         showViewAll={false}
         title={INDUSTRY_SERVICES_TITLE}
         description={industry.servicesDescription ?? DEFAULT_SERVICES_DESCRIPTION}

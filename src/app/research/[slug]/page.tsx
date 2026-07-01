@@ -98,7 +98,7 @@ export default async function ResearchDetailPage({ params }: Props) {
         </p>
       </Section>
 
-      <ResearchArticle content={item.content} />
+      <ResearchArticle content={item.content} currentSlug={item.slug} />
 
       <ResearchNavigation
         current={item}

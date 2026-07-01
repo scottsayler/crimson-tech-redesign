@@ -15,12 +15,20 @@ import {
 } from "@/components/research/primitives";
 import { Section } from "@/components/ui/Section";
 import {
+  createAutoLinkState,
+  type AutoLinkState,
+} from "@/lib/research-auto-link";
+import {
   isStructuredResearch,
   parseResearchContent,
   type ParsedSection,
 } from "@/lib/research-sections";
 
-function renderSection(section: ParsedSection, index: number) {
+function renderSection(
+  section: ParsedSection,
+  index: number,
+  linkState?: AutoLinkState,
+) {
   const variant = index % 2 === 0 ? "muted" : "default";
 
   switch (section.kind) {
@@ -29,7 +37,7 @@ function renderSection(section: ParsedSection, index: number) {
         <Section key={section.title} variant={variant} className="!py-12 md:!py-16">
           <SectionIntro title={section.title} />
           <div className="mt-8">
-            <NarrativeBlock paragraphs={section.paragraphs} />
+            <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
           </div>
         </Section>
       );
@@ -39,7 +47,7 @@ function renderSection(section: ParsedSection, index: number) {
         <Section key={section.title} variant={variant} className="!py-12 md:!py-16">
           <SectionIntro title={section.title} />
           <div className="mt-8">
-            <InsightCallout paragraphs={section.paragraphs} />
+            <InsightCallout paragraphs={section.paragraphs} linkState={linkState} />
           </div>
         </Section>
       );
@@ -85,7 +93,7 @@ function renderSection(section: ParsedSection, index: number) {
             ) : null}
             {section.pairs.length > 0 ? <ComparisonTable pairs={section.pairs} /> : null}
             {section.paragraphs.length > 0 ? (
-              <NarrativeBlock paragraphs={section.paragraphs} />
+              <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
             ) : null}
           </div>
         </Section>
@@ -114,7 +122,7 @@ function renderSection(section: ParsedSection, index: number) {
           </div>
           {section.paragraphs.length > 0 ? (
             <div className="mt-8">
-              <NarrativeBlock paragraphs={section.paragraphs} />
+              <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
             </div>
           ) : null}
         </Section>
@@ -139,7 +147,7 @@ function renderSection(section: ParsedSection, index: number) {
           </div>
           {section.paragraphs.length > 0 ? (
             <div className="mt-8">
-              <NarrativeBlock paragraphs={section.paragraphs} />
+              <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
             </div>
           ) : null}
         </Section>
@@ -165,7 +173,7 @@ function renderSection(section: ParsedSection, index: number) {
           <div className="mt-8 space-y-6">
             {section.bullets.length > 0 ? <BulletGrid items={section.bullets} /> : null}
             {section.paragraphs.length > 0 ? (
-              <NarrativeBlock paragraphs={section.paragraphs} />
+              <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
             ) : null}
           </div>
         </Section>
@@ -198,7 +206,7 @@ function renderSection(section: ParsedSection, index: number) {
           <SectionIntro title={section.title} />
           <div className="mt-8 space-y-6">
             {section.bullets.length > 0 ? <BulletGrid items={section.bullets} /> : null}
-            <NarrativeBlock paragraphs={section.paragraphs} />
+            <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
           </div>
         </Section>
       );
@@ -208,7 +216,13 @@ function renderSection(section: ParsedSection, index: number) {
   }
 }
 
-function LegacyArticle({ content }: { content: string[] }) {
+function LegacyArticle({
+  content,
+  linkState,
+}: {
+  content: string[];
+  linkState?: AutoLinkState;
+}) {
   const summary = content.slice(0, 3);
   const body = content.slice(3, -2);
   const takeaways = content.slice(-2);
@@ -218,7 +232,7 @@ function LegacyArticle({ content }: { content: string[] }) {
       <Section variant="muted" className="!py-12 md:!py-16">
         <SectionIntro title="Executive Summary" />
         <div className="mt-8">
-          <NarrativeBlock paragraphs={summary} />
+          <NarrativeBlock paragraphs={summary} linkState={linkState} />
         </div>
       </Section>
 
@@ -233,9 +247,17 @@ function LegacyArticle({ content }: { content: string[] }) {
               return groups;
             }, []).map((group, index) =>
               index % 2 === 1 ? (
-                <InsightCallout key={group[0].slice(0, 40)} paragraphs={group} />
+                <InsightCallout
+                  key={group[0].slice(0, 40)}
+                  paragraphs={group}
+                  linkState={linkState}
+                />
               ) : (
-                <NarrativeBlock key={group[0].slice(0, 40)} paragraphs={group} />
+                <NarrativeBlock
+                  key={group[0].slice(0, 40)}
+                  paragraphs={group}
+                  linkState={linkState}
+                />
               ),
             )}
           </div>
@@ -254,13 +276,20 @@ function LegacyArticle({ content }: { content: string[] }) {
 
 type ResearchArticleProps = {
   content: string[];
+  currentSlug: string;
 };
 
-export function ResearchArticle({ content }: ResearchArticleProps) {
+export function ResearchArticle({ content, currentSlug }: ResearchArticleProps) {
+  const linkState = createAutoLinkState(currentSlug);
+
   if (!isStructuredResearch(content)) {
-    return <LegacyArticle content={content} />;
+    return <LegacyArticle content={content} linkState={linkState} />;
   }
 
   const { sections } = parseResearchContent(content);
-  return <>{sections.map((section, index) => renderSection(section, index))}</>;
+  return (
+    <>
+      {sections.map((section, index) => renderSection(section, index, linkState))}
+    </>
+  );
 }
