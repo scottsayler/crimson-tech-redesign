@@ -59,15 +59,24 @@ export type ResearchNextStep = {
   rationale: string;
 };
 
-export type ExecutiveResource = {
-  heading?: string;
+export type ExecutiveResourceBadge =
+  | "executive-brief"
+  | "decision-matrix"
+  | "executive-checklist"
+  | "playbook"
+  | "workbook";
+
+export type ExecutiveResourceItem = {
+  title: string;
   description: string;
-  downloadUrl: string;
-  downloadLabel?: string;
+  badge: ExecutiveResourceBadge;
+  filePath: string;
   fileName?: string;
-  features: string[];
+  thumbnailPath?: string;
+  fileSize?: string;
+  features?: string[];
+  downloadLabel?: string;
   external?: boolean;
-  variant?: "pdf" | "slides";
 };
 
 export type Research = {
@@ -90,7 +99,7 @@ export type Research = {
   learningPath?: string;
   learningOrder?: number;
   linkAliases?: string[];
-  executiveResource?: ExecutiveResource;
+  executiveResources?: ExecutiveResourceItem[];
 };
 
 const legacyResearch: Research[] = [

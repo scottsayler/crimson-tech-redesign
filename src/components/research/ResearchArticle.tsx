@@ -4,7 +4,7 @@ import {
   ChecklistCard,
   ChecklistCards,
   ComparisonTable,
-  ExecutiveResource,
+  ExecutiveResources,
   InsightCallout,
   NarrativeBlock,
   OptionCard,
@@ -24,13 +24,13 @@ import {
   parseResearchContent,
   type ParsedSection,
 } from "@/lib/research-sections";
-import type { ExecutiveResource as ExecutiveResourceConfig } from "@/content/research";
+import type { ExecutiveResourceItem } from "@/content/research";
 
 function renderSection(
   section: ParsedSection,
   index: number,
   linkState?: AutoLinkState,
-  executiveResource?: ExecutiveResourceConfig,
+  executiveResources: ExecutiveResourceItem[] = [],
 ) {
   const variant = index % 2 === 0 ? "muted" : "default";
 
@@ -42,9 +42,9 @@ function renderSection(
           <div className="mt-8">
             <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
           </div>
-          {executiveResource ? (
+          {executiveResources.length > 0 ? (
             <div className="mt-10">
-              <ExecutiveResource {...executiveResource} />
+              <ExecutiveResources resources={executiveResources} />
             </div>
           ) : null}
         </Section>
@@ -227,11 +227,11 @@ function renderSection(
 function LegacyArticle({
   content,
   linkState,
-  executiveResource,
+  executiveResources = [],
 }: {
   content: string[];
   linkState?: AutoLinkState;
-  executiveResource?: ExecutiveResourceConfig;
+  executiveResources?: ExecutiveResourceItem[];
 }) {
   const summary = content.slice(0, 3);
   const body = content.slice(3, -2);
@@ -244,9 +244,9 @@ function LegacyArticle({
         <div className="mt-8">
           <NarrativeBlock paragraphs={summary} linkState={linkState} />
         </div>
-        {executiveResource ? (
+        {executiveResources.length > 0 ? (
           <div className="mt-10">
-            <ExecutiveResource {...executiveResource} />
+            <ExecutiveResources resources={executiveResources} />
           </div>
         ) : null}
       </Section>
@@ -292,13 +292,13 @@ function LegacyArticle({
 type ResearchArticleProps = {
   content: string[];
   currentSlug: string;
-  executiveResource?: ExecutiveResourceConfig;
+  executiveResources?: ExecutiveResourceItem[];
 };
 
 export function ResearchArticle({
   content,
   currentSlug,
-  executiveResource,
+  executiveResources = [],
 }: ResearchArticleProps) {
   const linkState = createAutoLinkState(currentSlug);
 
@@ -307,7 +307,7 @@ export function ResearchArticle({
       <LegacyArticle
         content={content}
         linkState={linkState}
-        executiveResource={executiveResource}
+        executiveResources={executiveResources}
       />
     );
   }
@@ -316,7 +316,7 @@ export function ResearchArticle({
   return (
     <>
       {sections.map((section, index) =>
-        renderSection(section, index, linkState, executiveResource),
+        renderSection(section, index, linkState, executiveResources),
       )}
     </>
   );

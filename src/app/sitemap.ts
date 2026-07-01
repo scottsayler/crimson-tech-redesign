@@ -5,6 +5,7 @@ import { RESEARCH_HUB_PATHS, research } from "@/content/research";
 import { solutions } from "@/content/solutions";
 import { site } from "@/content/site";
 import { tools } from "@/content/tools";
+import { getExecutiveResources, getLocalExecutiveResourcePaths } from "@/lib/executive-resources";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
@@ -60,18 +61,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const downloadPages = research
-    .filter(
-      (item) =>
-        item.executiveResource &&
-        !item.executiveResource.downloadUrl.startsWith("http"),
-    )
-    .map((item) => ({
-      url: `${site.url}${item.executiveResource!.downloadUrl}`,
+  const downloadPages = research.flatMap((item) =>
+    getLocalExecutiveResourcePaths(getExecutiveResources(item)).map((path) => ({
+      url: `${site.url}${path}`,
       lastModified: new Date(item.date),
       changeFrequency: "yearly" as const,
       priority: 0.65,
-    }));
+    }))
+  );
 
   const toolPages = tools.map((tool) => ({
     url: `${site.url}/tools/${tool.slug}`,

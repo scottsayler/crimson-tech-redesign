@@ -15,6 +15,7 @@ import {
   getResearchHubPath,
   research,
 } from "@/content/research";
+import { getExecutiveResources } from "@/lib/executive-resources";
 import { ContentBadge } from "@/components/ui/ContentBadge";
 import {
   getResearchBadgeLabel,
@@ -109,7 +110,7 @@ export default async function ResearchDetailPage({ params }: Props) {
       <ResearchArticle
         content={item.content}
         currentSlug={item.slug}
-        executiveResource={item.executiveResource}
+        executiveResources={getExecutiveResources(item)}
       />
 
       {item.relatedTools && item.relatedTools.length > 0 ? (

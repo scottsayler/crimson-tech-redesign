@@ -1,11 +1,15 @@
 import Link from "next/link";
 import type { AssessmentPriority } from "@/lib/assessments/types";
-import { ExecutiveResource } from "@/components/research/primitives/ExecutiveResource";
+import { ExecutiveResources } from "@/components/research/primitives/ExecutiveResources";
 import { CTABand } from "@/components/sections/CTABand";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getResearch } from "@/content/research";
 import type { Tool } from "@/content/tools";
+import {
+  getExecutiveResources,
+  uniqueExecutiveResources,
+} from "@/lib/executive-resources";
 
 type ToolFollowUpProps = {
   tool: Tool;
@@ -39,7 +43,9 @@ export function ToolFollowUp({ tool, assessmentPriorities = [] }: ToolFollowUpPr
           description: item.excerpt,
         }));
 
-  const executiveResource = researchItems.find((item) => item.executiveResource)?.executiveResource;
+  const executiveResources = uniqueExecutiveResources(
+    researchItems.flatMap((item) => getExecutiveResources(item))
+  );
 
   return (
     <>
@@ -68,9 +74,9 @@ export function ToolFollowUp({ tool, assessmentPriorities = [] }: ToolFollowUpPr
         </div>
       </Section>
 
-      {executiveResource ? (
+      {executiveResources.length > 0 ? (
         <Section variant="muted" className="!py-12 md:!py-16">
-          <ExecutiveResource {...executiveResource} />
+          <ExecutiveResources resources={executiveResources} />
         </Section>
       ) : null}
 

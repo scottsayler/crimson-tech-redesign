@@ -7,6 +7,9 @@ export type ContentBadgeKind =
   | "assessment"
   | "playbook"
   | "executive-brief"
+  | "decision-matrix"
+  | "executive-checklist"
+  | "workbook"
   | "planning-tool";
 
 /** Short labels for badges and chips across the site. */
@@ -22,6 +25,9 @@ export const contentBadgeLabels: Record<ContentBadgeKind, string> = {
   assessment: "Assessment",
   playbook: "Playbook",
   "executive-brief": "Executive Brief",
+  "decision-matrix": "Decision Matrix",
+  "executive-checklist": "Executive Checklist",
+  workbook: "Workbook",
   "planning-tool": "Planning Tool",
 };
 
