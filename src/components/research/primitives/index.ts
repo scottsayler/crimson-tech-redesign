@@ -3,6 +3,7 @@ export { ChecklistCard } from "./ChecklistCard";
 export { ChecklistCards } from "./ChecklistCards";
 export { ComparisonTable } from "./ComparisonTable";
 export { DecisionCard } from "./DecisionCard";
+export { ExecutiveResource } from "./ExecutiveResource";
 export { InsightCallout } from "./InsightCallout";
 export { NarrativeBlock } from "./NarrativeBlock";
 export { OptionCard } from "./OptionCard";

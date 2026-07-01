@@ -1,4 +1,4 @@
-import type { ResearchNextStep } from "./research";
+import type { ResearchNextStep, ExecutiveResource } from "./research";
 
 export type ResearchNavigationMeta = {
   tags?: string[];
@@ -8,6 +8,7 @@ export type ResearchNavigationMeta = {
   learningPath?: string;
   learningOrder?: number;
   linkAliases?: string[];
+  executiveResource?: ExecutiveResource;
 };
 
 export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
@@ -135,6 +136,22 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "independent-technology-advisory",
     ],
     linkAliases: ["CCaaS vendor", "contact center vendor"],
+    executiveResource: {
+      heading: "Download the Executive Checklist",
+      description:
+        'Prefer a printable version? Download the professionally designed "6-Question Checklist for Choosing a CCaaS Vendor" to share with your team or use during vendor evaluations.',
+      downloadUrl:
+        "/downloads/The-6-Question-Checklist-for-Choosing-a-CCaaS-Vendor.pdf",
+      fileName: "The-6-Question-Checklist-for-Choosing-a-CCaaS-Vendor.pdf",
+      features: [
+        "Six critical vendor evaluation questions",
+        "AI & Analytics checklist",
+        "Integration evaluation",
+        "Security & Compliance review",
+        "Total Cost of Ownership guidance",
+        "Cloud strategy considerations",
+      ],
+    },
   },
   "ai-auto-summarization-contact-centers": {
     tags: ["ai", "auto-summarization", "contact center", "workflow", "governance"],
@@ -145,6 +162,24 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "independent-technology-advisory",
     ],
     linkAliases: ["auto-summarization", "contact centers"],
+    executiveResource: {
+      heading: "Download the Executive Guide",
+      description:
+        'Prefer a printable version? Download the professionally designed guide on auto-summarization in agent assist tools to share with your team or use during technology evaluations.',
+      downloadUrl:
+        "/downloads/Unlocking-Contact-Center-Excellence-The-Power-of-Autosummarization-in-Agent-Assist-Tools.pdf",
+      fileName:
+        "Unlocking-Contact-Center-Excellence-The-Power-of-Autosummarization-in-Agent-Assist-Tools.pdf",
+      variant: "pdf",
+      features: [
+        "Auto-summarization use cases",
+        "Workflow design considerations",
+        "Governance and quality review",
+        "CRM and system integration",
+        "Agent productivity impact",
+        "Supervisor efficiency and data quality",
+      ],
+    },
   },
   "ccaas-addon-vs-point-solution": {
     tags: ["ccaas", "decision framework", "point solution", "communications"],
@@ -155,6 +190,23 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "independent-technology-advisory",
     ],
     linkAliases: ["CCaaS add-on", "point solution"],
+    executiveResource: {
+      heading: "Download the Decision Matrix",
+      description:
+        'Prefer a printable version? Download the professionally designed "CCaaS Add-on vs. Point Solution Decision Matrix" to share with stakeholders or use during vendor evaluations.',
+      downloadUrl:
+        "/downloads/CCaaS-Add-on-vs-Point-Solution-Decision-Matrix.pdf",
+      fileName: "CCaaS-Add-on-vs-Point-Solution-Decision-Matrix.pdf",
+      variant: "pdf",
+      features: [
+        "Seven decision dimensions",
+        "CCaaS add-on vs. point solution comparison",
+        "Key point solution categories",
+        "Operational maturity assessment",
+        "Decision framework implementation steps",
+        "Strategic choice guidance",
+      ],
+    },
   },
   "independent-technology-advisory": {
     tags: ["advisory", "vendor neutral", "technology strategy", "evaluation"],

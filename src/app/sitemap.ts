@@ -58,6 +58,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const downloadPages = research
+    .filter(
+      (item) =>
+        item.executiveResource &&
+        !item.executiveResource.downloadUrl.startsWith("http"),
+    )
+    .map((item) => ({
+      url: `${site.url}${item.executiveResource!.downloadUrl}`,
+      lastModified: new Date(item.date),
+      changeFrequency: "yearly" as const,
+      priority: 0.65,
+    }));
+
   return [
     ...staticPages,
     ...solutionPages,
@@ -65,5 +78,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...projectPages,
     ...researchHubPages,
     ...researchPages,
+    ...downloadPages,
   ];
 }

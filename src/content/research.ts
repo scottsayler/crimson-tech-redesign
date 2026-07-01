@@ -59,6 +59,17 @@ export type ResearchNextStep = {
   rationale: string;
 };
 
+export type ExecutiveResource = {
+  heading?: string;
+  description: string;
+  downloadUrl: string;
+  downloadLabel?: string;
+  fileName?: string;
+  features: string[];
+  external?: boolean;
+  variant?: "pdf" | "slides";
+};
+
 export type Research = {
   slug: string;
   title: string;
@@ -77,6 +88,7 @@ export type Research = {
   learningPath?: string;
   learningOrder?: number;
   linkAliases?: string[];
+  executiveResource?: ExecutiveResource;
 };
 
 const legacyResearch: Research[] = [

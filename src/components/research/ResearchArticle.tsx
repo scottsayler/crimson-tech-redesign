@@ -4,6 +4,7 @@ import {
   ChecklistCard,
   ChecklistCards,
   ComparisonTable,
+  ExecutiveResource,
   InsightCallout,
   NarrativeBlock,
   OptionCard,
@@ -23,11 +24,13 @@ import {
   parseResearchContent,
   type ParsedSection,
 } from "@/lib/research-sections";
+import type { ExecutiveResource as ExecutiveResourceConfig } from "@/content/research";
 
 function renderSection(
   section: ParsedSection,
   index: number,
   linkState?: AutoLinkState,
+  executiveResource?: ExecutiveResourceConfig,
 ) {
   const variant = index % 2 === 0 ? "muted" : "default";
 
@@ -39,6 +42,11 @@ function renderSection(
           <div className="mt-8">
             <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
           </div>
+          {executiveResource ? (
+            <div className="mt-10">
+              <ExecutiveResource {...executiveResource} />
+            </div>
+          ) : null}
         </Section>
       );
 
@@ -219,9 +227,11 @@ function renderSection(
 function LegacyArticle({
   content,
   linkState,
+  executiveResource,
 }: {
   content: string[];
   linkState?: AutoLinkState;
+  executiveResource?: ExecutiveResourceConfig;
 }) {
   const summary = content.slice(0, 3);
   const body = content.slice(3, -2);
@@ -234,6 +244,11 @@ function LegacyArticle({
         <div className="mt-8">
           <NarrativeBlock paragraphs={summary} linkState={linkState} />
         </div>
+        {executiveResource ? (
+          <div className="mt-10">
+            <ExecutiveResource {...executiveResource} />
+          </div>
+        ) : null}
       </Section>
 
       {body.length > 0 ? (
@@ -277,19 +292,32 @@ function LegacyArticle({
 type ResearchArticleProps = {
   content: string[];
   currentSlug: string;
+  executiveResource?: ExecutiveResourceConfig;
 };
 
-export function ResearchArticle({ content, currentSlug }: ResearchArticleProps) {
+export function ResearchArticle({
+  content,
+  currentSlug,
+  executiveResource,
+}: ResearchArticleProps) {
   const linkState = createAutoLinkState(currentSlug);
 
   if (!isStructuredResearch(content)) {
-    return <LegacyArticle content={content} linkState={linkState} />;
+    return (
+      <LegacyArticle
+        content={content}
+        linkState={linkState}
+        executiveResource={executiveResource}
+      />
+    );
   }
 
   const { sections } = parseResearchContent(content);
   return (
     <>
-      {sections.map((section, index) => renderSection(section, index, linkState))}
+      {sections.map((section, index) =>
+        renderSection(section, index, linkState, executiveResource),
+      )}
     </>
   );
 }
