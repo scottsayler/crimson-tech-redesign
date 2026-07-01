@@ -8,7 +8,7 @@ export const site = {
   url: "https://crimsontech.co",
   email: "info@crimsontech.co",
   location: "Downers Grove, IL",
-  linkedin: "https://www.linkedin.com/company/crimson-technology-llc",
+  linkedin: "https://www.linkedin.com/company/crimsontechco/",
   logo: "/brand/logo.png",
   ogImage: "/og.png",
 } as const;
