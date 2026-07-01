@@ -6,6 +6,9 @@ export type Industry = {
   challenges: string[];
   howWeHelp: string[];
   relatedServices: string[];
+  resourcesTitle?: string;
+  resourcesDescription?: string;
+  servicesDescription?: string;
 };
 
 export const industries: Industry[] = [
@@ -34,6 +37,11 @@ export const industries: Industry[] = [
       "technology-advisory",
       "customer-experience",
     ],
+    resourcesTitle: "Restaurant Technology Resources",
+    resourcesDescription:
+      "Explore guides, checklists, and decision frameworks for restaurant connectivity, networking, POTS replacement, and store technology modernization.",
+    servicesDescription:
+      "Advisory and implementation support for restaurant operators modernizing multi-location technology.",
   },
   {
     slug: "financial-services",

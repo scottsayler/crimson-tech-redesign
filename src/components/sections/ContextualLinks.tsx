@@ -21,18 +21,22 @@ export function RelatedResearchSection({
   items,
   variant = "muted",
   showViewAll = true,
+  title = "Related research",
+  description = "Explore guides, frameworks, and analysis connected to this topic.",
 }: {
   items: Research[];
   variant?: SectionVariant;
   showViewAll?: boolean;
+  title?: string;
+  description?: string;
 }) {
   if (items.length === 0) return null;
 
   return (
     <Section variant={variant}>
-      <h2 className="text-2xl font-semibold text-ink">Related research</h2>
+      <h2 className="text-2xl font-semibold text-ink">{title}</h2>
       <p className="mt-2 max-w-2xl text-sm text-ink-muted leading-relaxed">
-        Explore guides, frameworks, and analysis connected to this topic.
+        {description}
       </p>
       <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
@@ -55,18 +59,22 @@ export function RelatedSolutionsSection({
   items,
   variant = "default",
   showViewAll = true,
+  title = "Related solutions",
+  description = "Advisory capabilities connected to this topic.",
 }: {
   items: Solution[];
   variant?: SectionVariant;
   showViewAll?: boolean;
+  title?: string;
+  description?: string;
 }) {
   if (items.length === 0) return null;
 
   return (
     <Section variant={variant}>
-      <h2 className="text-2xl font-semibold text-ink">Related solutions</h2>
+      <h2 className="text-2xl font-semibold text-ink">{title}</h2>
       <p className="mt-2 max-w-2xl text-sm text-ink-muted leading-relaxed">
-        Advisory capabilities connected to this topic.
+        {description}
       </p>
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         {items.map((solution) => (

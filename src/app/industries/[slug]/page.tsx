@@ -1,6 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ContextualLinks } from "@/components/sections/ContextualLinks";
+import {
+  RelatedResearchSection,
+  RelatedSolutionsSection,
+} from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
@@ -8,6 +10,13 @@ import { getIndustry, industries } from "@/content/industries";
 import { getSolution } from "@/content/solutions";
 import { getResearchForIndustry } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
+
+const DEFAULT_RESOURCES_TITLE = "Related research";
+const DEFAULT_RESOURCES_DESCRIPTION =
+  "Explore guides, frameworks, and analysis connected to this topic.";
+const INDUSTRY_SERVICES_TITLE = "Services We Provide";
+const DEFAULT_SERVICES_DESCRIPTION =
+  "Advisory and implementation support for organizations modernizing technology in this sector.";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -36,7 +45,7 @@ export default async function IndustryDetailPage({ params }: Props) {
 
   const relatedServices = industry.relatedServices
     .map((s) => getSolution(s))
-    .filter(Boolean);
+    .filter((service): service is NonNullable<typeof service> => Boolean(service));
   const relatedResearch = getResearchForIndustry(slug);
 
   return (
@@ -85,28 +94,22 @@ export default async function IndustryDetailPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section>
-        <h2 className="text-2xl font-semibold text-ink">Related services</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {relatedServices.map(
-            (service) =>
-              service && (
-                <Link
-                  key={service.slug}
-                  href={`/solutions/${service.slug}`}
-                  className="rounded-lg border border-stone-200 p-5 transition-colors hover:border-crimson/30"
-                >
-                  <h3 className="font-semibold text-ink">{service.title}</h3>
-                  <p className="mt-1 text-sm text-ink-muted">
-                    {service.shortDescription}
-                  </p>
-                </Link>
-              ),
-          )}
-        </div>
-      </Section>
+      <RelatedResearchSection
+        items={relatedResearch}
+        variant="default"
+        title={industry.resourcesTitle ?? DEFAULT_RESOURCES_TITLE}
+        description={
+          industry.resourcesDescription ?? DEFAULT_RESOURCES_DESCRIPTION
+        }
+      />
 
-      <ContextualLinks research={relatedResearch} />
+      <RelatedSolutionsSection
+        items={relatedServices}
+        variant="muted"
+        showViewAll={false}
+        title={INDUSTRY_SERVICES_TITLE}
+        description={industry.servicesDescription ?? DEFAULT_SERVICES_DESCRIPTION}
+      />
 
       <CTABand />
     </>
