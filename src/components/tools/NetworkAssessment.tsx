@@ -47,6 +47,10 @@ function completionTrackedKey(assessmentId: string) {
   return `assessment_analytics_completed_${assessmentId}`;
 }
 
+function getNowMs() {
+  return Date.now();
+}
+
 function SectionStepper({
   definition,
   currentSectionIndex,
@@ -117,15 +121,18 @@ export function NetworkAssessment({ definition, onComplete }: NetworkAssessmentP
 
   useEffect(() => {
     const saved = loadAssessmentState(assessmentId);
-    if (saved) {
-      setCurrentIndex(saved.currentIndex);
-      setAnswers(saved.answers);
-      setShowResults(saved.showResults);
-      setShowIntro(
-        Object.keys(saved.answers).length === 0 && !saved.showResults
-      );
-    }
-    setHydrated(true);
+    queueMicrotask(() => {
+      if (saved) {
+        setCurrentIndex(saved.currentIndex);
+        setAnswers(saved.answers);
+        setShowResults(saved.showResults);
+        setShowIntro(
+          Object.keys(saved.answers).length === 0 && !saved.showResults
+        );
+        setFocusedChoiceIndex(0);
+      }
+      setHydrated(true);
+    });
   }, [assessmentId]);
 
   const persist = useCallback(
@@ -193,13 +200,9 @@ export function NetworkAssessment({ definition, onComplete }: NetworkAssessmentP
   const progressPct = Math.round((results.answeredCount / totalQuestions) * 100);
   const allAnswered = results.answeredCount === totalQuestions;
 
-  useEffect(() => {
-    setFocusedChoiceIndex(0);
-  }, [currentIndex]);
-
   function updateAnswer(questionId: string, score: number) {
     if (!startedAtRef.current) {
-      startedAtRef.current = Date.now();
+      startedAtRef.current = getNowMs();
     }
 
     const nextAnswers = { ...answers, [questionId]: score };
@@ -209,6 +212,7 @@ export function NetworkAssessment({ definition, onComplete }: NetworkAssessmentP
 
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex(nextIndex);
+      setFocusedChoiceIndex(0);
     }
 
     const nextShowResults = Object.keys(nextAnswers).length === totalQuestions ? true : showResults;
@@ -226,6 +230,7 @@ export function NetworkAssessment({ definition, onComplete }: NetworkAssessmentP
 
   function goToQuestion(index: number) {
     setCurrentIndex(index);
+    setFocusedChoiceIndex(0);
     persist({ currentIndex: index, answers, showResults });
   }
 
@@ -247,6 +252,7 @@ export function NetworkAssessment({ definition, onComplete }: NetworkAssessmentP
     setAnswers({});
     setShowResults(false);
     setShowIntro(true);
+    setFocusedChoiceIndex(0);
     startedAtRef.current = null;
     hasTrackedCompletionRef.current = false;
     clearAssessmentState(assessmentId);
@@ -256,7 +262,7 @@ export function NetworkAssessment({ definition, onComplete }: NetworkAssessmentP
   }
 
   function handleStart() {
-    startedAtRef.current = Date.now();
+    startedAtRef.current = getNowMs();
     setShowIntro(false);
     trackAssessmentStarted(assessmentId);
   }

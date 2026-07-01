@@ -47,6 +47,14 @@ export const industries: Industry[] = [
         slug: "network-assessment",
         label: "Score network readiness",
       },
+      {
+        slug: "pots-savings-calculator",
+        label: "Estimate POTS replacement savings",
+      },
+      {
+        slug: "vendor-consolidation-calculator",
+        label: "Estimate vendor consolidation savings",
+      },
     ],
     resourcesTitle: "Restaurant Technology Resources",
     resourcesDescription:

@@ -6,7 +6,6 @@ import { ResearchTypeNav } from "@/components/sections/ResearchTypeNav";
 import { Section } from "@/components/ui/Section";
 import {
   getResearchByTypeSorted,
-  getResearchHubPath,
   researchTypeDescriptions,
   type ResearchType,
 } from "@/content/research";

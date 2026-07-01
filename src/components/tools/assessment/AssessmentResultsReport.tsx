@@ -1,6 +1,5 @@
 import type {
   AssessmentDefinition,
-  AssessmentPriority,
   AssessmentResults,
   CategoryScore,
 } from "@/lib/assessments/types";

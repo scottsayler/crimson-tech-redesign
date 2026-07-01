@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  DOWNTIME_CALCULATOR_ID,
   trackCalculatorCompleted,
   trackCalculatorResultGenerated,
   trackCalculatorStarted,
+  getImpactBucket,
 } from "@/lib/analytics/calculator-events";
 import {
   calculateDowntimeCost,
@@ -60,7 +62,7 @@ export function DowntimeCostCalculator({ onResultsVisible }: DowntimeCostCalcula
   function handleStart() {
     setShowIntro(false);
     if (!wasSessionTracked("started") && !hasTrackedStartedRef.current) {
-      trackCalculatorStarted();
+      trackCalculatorStarted(DOWNTIME_CALCULATOR_ID);
       hasTrackedStartedRef.current = true;
       markSessionTracked("started");
     }
@@ -73,7 +75,7 @@ export function DowntimeCostCalculator({ onResultsVisible }: DowntimeCostCalcula
     }
 
     if (!hasTrackedStartedRef.current && !wasSessionTracked("started")) {
-      trackCalculatorStarted();
+      trackCalculatorStarted(DOWNTIME_CALCULATOR_ID);
       hasTrackedStartedRef.current = true;
       markSessionTracked("started");
     }
@@ -91,9 +93,10 @@ export function DowntimeCostCalculator({ onResultsVisible }: DowntimeCostCalcula
     resultDebounceRef.current = setTimeout(() => {
       if (!hasTrackedResultRef.current && !wasSessionTracked("result")) {
         trackCalculatorResultGenerated({
-          totalImpact: results.totalImpact,
-          locationsAffected: inputs.locationsAffected,
-          outageDurationMinutes: inputs.outageDurationMinutes,
+          calculatorId: DOWNTIME_CALCULATOR_ID,
+          impact_bucket: getImpactBucket(results.totalImpact),
+          locations_affected: inputs.locationsAffected,
+          outage_duration_minutes: inputs.outageDurationMinutes,
         });
         hasTrackedResultRef.current = true;
         markSessionTracked("result");
@@ -117,7 +120,7 @@ export function DowntimeCostCalculator({ onResultsVisible }: DowntimeCostCalcula
         if (!isVisible) return;
         if (hasTrackedCompletedRef.current || wasSessionTracked("completed")) return;
 
-        trackCalculatorCompleted();
+        trackCalculatorCompleted(DOWNTIME_CALCULATOR_ID);
         hasTrackedCompletedRef.current = true;
         markSessionTracked("completed");
       },

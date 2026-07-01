@@ -243,6 +243,172 @@ export const tools: Tool[] = [
       },
     ],
   },
+  {
+    slug: "pots-savings-calculator",
+    title: "POTS Replacement Savings Calculator",
+    description:
+      "Estimate monthly and annual savings from replacing legacy analog POTS lines across multi-location restaurant and retail portfolios. Model payback on cellular or managed POTS replacement.",
+    hubSection: "calculators",
+    interactiveType: "calculator",
+    completionTime: "2 min",
+    audience: ["CFO", "Operations", "IT Director", "Facilities"],
+    solves:
+      "Finance and operations need a credible savings estimate before approving POTS replacement, copper retirement, or alarm modernization projects.",
+    industry: "restaurants",
+    primaryKeyword: "POTS replacement savings calculator",
+    relatedResearch: [
+      "restaurant-pots-replacement",
+      "restaurants-pots-replacement",
+      "restaurants-best-internet",
+      "restaurant-technology-standardization",
+    ],
+    featured: true,
+    quickAnswer:
+      "This calculator estimates monthly and annual savings from replacing legacy analog POTS lines across your portfolio. Enter location count, lines per site, current and replacement monthly costs, and one-time implementation spend. Compare monthly savings, payback period, and three-year net savings.",
+    whyYoureHere:
+      "POTS bills keep rising but nobody has a portfolio-wide inventory. Facilities knows alarms still use copper. IT gets carrier notices about line retirement. Finance wants a business case before approving replacement hardware.\n\nThis calculator turns those questions into a shared savings estimate. It is not a vendor quote. Actual savings depend on line inventory accuracy, alarm vendor requirements, and replacement technology choices.",
+    shouldConsider: {
+      evaluateIf: [
+        "You still pay for copper or analog lines at multiple locations",
+        "Carrier retirement notices or rising POTS bills created urgency",
+        "Alarm, fax, elevator, or emergency phones still depend on analog lines",
+        "Leadership wants payback math before a POTS replacement project",
+      ],
+      probablyNotIf: [
+        "You completed POTS replacement across the portfolio in the past year",
+        "You have fewer than two analog lines and no planned openings",
+        "You have not validated which systems each copper line supports",
+      ],
+    },
+    realityCheck:
+      "Savings estimates assume accurate line counts and replacement costs validated with alarm vendors and local code requirements. Life-safety systems may need vendor-approved alternatives before cutover.",
+    bottomLine:
+      "Build a line inventory first. Use this calculator to frame monthly savings and payback, then validate replacement options per device type before approving portfolio-wide deployment.",
+    sections: [
+      {
+        heading: "How to Use It",
+        paragraphs: [
+          "Enter the number of locations and average analog lines per site. Include alarms, fax, elevator phones, emergency lines, and other copper dependencies—not just voice extensions.",
+          "Use your blended monthly POTS cost per line for current spend. Enter the estimated replacement monthly cost for cellular gateways, managed POTS replacement, or other alternatives.",
+          "Add one-time implementation cost for hardware, installation, and project coordination. Results show monthly savings, annual savings, payback period, and net three-year savings.",
+        ],
+      },
+      {
+        heading: "What the Results Mean",
+        paragraphs: [
+          "Current monthly POTS cost is total lines multiplied by current per-line cost across the portfolio.",
+          "Estimated replacement monthly cost applies the replacement per-line rate to the same line count.",
+          "Monthly savings is the difference between current and replacement recurring cost.",
+          "Payback period divides one-time implementation cost by monthly savings. Three-year savings subtracts implementation cost from cumulative monthly savings over 36 months.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What lines should I include in the count?",
+        answer:
+          "Include every active copper line: fire and burglar alarm dialers, fax, elevator phones, emergency phones, POS backup lines, and building systems. Exclude lines already migrated to cellular or IP.",
+      },
+      {
+        question: "How do I estimate replacement cost per line?",
+        answer:
+          "Use quotes for cellular POTS replacement devices, managed migration services, or IP alternatives divided by line count. Battery backup and monitoring fees should be included in the monthly figure.",
+      },
+      {
+        question: "Does this account for alarm vendor requirements?",
+        answer:
+          "No. This calculator models recurring cost savings only. Life-safety and code-sensitive systems need vendor and authority review before cutover.",
+      },
+      {
+        question: "When does POTS replacement pay for itself?",
+        answer:
+          "Compare payback months to your planning horizon. Many multi-location operators see payback under 18 months when legacy line costs exceed $60–$80 per month.",
+      },
+    ],
+  },
+  {
+    slug: "vendor-consolidation-calculator",
+    title: "Vendor Consolidation Calculator",
+    description:
+      "Estimate monthly savings and operational impact from reducing telecom and network vendors across a multi-location portfolio. Model vendor spend reduction and admin time recovered.",
+    hubSection: "calculators",
+    interactiveType: "calculator",
+    completionTime: "2 min",
+    audience: ["CIO", "IT Director", "Operations", "CFO"],
+    solves:
+      "Leadership wants to quantify the cost of vendor sprawl before standardizing on fewer telecom and network partners across locations.",
+    industry: "restaurants",
+    primaryKeyword: "vendor consolidation calculator",
+    relatedResearch: [
+      "restaurant-vendor-sprawl",
+      "restaurant-technology-standardization",
+      "restaurants-networking",
+      "restaurant-network-visibility",
+    ],
+    featured: true,
+    quickAnswer:
+      "This calculator estimates savings from reducing telecom and network vendors across your portfolio. Enter location count, current and target vendor counts, average monthly spend per vendor, and admin hours spent managing relationships. See monthly and annual savings plus operational complexity reduction.",
+    whyYoureHere:
+      "Every region picked different ISPs. Franchisees added their own vendors. IT spends hours on invoices, escalations, and contract renewals. Leadership asked whether consolidation is worth the disruption.\n\nThis calculator frames vendor spend and admin overhead in dollars. It is not a procurement recommendation. Actual savings depend on contract terms, managed service pricing, and how aggressively you standardize.",
+    shouldConsider: {
+      evaluateIf: [
+        "You manage more than five telecom or network vendors portfolio-wide",
+        "IT or operations spends significant time on vendor coordination",
+        "New store openings add new carrier relationships instead of reusing standards",
+        "Leadership is evaluating managed network services or MSP consolidation",
+      ],
+      probablyNotIf: [
+        "You already operate with two or fewer strategic vendor partners",
+        "Vendor count is low but contracts are still unmanaged",
+        "You want a vendor quote rather than an internal savings estimate",
+      ],
+    },
+    realityCheck:
+      "Consolidation savings depend on contract leverage, exit costs, and whether fewer vendors actually reduce admin load. Validate target vendor count with procurement before using results in budget planning.",
+    bottomLine:
+      "Use this calculator to frame the cost of vendor sprawl. Pair results with the vendor sprawl and technology standardization guides before selecting consolidation targets.",
+    sections: [
+      {
+        heading: "How to Use It",
+        paragraphs: [
+          "Enter portfolio location count and the number of distinct telecom and network vendors you manage today. Set a realistic target vendor count after consolidation or managed services.",
+          "Add average monthly spend per vendor relationship, including circuits, managed fees, and recurring service charges.",
+          "Enter monthly admin hours and fully loaded hourly cost for staff managing vendor relationships. Results combine vendor spend savings and estimated admin time recovered.",
+        ],
+      },
+      {
+        heading: "What the Results Mean",
+        paragraphs: [
+          "Current monthly vendor spend multiplies vendor count by average monthly spend per vendor.",
+          "Consolidated monthly spend applies the target vendor count at the same per-vendor spend rate.",
+          "Estimated monthly admin cost is admin hours multiplied by hourly cost. Consolidation assumes admin time scales proportionally with vendor count.",
+          "Operational complexity reduction shows the percentage fewer vendor relationships. Three-year savings is cumulative monthly savings over 36 months.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Which vendors should I count?",
+        answer:
+          "Include ISPs, WAN providers, managed network vendors, SD-WAN partners, and connectivity MSPs. Exclude POS, payroll, or non-network vendors unless they also provide circuits.",
+      },
+      {
+        question: "How do I set a realistic target vendor count?",
+        answer:
+          "Most multi-location operators target two to four strategic partners: a primary connectivity vendor, a backup or managed services partner, and regional exceptions only where required.",
+      },
+      {
+        question: "Does consolidation always reduce spend?",
+        answer:
+          "Not automatically. Fewer vendors can reduce admin overhead and improve leverage, but exit fees, migration costs, and managed service pricing affect net savings.",
+      },
+      {
+        question: "How is admin time savings estimated?",
+        answer:
+          "The calculator assumes admin hours scale proportionally with vendor count. If consolidation also standardizes tooling and contracts, actual time savings may be higher.",
+      },
+    ],
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {

@@ -101,6 +101,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "restaurants-best-internet",
       "restaurant-technology-standardization",
     ],
+    relatedTools: [
+      {
+        slug: "pots-savings-calculator",
+        label: "Estimate POTS replacement savings",
+      },
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
+    ],
     linkAliases: ["POTS replacement", "pots lines"],
   },
   "restaurants-pots-replacement": {
@@ -110,6 +120,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "restaurant-pots-replacement",
       "restaurants-best-internet",
       "restaurant-technology-standardization",
+    ],
+    relatedTools: [
+      {
+        slug: "pots-savings-calculator",
+        label: "Estimate POTS replacement savings",
+      },
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
     ],
     linkAliases: ["pots replacement"],
   },
@@ -122,6 +142,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "restaurant-technology-standardization",
       "restaurants-opening-technology-checklist",
     ],
+    relatedTools: [
+      {
+        slug: "vendor-consolidation-calculator",
+        label: "Estimate vendor consolidation savings",
+      },
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
+    ],
     linkAliases: ["vendor sprawl"],
   },
   "restaurant-technology-standardization": {
@@ -133,6 +163,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "restaurant-vendor-sprawl",
       "restaurants-opening-technology-checklist",
       "restaurants-networking",
+    ],
+    relatedTools: [
+      {
+        slug: "vendor-consolidation-calculator",
+        label: "Estimate vendor consolidation savings",
+      },
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
     ],
     linkAliases: ["technology standardization"],
   },
