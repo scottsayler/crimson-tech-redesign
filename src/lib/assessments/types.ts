@@ -8,6 +8,14 @@ export interface AssessmentCategory {
   label: string;
   description: string;
   weight?: number;
+  sectionId?: string;
+}
+
+export interface AssessmentSection {
+  id: string;
+  label: string;
+  description: string;
+  categoryIds: string[];
 }
 
 export interface AssessmentRelatedContent {
@@ -23,6 +31,7 @@ export interface AssessmentQuestion {
   prompt: string;
   choices: AssessmentChoice[];
   weight?: number;
+  whyThisMatters?: string;
 }
 
 export interface AssessmentResultProfile {
@@ -50,6 +59,7 @@ export interface AssessmentDefinition {
   title: string;
   scoreLabel: string;
   resultsDisclaimer?: string;
+  sections?: AssessmentSection[];
   categories: AssessmentCategory[];
   questions: AssessmentQuestion[];
   relatedContent: Record<string, AssessmentRelatedContent>;

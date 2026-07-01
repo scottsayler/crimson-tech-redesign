@@ -13,3 +13,10 @@ export {
 } from "./storage";
 
 export { getAssessmentByToolSlug, getAllAssessments } from "./registry";
+export {
+  getSectionCompletion,
+  getSectionForCategory,
+  getSectionForQuestion,
+  getSectionProgress,
+  getQuestionsInSection,
+} from "./sections";

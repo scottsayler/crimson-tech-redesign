@@ -31,20 +31,7 @@ export function ToolInteractive({ tool }: ToolInteractiveProps) {
     const definition = getAssessmentByToolSlug(tool.slug);
     if (!definition) return null;
 
-    return (
-      <>
-        <NetworkAssessment
-          definition={definition}
-          onComplete={(nextPriorities) => {
-            setPriorities(nextPriorities);
-            setShowFollowUp(true);
-          }}
-        />
-        {showFollowUp ? (
-          <ToolFollowUp tool={tool} assessmentPriorities={priorities} />
-        ) : null}
-      </>
-    );
+    return <NetworkAssessment definition={definition} />;
   }
 
   return null;
