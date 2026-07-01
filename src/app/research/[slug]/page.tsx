@@ -5,8 +5,10 @@ import {
   ResearchNavigation,
   TopicBreadcrumb,
 } from "@/components/research/navigation";
+import { RelatedTools } from "@/components/tools/RelatedTools";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
+import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import {
   getResearch,
@@ -103,6 +105,14 @@ export default async function ResearchDetailPage({ params }: Props) {
         currentSlug={item.slug}
         executiveResource={item.executiveResource}
       />
+
+      {item.relatedTools && item.relatedTools.length > 0 ? (
+        <Section className="!py-10 md:!py-12">
+          <Container>
+            <RelatedTools items={item.relatedTools} />
+          </Container>
+        </Section>
+      ) : null}
 
       <ResearchNavigation
         current={item}

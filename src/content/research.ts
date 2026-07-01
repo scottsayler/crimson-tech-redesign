@@ -84,6 +84,7 @@ export type Research = {
   tags?: string[];
   libraryCategory?: string;
   related?: string[];
+  relatedTools?: { slug: string; label: string }[];
   nextSteps?: ResearchNextStep[];
   learningPath?: string;
   learningOrder?: number;

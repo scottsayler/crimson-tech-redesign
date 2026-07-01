@@ -4,6 +4,7 @@ import { projects } from "@/content/projects";
 import { RESEARCH_HUB_PATHS, research } from "@/content/research";
 import { solutions } from "@/content/solutions";
 import { site } from "@/content/site";
+import { tools } from "@/content/tools";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
@@ -11,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/solutions",
     "/research",
+    "/tools",
     "/industries",
     "/crimson-cx",
     "/projects",
@@ -71,6 +73,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.65,
     }));
 
+  const toolPages = tools.map((tool) => ({
+    url: `${site.url}/tools/${tool.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.85,
+  }));
+
   return [
     ...staticPages,
     ...solutionPages,
@@ -79,5 +88,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...researchHubPages,
     ...researchPages,
     ...downloadPages,
+    ...toolPages,
   ];
 }

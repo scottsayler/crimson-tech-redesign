@@ -58,18 +58,34 @@ export function Header() {
     }
 
     if (childType === "research") {
-      return research.map((child) => (
-        <Link
-          key={child.slug}
-          href={`/research/${child.slug}`}
-          className="block rounded-md px-3 py-2 hover:bg-stone-50"
-        >
-          <span className="block text-sm font-medium text-ink">{child.title}</span>
-          <span className="mt-0.5 block text-xs text-ink-muted line-clamp-1">
-            {researchTypeLabels[child.type]}
-          </span>
-        </Link>
-      ));
+      return (
+        <>
+          <Link
+            href="/tools"
+            className="block rounded-md px-3 py-2 hover:bg-stone-50"
+          >
+            <span className="block text-sm font-medium text-ink">
+              Technology Decision Center
+            </span>
+            <span className="mt-0.5 block text-xs text-ink-muted line-clamp-1">
+              Interactive calculators and assessments
+            </span>
+          </Link>
+          <div className="my-2 border-t border-stone-100" />
+          {research.slice(0, 6).map((child) => (
+            <Link
+              key={child.slug}
+              href={`/research/${child.slug}`}
+              className="block rounded-md px-3 py-2 hover:bg-stone-50"
+            >
+              <span className="block text-sm font-medium text-ink">{child.title}</span>
+              <span className="mt-0.5 block text-xs text-ink-muted line-clamp-1">
+                {researchTypeLabels[child.type]}
+              </span>
+            </Link>
+          ))}
+        </>
+      );
     }
 
     return industries.map((child) => (
@@ -118,16 +134,27 @@ export function Header() {
     }
 
     if (childType === "research") {
-      return research.map((child) => (
-        <Link
-          key={child.slug}
-          href={`/research/${child.slug}`}
-          className="block py-1 text-sm text-ink-muted"
-          onClick={() => setMobileOpen(false)}
-        >
-          {child.title}
-        </Link>
-      ));
+      return (
+        <>
+          <Link
+            href="/tools"
+            className="block py-1 text-sm font-medium text-ink"
+            onClick={() => setMobileOpen(false)}
+          >
+            Technology Decision Center
+          </Link>
+          {research.slice(0, 6).map((child) => (
+            <Link
+              key={child.slug}
+              href={`/research/${child.slug}`}
+              className="block py-1 text-sm text-ink-muted"
+              onClick={() => setMobileOpen(false)}
+            >
+              {child.title}
+            </Link>
+          ))}
+        </>
+      );
     }
 
     return industries.map((child) => (

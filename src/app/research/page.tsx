@@ -3,6 +3,7 @@ import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { ResearchCard } from "@/components/sections/ResearchCard";
 import { ResearchTypeNav } from "@/components/sections/ResearchTypeNav";
+import { ToolCard } from "@/components/tools/ToolCard";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -17,6 +18,7 @@ import {
   researchTypeLabels,
 } from "@/content/research";
 import { solutions } from "@/content/solutions";
+import { getFeaturedTools } from "@/content/tools";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -74,6 +76,28 @@ export default function ResearchPage() {
           </div>
         </Section>
       ) : null}
+
+      {/* Interactive tools */}
+      <Section>
+        <SectionHeader
+          eyebrow="Technology Decision Center"
+          title="Interactive decision tools"
+          description="Calculators and assessments that turn research into numbers, scores, and prioritized next steps."
+        />
+        <div className="grid gap-6 md:grid-cols-2">
+          {getFeaturedTools().map((tool) => (
+            <ToolCard key={tool.slug} tool={tool} />
+          ))}
+        </div>
+        <div className="mt-8">
+          <Link
+            href="/tools"
+            className="text-sm font-medium text-crimson hover:text-crimson-dark"
+          >
+            View all tools →
+          </Link>
+        </div>
+      </Section>
 
       {/* Browse by type */}
       <Section>

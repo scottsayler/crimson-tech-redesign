@@ -4,6 +4,7 @@ export type ResearchNavigationMeta = {
   tags?: string[];
   libraryCategory?: string;
   related?: string[];
+  relatedTools?: { slug: string; label: string }[];
   nextSteps?: ResearchNextStep[];
   learningPath?: string;
   learningOrder?: number;
@@ -22,6 +23,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "restaurants-networking",
       "restaurants-best-internet",
     ],
+    relatedTools: [
+      {
+        slug: "downtime-cost-calculator",
+        label: "Calculate outage cost",
+      },
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
+    ],
     linkAliases: ["internet outages", "store outages"],
   },
   "restaurant-network-visibility": {
@@ -33,6 +44,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "restaurant-internet-outages",
       "restaurants-networking",
       "restaurant-network-checklist",
+    ],
+    relatedTools: [
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
+      {
+        slug: "downtime-cost-calculator",
+        label: "Calculate outage cost",
+      },
     ],
     linkAliases: ["network visibility"],
   },
@@ -57,6 +78,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "restaurant-internet-outages",
       "restaurants-networking",
       "restaurant-pots-replacement",
+    ],
+    relatedTools: [
+      {
+        slug: "downtime-cost-calculator",
+        label: "Calculate outage cost",
+      },
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
     ],
     linkAliases: ["best internet"],
   },
