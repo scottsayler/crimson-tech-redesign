@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ResearchArticle } from "@/components/research/ResearchArticle";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { Section } from "@/components/ui/Section";
 import { getResearch, research, researchTypeLabels } from "@/content/research";
+import { getResearchHubPath } from "@/content/research";
 import {
   getIndustriesForResearch,
   getRelatedResearch,
@@ -48,14 +50,14 @@ export default async function ResearchDetailPage({ params }: Props) {
 
   return (
     <>
-      <Section className="!pb-8">
+      <Section className="!pb-10 md:!pb-12">
         <Link
-          href="/research"
+          href={getResearchHubPath(item.type)}
           className="text-sm font-medium text-crimson hover:text-crimson-dark"
         >
-          ← All insights
+          ← {researchTypeLabels[item.type]}
         </Link>
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <span className="text-sm font-semibold uppercase tracking-wider text-crimson">
             {researchTypeLabels[item.type]}
           </span>
@@ -70,13 +72,7 @@ export default async function ResearchDetailPage({ params }: Props) {
         </p>
       </Section>
 
-      <Section variant="muted" className="!py-12">
-        <article className="prose mx-auto max-w-3xl">
-          {item.content.map((paragraph) => (
-            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-          ))}
-        </article>
-      </Section>
+      <ResearchArticle content={item.content} />
 
       <ContextualLinks
         solutions={relatedSolutions}
