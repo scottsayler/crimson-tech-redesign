@@ -1,6 +1,13 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 import { site } from "@/content/site";
+import {
+  getContactSheetsWebhookUrl,
+  getResendConfig,
+  logMissingContactSheetsWebhook,
+  logMissingResendConfig,
+} from "@/lib/server/env";
+import { postToGoogleSheetsWebhook } from "@/lib/server/google-sheets-webhook";
 
 type ContactPayload = {
   name: string;
@@ -25,15 +32,20 @@ function escapeHtml(value: string): string {
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL;
-  const toEmail = process.env.CONTACT_TO_EMAIL;
+  const resendConfig = getResendConfig();
+  const sheetsWebhookUrl = getContactSheetsWebhookUrl();
+  const hasResend = resendConfig.configured;
+  const hasSheets = Boolean(sheetsWebhookUrl);
 
-  if (!apiKey || !fromEmail || !toEmail) {
-    console.error("Contact form misconfigured: missing Resend environment variables.");
+  if (!hasResend && !hasSheets) {
+    logMissingResendConfig();
+    logMissingContactSheetsWebhook();
+    console.error(
+      "[contact] No delivery channels configured — set Resend variables and/or GOOGLE_SHEETS_WEBHOOK_URL."
+    );
     return NextResponse.json(
       { error: "Contact form is temporarily unavailable." },
-      { status: 503 },
+      { status: 503 }
     );
   }
 
@@ -59,7 +71,7 @@ export async function POST(request: Request) {
   if (!name || !organization || !email || !interest || !message) {
     return NextResponse.json(
       { error: "Please complete all required fields." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -71,22 +83,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "One or more fields are too long." }, { status: 400 });
   }
 
-  const resend = new Resend(apiKey);
-  const subject = `New contact inquiry — ${organization}`;
-  const text = [
-    `Name: ${name}`,
-    title ? `Title: ${title}` : null,
-    `Organization: ${organization}`,
-    `Email: ${email}`,
-    `Primary interest: ${interest}`,
-    "",
-    "Message:",
-    message,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  const timestamp = new Date().toISOString();
+  let emailDelivered = false;
+  let sheetsCaptured = false;
 
-  const html = `
+  if (hasResend) {
+    const resend = new Resend(resendConfig.apiKey!);
+    const subject = `New contact inquiry — ${organization}`;
+    const text = [
+      `Name: ${name}`,
+      title ? `Title: ${title}` : null,
+      `Organization: ${organization}`,
+      `Email: ${email}`,
+      `Primary interest: ${interest}`,
+      "",
+      "Message:",
+      message,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const html = `
     <h2>New contact inquiry</h2>
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     ${title ? `<p><strong>Title:</strong> ${escapeHtml(title)}</p>` : ""}
@@ -99,22 +116,49 @@ export async function POST(request: Request) {
     <p style="color:#666;font-size:12px;">Sent from ${site.name} contact form</p>
   `;
 
-  const { error } = await resend.emails.send({
-    from: fromEmail,
-    to: toEmail,
-    replyTo: email,
-    subject,
-    text,
-    html,
-  });
+    const { error } = await resend.emails.send({
+      from: resendConfig.fromEmail!,
+      to: resendConfig.toEmail!,
+      replyTo: email,
+      subject,
+      text,
+      html,
+    });
 
-  if (error) {
-    console.error("Resend error:", error);
-    return NextResponse.json(
-      { error: "Unable to send your message right now. Please email us directly." },
-      { status: 502 },
-    );
+    if (error) {
+      console.error("[contact] Resend error:", error);
+    } else {
+      emailDelivered = true;
+    }
+  } else {
+    logMissingResendConfig();
   }
 
-  return NextResponse.json({ success: true });
+  if (hasSheets && sheetsWebhookUrl) {
+    const sheetsResult = await postToGoogleSheetsWebhook(
+      sheetsWebhookUrl,
+      {
+        type: "contact",
+        timestamp,
+        name,
+        title: title || null,
+        organization,
+        email,
+        interest,
+        message,
+      },
+      "contact"
+    );
+
+    sheetsCaptured = sheetsResult.ok;
+  }
+
+  if (emailDelivered || sheetsCaptured) {
+    return NextResponse.json({ success: true });
+  }
+
+  return NextResponse.json(
+    { error: "Unable to send your message right now. Please email us directly." },
+    { status: 502 }
+  );
 }

@@ -16,6 +16,7 @@ import {
   clearAssessmentState,
   loadAssessmentState,
   saveAssessmentState,
+  submitAssessmentResults,
   type AssessmentAnswers,
   type PersistedAssessmentState,
 } from "@/lib/assessments";
@@ -190,11 +191,19 @@ export function AssessmentRunner({ definition, onComplete, introFallback }: Asse
       durationSeconds,
     });
 
+    void submitAssessmentResults({
+      assessmentId,
+      assessmentName: definition.title,
+      results,
+      durationSeconds,
+      scoreMode: definition.scoreMode,
+    });
+
     hasTrackedCompletionRef.current = true;
     if (typeof window !== "undefined") {
       sessionStorage.setItem(completionTrackedKey(assessmentId), "true");
     }
-  }, [showResults, results, totalQuestions, onComplete, assessmentId]);
+  }, [showResults, results, totalQuestions, onComplete, assessmentId, definition.title, definition.scoreMode]);
 
   const currentQuestion = questions[currentIndex];
   const currentCategory = categories.find((category) => category.id === currentQuestion?.category);

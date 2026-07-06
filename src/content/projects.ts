@@ -103,17 +103,17 @@ export const projects: Project[] = [
   }),
   project({
     slug: "ai-workflow-modernization",
-    title: "AI Workflow Modernization",
-    category: "AI & Workflow",
+    title: "Banking AI Advisory",
+    category: "Financial Services",
     shortDescription:
-      "AI program refocused from multiple pilots to one production workflow.",
+      "AI program refocused from multiple pilots to one production workflow for a credit union contact center.",
     prose: {
       observation:
-        "The organization had four AI initiatives active, but none had completed compliance review for production deployment.",
+        "A credit union had four AI initiatives in motion, but none met compliance criteria for production deployment.",
       whyItMatters:
-        "Continuing broad pilot expansion would increase spend without improving daily operations.",
+        "Continued pilot expansion would increase cost without improving agent or member outcomes.",
       recommendation:
-        "Prioritize one high-impact use case, approve governance criteria, and deploy it to production first.",
+        "Prioritize contact center transcription and workflow automation with a governance model approved by leadership.",
     },
     highlights: [
       "Pilot portfolio reviewed for usage and feasibility",

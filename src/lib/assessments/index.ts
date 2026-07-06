@@ -6,6 +6,7 @@ export type {
 } from "./types";
 
 export { calculateAssessmentResults } from "./scoring";
+export { submitAssessmentResults } from "./submit-results";
 export {
   clearAssessmentState,
   loadAssessmentState,

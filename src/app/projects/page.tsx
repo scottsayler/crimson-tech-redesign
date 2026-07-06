@@ -17,6 +17,7 @@ export const metadata = createMetadata({
 const categories = [
   "Advisory Engagements",
   "CX Transformation",
+  "Financial Services",
   "AI & Workflow",
   "Digital Experiences",
 ];

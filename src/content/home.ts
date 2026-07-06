@@ -99,7 +99,7 @@ export const recentWork: RecentWorkItem[] = [
       recommendation:
         "Prioritize contact center transcription and workflow automation with a governance model approved by leadership.",
     },
-    href: "/crimson-cx",
+    href: "/projects/ai-workflow-modernization",
   },
   {
     title: "Contact Center Modernization",

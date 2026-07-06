@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { AssessmentRunner } from "@/components/decision-center/AssessmentRunner";
+import { AssessmentProfiles } from "@/components/decision-center/AssessmentProfiles";
 import { CTABand } from "@/components/sections/CTABand";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -71,6 +72,8 @@ export default async function DecisionCenterAssessmentPage({ params }: Props) {
               </span>
             ))}
           </div>
+
+          <AssessmentProfiles assessment={catalog} />
         </Container>
       </Section>
 

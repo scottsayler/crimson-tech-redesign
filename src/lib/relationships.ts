@@ -125,7 +125,11 @@ const PROJECT_SOLUTION_LINKS: Record<string, string[]> = {
     "customer-experience",
     "communications-collaboration",
   ],
-  "ai-workflow-modernization": ["ai-workflow-automation"],
+  "ai-workflow-modernization": [
+    "customer-experience",
+    "ai-workflow-automation",
+    "communications-collaboration",
+  ],
   cfbverdict: ["digital-products", "technology-advisory"],
 };
 

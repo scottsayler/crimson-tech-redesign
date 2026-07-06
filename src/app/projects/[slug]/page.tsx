@@ -52,6 +52,22 @@ export default async function ProjectDetailPage({ params }: Props) {
             </Button>
           </div>
         )}
+        {slug === "contact-center-transformation" && (
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button href="/crimson-cx">Explore Crimson CX</Button>
+            <Button href="/decision-center/banking-cx-friction-assessment" variant="outline">
+              Take CX Friction Assessment
+            </Button>
+          </div>
+        )}
+        {slug === "ai-workflow-modernization" && (
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button href="/crimson-cx">Explore Crimson CX</Button>
+            <Button href="/industries/financial-services" variant="outline">
+              Financial Services profile
+            </Button>
+          </div>
+        )}
       </Section>
 
       <Section variant="muted" className="!py-12">

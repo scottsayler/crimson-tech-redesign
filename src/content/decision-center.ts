@@ -14,6 +14,8 @@ export type DecisionCenterAssessment = {
   completionTime: string;
   audience: string[];
   industries: string[];
+  practiceSlug?: string;
+  relatedProjectSlugs?: string[];
   featured?: boolean;
   available: boolean;
 };
@@ -38,6 +40,8 @@ export const decisionCenterAssessments: DecisionCenterAssessment[] = [
     completionTime: "12–15 min",
     audience: ["CIO", "COO", "VP Customer Experience", "Contact Center Leaders"],
     industries: ["financial-services"],
+    practiceSlug: "crimson-cx",
+    relatedProjectSlugs: ["contact-center-transformation", "ai-workflow-modernization"],
     featured: true,
     available: true,
   },
