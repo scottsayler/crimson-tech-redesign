@@ -1,6 +1,8 @@
 import { getIndustry, industries, type Industry } from "@/content/industries";
+import { getProject, projects, type Project } from "@/content/projects";
 import { research, type Research, type ResearchType } from "@/content/research";
 import { getSolution, type Solution } from "@/content/solutions";
+import { getTopicClusterForArticle } from "@/lib/topic-clusters";
 
 function uniqueBySlug<T extends { slug: string }>(items: T[]): T[] {
   const seen = new Set<string>();
@@ -72,6 +74,12 @@ export function getRelatedResearch(current: Research, limit = 3): Research[] {
   const scored = candidates
     .map((item) => {
       let score = 0;
+      if (
+        current.topicCluster &&
+        item.topicCluster === current.topicCluster
+      ) {
+        score += 5;
+      }
       if (item.category === current.category) score += 2;
       if (item.type === current.type) score += 1;
       if (
@@ -126,6 +134,22 @@ export function getResearchForProject(projectSlug: string): Research[] {
   return uniqueBySlug(
     solutionSlugs.flatMap((solutionSlug) => getResearchForSolution(solutionSlug)),
   );
+}
+
+export function getProjectsForResearch(item: Research): Project[] {
+  const cluster = getTopicClusterForArticle(item.slug);
+  if (cluster?.relatedProjects.length) {
+    return cluster.relatedProjects
+      .map((slug) => getProject(slug))
+      .filter((project): project is Project => Boolean(project));
+  }
+
+  const matched = projects.filter((project) => {
+    const solutionSlugs = PROJECT_SOLUTION_LINKS[project.slug] ?? [];
+    return solutionSlugs.some((slug) => item.relatedSolutions?.includes(slug));
+  });
+
+  return matched;
 }
 
 export function getFeaturedResearch(limit = 6): Research[] {

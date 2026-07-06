@@ -390,11 +390,22 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   const output: ParsedSection[] = [];
   const looseNarrative: string[] = [];
   let executive: ParsedSection | null = null;
+  const closingParagraphs: string[] = [];
   const faqs: { question: string; answer: string }[] = [];
+  const isChecklistArticle = sections.some(
+    (section) =>
+      section.kind === "named" &&
+      /checklist/i.test(section.title) &&
+      section.bullets.length > 0,
+  );
 
   for (const section of sections) {
     if (section.kind === "executive-summary") {
-      executive = section;
+      if (!executive) {
+        executive = section;
+      } else {
+        closingParagraphs.push(...section.paragraphs);
+      }
       continue;
     }
 
@@ -470,7 +481,11 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   const whyMatters = deriveWhyMatters(looseNarrative).filter(
     (paragraph) => !usedParagraphs.has(paragraph),
   );
-  if (whyMatters.length > 0 && !output.some((section) => section.kind === "why-matters")) {
+  if (
+    whyMatters.length > 0 &&
+    !output.some((section) => section.kind === "why-matters") &&
+    !isChecklistArticle
+  ) {
     whyMatters.forEach((paragraph) => usedParagraphs.add(paragraph));
     const insertAt = output.findIndex((section) => section.kind === "signs");
     const whySection: ParsedSection = {
@@ -493,7 +508,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
     ...looseNarrative,
     ...output.flatMap((section) => section.paragraphs),
   ]).filter((paragraph) => !usedParagraphs.has(paragraph));
-  if (mistakes.length > 0) {
+  if (mistakes.length > 0 && !isChecklistArticle) {
     mistakes.forEach((paragraph) => usedParagraphs.add(paragraph));
     const anchorIndex = Math.max(
       output.findIndex((section) => section.kind === "why-matters"),
@@ -518,7 +533,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   const remainingNarrative = looseNarrative.filter(
     (paragraph) => !usedParagraphs.has(paragraph),
   );
-  if (remainingNarrative.length > 0) {
+  if (remainingNarrative.length > 0 && !isChecklistArticle) {
     const optionsIndex = output.findIndex((section) => section.kind === "options");
     const narrativeSection: ParsedSection = {
       kind: "narrative",
@@ -585,8 +600,20 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
     });
   }
 
+  if (closingParagraphs.length > 0) {
+    structured.push({
+      kind: "narrative",
+      title: "Putting the Checklist to Work",
+      paragraphs: closingParagraphs,
+      bullets: [],
+      pairs: [],
+      options: [],
+      faqs: [],
+    });
+  }
+
   const takeaways = deriveTakeaways(sections);
-  if (takeaways.length > 0) {
+  if (takeaways.length > 0 && closingParagraphs.length === 0 && !isChecklistArticle) {
     structured.push({
       kind: "takeaways",
       title: "Executive Takeaways",
@@ -621,5 +648,14 @@ export function parseResearchContent(content: string[]): ParsedArticle {
 }
 
 export function isStructuredResearch(content: string[]): boolean {
-  return content.some((line) => isKnownHeader(line));
+  if (content.some((line) => isKnownHeader(line))) return true;
+  return isChecklistResearch(content);
+}
+
+export function isChecklistResearch(content: string[]): boolean {
+  return content.some(
+    (line, index) =>
+      isNamedSubsection(line) &&
+      content.slice(index + 1).some((next) => isBullet(next)),
+  );
 }

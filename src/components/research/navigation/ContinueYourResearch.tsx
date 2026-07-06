@@ -9,9 +9,9 @@ export function ContinueYourResearch({ items }: { items: ContinueReadingItem[] }
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-ink">Continue Your Research</h2>
+      <h2 className="text-2xl font-semibold text-ink">Recommended Next Reading</h2>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
-        Recommended next reads based on this topic and where you are in the learning path.
+        Suggested next reads based on this topic cluster and where you are in the learning path.
       </p>
       <div className="mt-6 grid gap-4">
         {items.map((item) => {

@@ -26,6 +26,14 @@ import {
 } from "@/lib/research-sections";
 import type { ExecutiveResourceItem } from "@/content/research";
 
+function isChecklistSection(section: ParsedSection): boolean {
+  return (
+    section.bullets.length > 0 &&
+    /checklist/i.test(section.title) &&
+    section.paragraphs.length === 0
+  );
+}
+
 function renderSection(
   section: ParsedSection,
   index: number,
@@ -213,7 +221,13 @@ function renderSection(
         <Section key={section.title} variant={variant} className="!py-12 md:!py-16">
           <SectionIntro title={section.title} />
           <div className="mt-8 space-y-6">
-            {section.bullets.length > 0 ? <BulletGrid items={section.bullets} /> : null}
+            {section.bullets.length > 0 ? (
+              isChecklistSection(section) ? (
+                <ChecklistCards items={section.bullets} />
+              ) : (
+                <BulletGrid items={section.bullets} />
+              )
+            ) : null}
             <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
           </div>
         </Section>

@@ -11,6 +11,13 @@ import {
   research,
   type Research,
 } from "@/content/research";
+import { getTopicCluster } from "@/content/topic-clusters";
+import {
+  buildTopicClusterLinkIndex,
+  getTopicClusterArticles,
+  getTopicClusterForArticle,
+  getTopicClusterHref,
+} from "@/lib/topic-clusters";
 import { getRelatedResearch } from "@/lib/relationships";
 import { researchTypeHubTitles } from "@/lib/content-badges";
 
@@ -50,8 +57,16 @@ function resolveResearch(slugs: string[]): Research[] {
 export function getTopicBreadcrumb(item: Research): BreadcrumbItem[] {
   const crumbs: BreadcrumbItem[] = [{ label: "Research", href: "/research" }];
 
+  const cluster = getTopicClusterForArticle(item.slug);
+  if (cluster) {
+    crumbs.push({
+      label: cluster.title,
+      href: getTopicClusterHref(cluster.slug),
+    });
+  }
+
   const primaryIndustry = item.relatedIndustries?.[0];
-  if (primaryIndustry) {
+  if (primaryIndustry && !cluster) {
     const industry = getIndustry(primaryIndustry);
     if (industry) {
       crumbs.push({
@@ -59,19 +74,19 @@ export function getTopicBreadcrumb(item: Research): BreadcrumbItem[] {
         href: `/industries/${industry.slug}`,
       });
     }
-  } else {
+  } else if (!cluster) {
     crumbs.push({
       label: researchTypeHubTitles[item.type],
       href: getResearchHubPath(item.type),
     });
   }
 
-  if (item.libraryCategory && primaryIndustry) {
+  if (item.libraryCategory && primaryIndustry && !cluster) {
     crumbs.push({
       label: item.libraryCategory,
       href: getIndustryLibraryCategoryHref(primaryIndustry, item.libraryCategory),
     });
-  } else if (!primaryIndustry) {
+  } else if (!primaryIndustry && !cluster) {
     crumbs.push({ label: item.category });
   }
 
@@ -96,7 +111,31 @@ export function getLearningPathContext(
   };
 }
 
-export function getContinueReading(item: Research): ContinueReadingItem[] {
+function clusterNextReading(item: Research): ContinueReadingItem[] {
+  const cluster = item.topicCluster ? getTopicCluster(item.topicCluster) : undefined;
+  if (!cluster) return [];
+
+  const clusterArticles = getTopicClusterArticles(cluster.slug).filter(
+    (article) => article.slug !== item.slug,
+  );
+
+  const currentOrder = item.learningOrder ?? Number.MAX_SAFE_INTEGER;
+  const ordered = clusterArticles
+    .filter((article) => (article.learningOrder ?? Number.MAX_SAFE_INTEGER) > currentOrder)
+    .sort((a, b) => {
+      const orderA = a.learningOrder ?? Number.MAX_SAFE_INTEGER;
+      const orderB = b.learningOrder ?? Number.MAX_SAFE_INTEGER;
+      return orderA - orderB;
+    });
+
+  return ordered.slice(0, 2).map((article) => ({
+    slug: article.slug,
+    title: article.title,
+    rationale: `Next in the ${cluster.title} decision area.`,
+  }));
+}
+
+export function getRecommendedNextReading(item: Research): ContinueReadingItem[] {
   if (item.nextSteps?.length) {
     return item.nextSteps
       .map((step) => {
@@ -112,19 +151,26 @@ export function getContinueReading(item: Research): ContinueReadingItem[] {
   }
 
   const pathContext = getLearningPathContext(item.slug);
-  if (!pathContext) return [];
+  if (pathContext?.nextSteps.length) {
+    return pathContext.nextSteps
+      .map((step) => {
+        const article = getResearch(step.slug);
+        if (!article) return null;
+        return {
+          slug: article.slug,
+          title: article.title,
+          rationale: step.rationale,
+        };
+      })
+      .filter((entry): entry is ContinueReadingItem => Boolean(entry));
+  }
 
-  return pathContext.nextSteps
-    .map((step) => {
-      const article = getResearch(step.slug);
-      if (!article) return null;
-      return {
-        slug: article.slug,
-        title: article.title,
-        rationale: step.rationale,
-      };
-    })
-    .filter((entry): entry is ContinueReadingItem => Boolean(entry));
+  return clusterNextReading(item);
+}
+
+/** @deprecated Use getRecommendedNextReading */
+export function getContinueReading(item: Research): ContinueReadingItem[] {
+  return getRecommendedNextReading(item);
 }
 
 export function getExplicitRelated(item: Research, limit = 4): Research[] {
@@ -138,6 +184,13 @@ export function getExplicitRelated(item: Research, limit = 4): Research[] {
 
 export function getRelatedTopics(item: Research, limit = 4): Research[] {
   const candidates: Research[] = [];
+
+  if (item.topicCluster) {
+    const clusterSiblings = getTopicClusterArticles(item.topicCluster).filter(
+      (candidate) => candidate.slug !== item.slug,
+    );
+    candidates.push(...clusterSiblings);
+  }
 
   if (item.related?.length) {
     candidates.push(...resolveResearch(item.related));
@@ -252,6 +305,11 @@ export function buildLinkIndex(): Map<string, string> {
     for (const alias of item.linkAliases ?? []) {
       index.set(alias.toLowerCase(), item.slug);
     }
+  }
+
+  const clusterIndex = buildTopicClusterLinkIndex();
+  for (const [phrase, clusterSlug] of clusterIndex.entries()) {
+    index.set(phrase, `topic:${clusterSlug}`);
   }
 
   return new Map(

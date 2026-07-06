@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { industries } from "@/content/industries";
+import { topicClusters } from "@/content/topic-clusters";
 import {
   RESEARCH_TYPES,
   getResearchHubPath,
@@ -23,6 +24,7 @@ import {
   getResearchBadgeLabel,
   getResearchTypeDefaultCompletionTime,
 } from "@/lib/content-badges";
+import { getTopicClusterArticles } from "@/lib/topic-clusters";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -100,6 +102,47 @@ export default function ResearchPage() {
             View all tools →
           </Link>
         </div>
+      </Section>
+
+      {/* Decision areas */}
+      <Section variant="muted">
+        <SectionHeader
+          eyebrow="Decision areas"
+          title="Organized by major decisions"
+          description="Topic clusters connecting research, tools, services, and engagements—so you can move from reading to action."
+        />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {topicClusters.map((cluster) => {
+            const articleCount = getTopicClusterArticles(cluster.slug).length;
+
+            return (
+              <Link
+                key={cluster.slug}
+                href={`/research/topics/${cluster.slug}`}
+                className="group flex flex-col rounded-lg border border-stone-200 bg-white p-5 transition-all hover:border-crimson/30 hover:shadow-md"
+              >
+                <h3 className="font-semibold text-ink group-hover:text-crimson">
+                  {cluster.title}
+                </h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted line-clamp-3">
+                  {cluster.description}
+                </p>
+                <div className="mt-4 flex items-center justify-between gap-2">
+                  <span className="text-xs text-ink-muted">
+                    {articleCount} {articleCount === 1 ? "article" : "articles"}
+                  </span>
+                  <span className="text-xs font-medium text-crimson">Explore →</span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+        <Link
+          href="/research/topics"
+          className="mt-6 inline-block text-sm font-medium text-crimson hover:text-crimson-dark"
+        >
+          View all decision areas →
+        </Link>
       </Section>
 
       {/* Browse by type */}

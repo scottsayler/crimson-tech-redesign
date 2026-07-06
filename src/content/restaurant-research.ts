@@ -1453,9 +1453,9 @@ Answer: A designated opening coordinator or IT lead should own sign-off, even if
       `• Vendor SLA review and incident log analysis to catch a chronic site before it becomes a pattern nobody tracked`,
       `• POTS line inventory updated whenever a line is retired, replaced, or discovered on an invoice nobody could explain`,
       `• New application impact assessment completed before deployment, since every new POS integration or ordering platform adds load to the same segmented network`,
-      `A checklist only works if someone owns it. The pre-opening items belong on the development timeline next to lease signing and permitting, not buried in an IT ticket that gets closed the day the doors open. The ongoing items belong on a recurring calendar, because a network that was correct on opening day drifts — firmware ages, vendors change hands, and a new POS integration gets bolted on without anyone reviewing what it does to the segmentation you already built.
-
-If your last three openings each hit a different technology snag, the problem was never the individual stores. It is that this checklist did not exist yet, or existed but nobody was accountable for running it before go-live.`,
+      `Putting the Checklist to Work`,
+      `A checklist only works if someone owns it. The pre-opening items belong on the development timeline next to lease signing and permitting, not buried in an IT ticket that gets closed the day the doors open.`,
+      `If your last three openings each hit a different technology snag, the problem was never the individual stores. It is that this checklist did not exist yet, or existed but nobody was accountable for running it before go-live.`,
     ],
     relatedSolutions: ["connectivity-infrastructure","technology-advisory"],
     relatedIndustries: ["restaurants"],

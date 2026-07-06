@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { industries } from "@/content/industries";
 import { projects } from "@/content/projects";
 import { RESEARCH_HUB_PATHS, research } from "@/content/research";
+import { topicClusters } from "@/content/topic-clusters";
 import { solutions } from "@/content/solutions";
 import { site } from "@/content/site";
 import { tools } from "@/content/tools";
@@ -54,6 +55,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
+  const topicClusterPages = [
+    {
+      url: `${site.url}/research/topics`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.88,
+    },
+    ...topicClusters.map((cluster) => ({
+      url: `${site.url}/research/topics/${cluster.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.87,
+    })),
+  ];
+
   const researchPages = research.map((r) => ({
     url: `${site.url}/research/${r.slug}`,
     lastModified: new Date(r.date),
@@ -83,6 +99,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...industryPages,
     ...projectPages,
     ...researchHubPages,
+    ...topicClusterPages,
     ...researchPages,
     ...downloadPages,
     ...toolPages,

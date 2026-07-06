@@ -10,14 +10,23 @@ export type ResearchNavigationMeta = {
   learningOrder?: number;
   linkAliases?: string[];
   executiveResources?: ExecutiveResourceItem[];
+  topicCluster?: string;
 };
 
 export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurant-internet-outages": {
     tags: ["connectivity", "outages", "failover", "pos", "restaurants"],
     libraryCategory: "Connectivity",
+    topicCluster: "connectivity",
     learningPath: "restaurant-connectivity",
     learningOrder: 1,
+    nextSteps: [
+      {
+        slug: "restaurant-network-visibility",
+        rationale:
+          "After outage response, most operators need visibility into what failed before managers call IT.",
+      },
+    ],
     related: [
       "restaurant-network-visibility",
       "restaurants-networking",
@@ -38,6 +47,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurant-network-visibility": {
     tags: ["monitoring", "network visibility", "restaurants", "connectivity"],
     libraryCategory: "Connectivity",
+    topicCluster: "connectivity",
     learningPath: "restaurant-connectivity",
     learningOrder: 2,
     related: [
@@ -60,6 +70,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurants-networking": {
     tags: ["networking", "store network", "restaurants", "connectivity"],
     libraryCategory: "Connectivity",
+    topicCluster: "connectivity",
     learningPath: "restaurant-connectivity",
     learningOrder: 3,
     related: [
@@ -72,6 +83,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurants-best-internet": {
     tags: ["internet", "carriers", "decision framework", "restaurants"],
     libraryCategory: "Connectivity",
+    topicCluster: "connectivity",
     learningPath: "restaurant-connectivity",
     learningOrder: 4,
     related: [
@@ -94,6 +106,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurant-pots-replacement": {
     tags: ["pots", "analog lines", "infrastructure", "restaurants"],
     libraryCategory: "Infrastructure",
+    topicCluster: "connectivity",
     learningPath: "restaurant-connectivity",
     learningOrder: 5,
     related: [
@@ -116,6 +129,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurants-pots-replacement": {
     tags: ["pots", "decision framework", "infrastructure", "restaurants"],
     libraryCategory: "Infrastructure",
+    topicCluster: "connectivity",
     related: [
       "restaurant-pots-replacement",
       "restaurants-best-internet",
@@ -136,6 +150,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurant-vendor-sprawl": {
     tags: ["vendor sprawl", "operations", "restaurants", "managed services"],
     libraryCategory: "Operations",
+    topicCluster: "restaurant-technology",
     learningPath: "restaurant-operations",
     learningOrder: 1,
     related: [
@@ -157,6 +172,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurant-technology-standardization": {
     tags: ["standardization", "operations", "franchise", "restaurants"],
     libraryCategory: "Operations",
+    topicCluster: "restaurant-technology",
     learningPath: "restaurant-operations",
     learningOrder: 2,
     related: [
@@ -179,6 +195,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurants-opening-technology-checklist": {
     tags: ["new stores", "checklist", "operations", "restaurants"],
     libraryCategory: "Operations",
+    topicCluster: "restaurant-technology",
     learningPath: "restaurant-operations",
     learningOrder: 3,
     related: [
@@ -191,6 +208,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "restaurant-network-checklist": {
     tags: ["checklist", "network", "connectivity", "restaurants"],
     libraryCategory: "Connectivity",
+    topicCluster: "connectivity",
     related: [
       "restaurants-networking",
       "restaurant-network-visibility",
@@ -201,6 +219,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "ccaas-vendor-checklist": {
     tags: ["ccaas", "contact center", "checklist", "vendor evaluation", "communications"],
     libraryCategory: "Communications",
+    topicCluster: "contact-center-modernization",
+    learningPath: "contact-center-modernization",
+    learningOrder: 1,
+    nextSteps: [
+      {
+        slug: "ccaas-addon-vs-point-solution",
+        rationale:
+          "Once finalists are identified, decide whether bundled CCaaS modules or point solutions fit your WFM and analytics requirements.",
+      },
+    ],
     related: [
       "ccaas-addon-vs-point-solution",
       "ccaas-trends-2025",
@@ -229,6 +257,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "ai-auto-summarization-contact-centers": {
     tags: ["ai", "auto-summarization", "contact center", "workflow", "governance"],
     libraryCategory: "AI & Automation",
+    topicCluster: "ai-readiness",
+    learningPath: "ai-readiness",
+    learningOrder: 1,
+    nextSteps: [
+      {
+        slug: "ccaas-trends-2025",
+        rationale:
+          "Understand which AI capabilities in CCaaS platforms are production-ready versus roadmap items.",
+      },
+    ],
     related: [
       "ccaas-vendor-checklist",
       "ccaas-trends-2025",
@@ -259,6 +297,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "ccaas-addon-vs-point-solution": {
     tags: ["ccaas", "decision framework", "point solution", "communications"],
     libraryCategory: "Communications",
+    topicCluster: "contact-center-modernization",
+    learningPath: "contact-center-modernization",
+    learningOrder: 2,
+    nextSteps: [
+      {
+        slug: "ai-auto-summarization-contact-centers",
+        rationale:
+          "If AI is part of your CCaaS decision, define production workflow and governance before contract scope.",
+      },
+    ],
     related: [
       "ccaas-vendor-checklist",
       "ccaas-trends-2025",
@@ -287,16 +335,47 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "independent-technology-advisory": {
     tags: ["advisory", "vendor neutral", "technology strategy", "evaluation"],
     libraryCategory: "Advisory",
+    topicCluster: "technology-vendor-evaluation",
+    learningPath: "technology-vendor-evaluation",
+    learningOrder: 1,
+    nextSteps: [
+      {
+        slug: "sales-vs-implementation",
+        rationale:
+          "Before signing, separate what the sales demo showed from what implementation will deliver.",
+      },
+    ],
     related: [
       "sales-vs-implementation",
       "ccaas-vendor-checklist",
       "ccaas-addon-vs-point-solution",
     ],
     linkAliases: ["independent technology advisory", "independent advisory"],
+    executiveResources: [
+      {
+        title: "Executive Brief: Community Bank Technology Decisions",
+        description:
+          "A concise brief on why smaller institutions can compete on technology strategy—not budget size alone.",
+        badge: "executive-brief",
+        filePath:
+          "/downloads/Most-Community-Banks-Dont-Fall-Behind-Because-of-Smaller-Budgets.pdf",
+        fileName: "Most-Community-Banks-Dont-Fall-Behind-Because-of-Smaller-Budgets.pdf",
+      },
+    ],
   },
   "sales-vs-implementation": {
     tags: ["implementation", "advisory", "vendor evaluation", "deployment"],
     libraryCategory: "Advisory",
+    topicCluster: "technology-vendor-evaluation",
+    learningPath: "technology-vendor-evaluation",
+    learningOrder: 2,
+    nextSteps: [
+      {
+        slug: "ccaas-vendor-checklist",
+        rationale:
+          "Apply a structured scoring model when your evaluation reaches the CCaaS or platform shortlist stage.",
+      },
+    ],
     related: [
       "independent-technology-advisory",
       "ccaas-vendor-checklist",
@@ -306,11 +385,32 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
   "ccaas-trends-2025": {
     tags: ["ccaas", "contact center", "ai", "technology trends", "communications"],
     libraryCategory: "Communications",
+    topicCluster: "contact-center-modernization",
+    learningPath: "contact-center-modernization",
+    learningOrder: 3,
+    nextSteps: [
+      {
+        slug: "ccaas-vendor-checklist",
+        rationale:
+          "Translate trend narratives into a scored evaluation before your renewal deadline.",
+      },
+    ],
     related: [
       "ai-auto-summarization-contact-centers",
       "ccaas-vendor-checklist",
       "ccaas-addon-vs-point-solution",
     ],
     linkAliases: ["CCaaS trends", "contact center technology"],
+    executiveResources: [
+      {
+        title: "Executive Brief: CX Without a Full Journey Redesign",
+        description:
+          "How one institution improved customer experience by fixing operational handoffs—not redesigning the entire journey.",
+        badge: "executive-brief",
+        filePath:
+          "/downloads/This-bank-didnt-fix-CX-by-redesigning-the-customer-journey.pdf",
+        fileName: "This-bank-didnt-fix-CX-by-redesigning-the-customer-journey.pdf",
+      },
+    ],
   },
 };

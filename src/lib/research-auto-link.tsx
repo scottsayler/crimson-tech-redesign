@@ -97,10 +97,13 @@ export function linkParagraphText(
 
     const matchedText = remaining.slice(match.start, match.end);
     registerLink(state, match.slug);
+    const href = match.slug.startsWith("topic:")
+      ? `/research/topics/${match.slug.slice("topic:".length)}`
+      : `/research/${match.slug}`;
     nodes.push(
       <Link
         key={`${match.slug}-${match.start}-${nodes.length}`}
-        href={`/research/${match.slug}`}
+        href={href}
         className="font-medium text-crimson underline decoration-crimson/30 underline-offset-2 hover:text-crimson-dark"
       >
         {matchedText}

@@ -24,15 +24,21 @@ import {
 } from "@/lib/content-badges";
 import {
   getIndustriesForResearch,
+  getProjectsForResearch,
   getSolutionsForResearch,
 } from "@/lib/relationships";
 import {
-  getContinueReading,
   getLearningPathContext,
+  getRecommendedNextReading,
   getRelatedTopics,
   getSeeAlso,
   getTopicBreadcrumb,
 } from "@/lib/topic-graph";
+import {
+  getTopicClusterForArticle,
+  getTopicClusterHref,
+  getTopicClusterTools,
+} from "@/lib/topic-clusters";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -62,9 +68,16 @@ export default async function ResearchDetailPage({ params }: Props) {
 
   const relatedSolutions = getSolutionsForResearch(item);
   const relatedIndustries = getIndustriesForResearch(item);
+  const relatedProjects = getProjectsForResearch(item);
+  const topicCluster = getTopicClusterForArticle(item.slug);
+  const clusterTools = topicCluster
+    ? getTopicClusterTools(topicCluster.slug).filter(
+        (tool) => !item.relatedTools?.some((link) => link.slug === tool.slug),
+      )
+    : [];
   const breadcrumb = getTopicBreadcrumb(item);
   const learningPath = getLearningPathContext(item.slug);
-  const continueReading = getContinueReading(item);
+  const continueReading = getRecommendedNextReading(item);
   const relatedTopics = getRelatedTopics(item, 3);
   const seeAlso = getSeeAlso(item, 3);
 
@@ -96,6 +109,14 @@ export default async function ResearchDetailPage({ params }: Props) {
             <span className="rounded-full bg-stone-100 px-2.5 py-1 text-xs font-medium text-ink-muted">
               {item.libraryCategory}
             </span>
+          ) : null}
+          {topicCluster ? (
+            <Link
+              href={getTopicClusterHref(topicCluster.slug)}
+              className="rounded-full bg-crimson-50 px-2.5 py-1 text-xs font-medium text-crimson transition-colors hover:bg-crimson/10"
+            >
+              {topicCluster.title}
+            </Link>
           ) : null}
           <span className="text-sm text-ink-muted">{date}</span>
         </div>
@@ -129,7 +150,12 @@ export default async function ResearchDetailPage({ params }: Props) {
         seeAlso={seeAlso}
       />
 
-      <ContextualLinks solutions={relatedSolutions} industries={relatedIndustries} />
+      <ContextualLinks
+        solutions={relatedSolutions}
+        industries={relatedIndustries}
+        projects={relatedProjects}
+        tools={clusterTools}
+      />
 
       <CTABand />
     </>

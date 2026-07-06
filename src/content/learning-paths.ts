@@ -70,6 +70,75 @@ export const learningPaths: LearningPath[] = [
       },
     ],
   },
+  {
+    slug: "contact-center-modernization",
+    title: "Contact Center Modernization Path",
+    description:
+      "A guided evaluation path from CCaaS shortlist through WFM integration and production AI decisions.",
+    steps: [
+      {
+        slug: "ccaas-vendor-checklist",
+        rationale:
+          "Start with a scored evaluation framework before engaging CCaaS finalists on demos.",
+      },
+      {
+        slug: "ccaas-addon-vs-point-solution",
+        rationale:
+          "Decide whether bundled CCaaS capabilities or point solutions fit your WFM and analytics needs.",
+      },
+      {
+        slug: "ccaas-trends-2025",
+        rationale:
+          "Filter market narratives against your operational requirements and compliance constraints.",
+      },
+      {
+        slug: "ai-auto-summarization-contact-centers",
+        rationale:
+          "If AI is in scope, define workflow, QA, and governance before production deployment.",
+      },
+    ],
+  },
+  {
+    slug: "technology-vendor-evaluation",
+    title: "Technology Vendor Evaluation Path",
+    description:
+      "A guided path from independent advisory principles through platform scoring and implementation planning.",
+    steps: [
+      {
+        slug: "independent-technology-advisory",
+        rationale:
+          "Establish evaluation criteria and independence requirements before vendor meetings begin.",
+      },
+      {
+        slug: "sales-vs-implementation",
+        rationale:
+          "Separate sales demonstrations from implementation scope before contract review.",
+      },
+      {
+        slug: "ccaas-vendor-checklist",
+        rationale:
+          "Apply structured scoring when your evaluation reaches a platform or CCaaS shortlist.",
+      },
+    ],
+  },
+  {
+    slug: "ai-readiness",
+    title: "AI Readiness Path",
+    description:
+      "A focused path for moving contact center AI from pilot to governed production workflows.",
+    steps: [
+      {
+        slug: "ai-auto-summarization-contact-centers",
+        rationale:
+          "Start with one production-ready use case and define QA sampling before scaling.",
+      },
+      {
+        slug: "ccaas-trends-2025",
+        rationale:
+          "Understand which AI capabilities are production-ready in your CCaaS evaluation context.",
+      },
+    ],
+  },
 ];
 
 export function getLearningPath(pathSlug: string): LearningPath | undefined {

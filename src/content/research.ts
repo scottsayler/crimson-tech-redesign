@@ -100,6 +100,7 @@ export type Research = {
   learningOrder?: number;
   linkAliases?: string[];
   executiveResources?: ExecutiveResourceItem[];
+  topicCluster?: string;
 };
 
 const legacyResearch: Research[] = [
