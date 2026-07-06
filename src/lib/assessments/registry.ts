@@ -1,8 +1,7 @@
 import type { AssessmentDefinition } from "@/lib/assessments/types";
-import { bankingCxFrictionAssessment } from "@/content/assessments/banking-cx-friction-assessment";
 import { networkAssessment } from "@/content/assessments/network-assessment";
 
-const assessments: AssessmentDefinition[] = [networkAssessment, bankingCxFrictionAssessment];
+const assessments: AssessmentDefinition[] = [networkAssessment];
 
 const bySlug = new Map(
   assessments

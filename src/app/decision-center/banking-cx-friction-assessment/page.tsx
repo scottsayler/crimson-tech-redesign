@@ -1,48 +1,27 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { AssessmentRunner } from "@/components/decision-center/AssessmentRunner";
+import { AssessmentWizard } from "@/components/banking-cx-assessment/AssessmentWizard";
+import { PrivacyDisclaimer } from "@/components/banking-cx-assessment/PrivacyDisclaimer";
 import { AssessmentProfiles } from "@/components/decision-center/AssessmentProfiles";
 import { CTABand } from "@/components/sections/CTABand";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
-import {
-  decisionCenterAssessments,
-  getDecisionCenterAssessment,
-} from "@/content/decision-center";
-import { getAssessmentBySlug } from "@/lib/assessments";
+import { getDecisionCenterAssessment } from "@/content/decision-center";
+import { TOTAL_LIKERT_QUESTIONS } from "@/lib/banking-cx-assessment/areas";
 import { createMetadata } from "@/lib/seo";
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
+const catalog = getDecisionCenterAssessment("banking-cx-friction-assessment");
 
-const STATIC_ASSESSMENT_SLUGS = new Set(["banking-cx-friction-assessment"]);
+export const metadata = createMetadata({
+  title: catalog?.title ?? "Banking CX Friction Assessment",
+  description:
+    catalog?.description ??
+    "Evaluate operational friction across ten customer journeys before CCaaS, CRM, or AI investments.",
+  path: "/decision-center/banking-cx-friction-assessment",
+});
 
-export async function generateStaticParams() {
-  return decisionCenterAssessments
-    .filter((item) => item.available && !STATIC_ASSESSMENT_SLUGS.has(item.slug))
-    .map((item) => ({ slug: item.slug }));
-}
-
-export async function generateMetadata({ params }: Props) {
-  const { slug } = await params;
-  const assessment = getDecisionCenterAssessment(slug);
-  if (!assessment) return {};
-
-  return createMetadata({
-    title: assessment.title,
-    description: assessment.description,
-    path: `/decision-center/${slug}`,
-  });
-}
-
-export default async function DecisionCenterAssessmentPage({ params }: Props) {
-  const { slug } = await params;
-  const catalog = getDecisionCenterAssessment(slug);
-  const definition = getAssessmentBySlug(slug);
-
-  if (!catalog || !definition || !catalog.available) {
-    notFound();
+export default function BankingCxFrictionAssessmentPage() {
+  if (!catalog) {
+    return null;
   }
 
   return (
@@ -81,7 +60,25 @@ export default async function DecisionCenterAssessmentPage({ params }: Props) {
 
       <Section variant="muted" className="!pt-0">
         <Container>
-          <AssessmentRunner definition={definition} />
+          <div className="mb-8 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-md sm:mb-10">
+            <div className="border-b-4 border-crimson px-6 py-8 text-center sm:px-10 sm:py-10">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-crimson">
+                Crimson CX Diagnostic
+              </p>
+              <p className="mx-auto mt-4 max-w-2xl text-base font-medium leading-relaxed text-ink-muted sm:text-lg">
+                {TOTAL_LIKERT_QUESTIONS} questions across 10 journeys, governance, AI readiness,
+                and executive alignment
+              </p>
+              <p className="mt-2 text-sm font-semibold text-ink-muted">
+                Estimated time: ~15 minutes
+              </p>
+            </div>
+            <div className="px-6 py-4 sm:px-10">
+              <PrivacyDisclaimer compact />
+            </div>
+          </div>
+
+          <AssessmentWizard />
         </Container>
       </Section>
 
