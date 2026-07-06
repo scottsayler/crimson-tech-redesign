@@ -30,12 +30,12 @@ export default function ToolsPage() {
             Technology Decision Center
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Interactive tools for smarter technology decisions
+            Run the numbers before you sign
           </h1>
           <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed md:text-xl">
-            Quantify outage impact, score network maturity, and turn research into
-            actionable next steps — built for restaurant operators, IT leaders, and
-            finance teams evaluating infrastructure investments.
+            Calculators and assessments built from actual evaluations—outage cost,
+            POTS line savings, network readiness scores, and vendor consolidation
+            ROI for multi-location operators.
           </p>
           <div className="mt-8 flex flex-wrap gap-4 text-sm text-ink-muted">
             <span className="rounded-full border border-stone-200 bg-white px-4 py-2">
@@ -45,7 +45,7 @@ export default function ToolsPage() {
               href="/research"
               className="rounded-full border border-stone-200 bg-white px-4 py-2 font-medium text-crimson hover:border-crimson/30"
             >
-              Browse Crimson Signal research →
+              Browse insights →
             </Link>
           </div>
         </Container>

@@ -26,9 +26,9 @@ import {
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "Research",
+  title: "Insights",
   description:
-    "Crimson Signal — independent research, buying guides, decision frameworks, and technology analysis from Crimson Technology.",
+    "Technology buying guidance, decision frameworks, and vendor comparisons from Crimson Technology.",
   path: "/research",
 });
 
@@ -46,16 +46,15 @@ export default function ResearchPage() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#f5f5f4_1px,transparent_1px),linear-gradient(to_bottom,#f5f5f4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
         <Container className="relative">
           <p className="text-sm font-semibold uppercase tracking-wider text-crimson">
-            Crimson Signal
+            Insights
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Research for better technology decisions
+            Notes from real evaluations
           </h1>
           <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed md:text-xl">
-            Crimson Signal is the research publication of Crimson Technology—
-            delivering buying guides, decision frameworks, problem libraries, and
-            vendor-neutral analysis across communications, AI, customer
-            experience, networking, and digital infrastructure.
+            Checklists, buying guides, and opinions from evaluations we&apos;ve
+            actually run—CCaaS vendor selection, POTS replacement, network
+            readiness, AI in contact centers.
           </p>
         </Container>
       </section>
@@ -63,11 +62,11 @@ export default function ResearchPage() {
       {/* Featured */}
       {featuredItems.length > 0 ? (
         <Section variant="muted">
-          <SectionHeader
-            eyebrow="Featured"
-            title="Start here"
-            description="Editor's picks from the Crimson Signal library."
-          />
+        <SectionHeader
+          eyebrow="Featured"
+          title="Start here"
+          description="The evaluations and write-ups we'd send a colleague facing the same decision."
+        />
           <div className="grid gap-6 lg:grid-cols-2">
             {featuredItems.map((item, index) => (
               <div
@@ -85,8 +84,8 @@ export default function ResearchPage() {
       <Section>
         <SectionHeader
           eyebrow="Technology Decision Center"
-          title="Interactive decision tools"
-          description="Calculators and assessments that turn research into numbers, scores, and prioritized next steps."
+          title="Run the numbers"
+          description="Outage cost per hour, POTS savings, network readiness scores—before you approve the spend."
         />
         <div className="grid gap-6 md:grid-cols-2">
           {getFeaturedTools().map((tool) => (
@@ -107,8 +106,8 @@ export default function ResearchPage() {
       <Section>
         <SectionHeader
           eyebrow="Browse"
-          title="Explore by research type"
-          description="Find the format that matches where you are in the decision process."
+          title="By format"
+          description="Checklists for active evaluations. Buying guides for platform decisions. Problem pages for when you're not sure what you're solving yet."
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {RESEARCH_TYPES.map((researchType) => {
@@ -144,8 +143,8 @@ export default function ResearchPage() {
       <Section variant="muted">
         <SectionHeader
           eyebrow="Library"
-          title="All publications"
-          description="The complete Crimson Signal research library, newest first."
+          title="All insights"
+          description="Everything we've published—newest first."
         />
         <ResearchTypeNav />
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

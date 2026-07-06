@@ -7,11 +7,25 @@ export type Practice = {
 
 export const practices: Practice[] = [
   {
+    slug: "technology-advisory",
+    title: "Technology Advisory",
+    shortDescription:
+      "Vendor evaluations, renewals, and platform decisions—before the contract is signed.",
+    href: "/solutions/technology-advisory",
+  },
+  {
     slug: "crimson-cx",
     title: "Crimson CX",
     shortDescription:
-      "Customer experience advisory for financial institutions.",
+      "CCaaS, contact center operations, and CX technology for banks and credit unions.",
     href: "/crimson-cx",
+  },
+  {
+    slug: "digital-products",
+    title: "Digital Products",
+    shortDescription:
+      "Built in-house—CFBVerdict demonstrates end-to-end product delivery.",
+    href: "/solutions/digital-products",
   },
 ];
 

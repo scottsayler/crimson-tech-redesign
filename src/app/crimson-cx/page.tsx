@@ -1,7 +1,17 @@
 import { CTABand } from "@/components/sections/CTABand";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
+import { PrincipalAdvisor } from "@/components/sections/PrincipalAdvisor";
+import { AdvisorProse } from "@/components/sections/AdvisorProse";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import {
+  crimsonCxAudiences,
+  crimsonCxContext,
+  crimsonCxHero,
+  crimsonCxPracticeNote,
+  crimsonCxProblems,
+  crimsonCxTopics,
+} from "@/content/crimson-cx";
 import { getIndustry } from "@/content/industries";
 import {
   getResearchForPractice,
@@ -12,35 +22,9 @@ import { createMetadata } from "@/lib/seo";
 export const metadata = createMetadata({
   title: "Crimson CX",
   description:
-    "Crimson CX helps banks and credit unions navigate customer experience, AI, contact center modernization, and operational transformation.",
+    "CCaaS evaluations, contact center migrations, and AI adoption for banks and credit unions—with compliance tested before you sign.",
   path: "/crimson-cx",
 });
-
-const problems = [
-  "Siloed systems and disconnected customer journeys",
-  "Operational friction and lack of visibility across channels",
-  "Workflow breakdowns between front office, back office, and IT",
-  "CCaaS and AI evaluations that never reach production",
-  "Vendor demos that do not reflect real-world performance",
-];
-
-const topics = [
-  "CCaaS strategy",
-  "AI readiness",
-  "Workflow automation",
-  "Vendor evaluation",
-  "CX friction analysis",
-  "Operational modernization",
-  "Contact center transformation",
-];
-
-const audiences = [
-  "CIO",
-  "COO",
-  "VP Customer Experience",
-  "Contact Center Leaders",
-  "Digital Leaders",
-];
 
 export default function CrimsonCXPage() {
   const relatedResearch = getResearchForPractice("crimson-cx");
@@ -51,33 +35,22 @@ export default function CrimsonCXPage() {
     <>
       <Section className="!pb-12" variant="crimson">
         <SectionHeader
-          eyebrow="Flagship Practice · Crimson Technology"
-          title="Customer experience advisory for banks and credit unions"
-          description="Crimson CX helps financial institutions navigate contact center modernization, AI adoption, and operational transformation—with structured decisions instead of vendor noise."
+          eyebrow="Practice Area · Crimson Technology"
+          title="CCaaS, contact centers, and CX technology for banks and credit unions"
         />
+        <AdvisorProse prose={crimsonCxHero} className="mt-6 max-w-3xl" />
       </Section>
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-semibold text-ink">The challenge</h2>
-            <p className="mt-4 text-ink-muted leading-relaxed">
-              Financial institutions face more vendors, more channels, and more
-              pressure to modernize—while day-to-day operations still have to run.
-              Technology decisions that should create clarity often create more
-              confusion.
-            </p>
-            <p className="mt-4 text-ink-muted leading-relaxed">
-              Crimson CX exists to help institutions move from vendor noise to
-              structured decisions. We understand the intersection of customer
-              experience, compliance, operations, and technology—because that is
-              where most transformation initiatives succeed or fail.
-            </p>
+            <h2 className="text-2xl font-semibold text-ink">What we see in these evaluations</h2>
+            <AdvisorProse prose={crimsonCxContext} className="mt-4" />
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-ink">Problems we address</h2>
+            <h2 className="text-2xl font-semibold text-ink">Common starting points</h2>
             <ul className="mt-4 space-y-3">
-              {problems.map((problem) => (
+              {crimsonCxProblems.map((problem) => (
                 <li key={problem} className="flex gap-3 text-ink-muted">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-crimson" />
                   {problem}
@@ -90,14 +63,14 @@ export default function CrimsonCXPage() {
 
       <Section variant="muted">
         <SectionHeader
-          title="How we help"
-          description="Structured advisory focused on decisions that stick and implementations that work."
+          title="What we evaluate"
+          description="Specific decisions within contact center and CX technology programs."
         />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {topics.map((topic) => (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {crimsonCxTopics.map((topic) => (
             <div
               key={topic}
-              className="rounded-lg border border-stone-200 bg-white p-5 text-sm font-medium text-ink"
+              className="rounded-lg border border-stone-200 bg-white p-5 text-sm text-ink leading-relaxed"
             >
               {topic}
             </div>
@@ -108,9 +81,9 @@ export default function CrimsonCXPage() {
       <Section>
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-semibold text-ink">Who we work with</h2>
+            <h2 className="text-2xl font-semibold text-ink">Who we talk to</h2>
             <div className="mt-6 flex flex-wrap gap-3">
-              {audiences.map((role) => (
+              {crimsonCxAudiences.map((role) => (
                 <span
                   key={role}
                   className="rounded-full border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-ink"
@@ -122,20 +95,13 @@ export default function CrimsonCXPage() {
           </div>
           <div>
             <h2 className="text-2xl font-semibold text-ink">Part of Crimson Technology</h2>
-            <p className="mt-4 text-ink-muted leading-relaxed">
-              Crimson CX is a specialized practice within Crimson Technology. While
-              financial services customer experience is a flagship focus, our broader
-              capabilities span technology advisory, communications, AI, infrastructure,
-              and digital product development.
-            </p>
-            <p className="mt-4 text-ink-muted leading-relaxed">
-              This means your CX transformation benefits from depth in contact
-              centers and customer experience—backed by the breadth to address
-              connectivity, collaboration, and digital execution when those matter
-              too.
-            </p>
+            <AdvisorProse prose={crimsonCxPracticeNote} className="mt-4" />
           </div>
         </div>
+      </Section>
+
+      <Section variant="muted">
+        <PrincipalAdvisor compact />
       </Section>
 
       <ContextualLinks
@@ -145,8 +111,8 @@ export default function CrimsonCXPage() {
       />
 
       <CTABand
-        title="Discuss your CX priorities"
-        description="Tell us where your institution is stuck—vendor evaluation, contact center modernization, AI readiness, or operational friction. We will help you find the path forward."
+        title="CCaaS renewal, migration, or AI decision coming up?"
+        description="Share your timeline and finalists. We will tell you whether we can help."
       />
     </>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Project } from "@/content/projects";
+import { AdvisorProse } from "@/components/sections/AdvisorProse";
 import { Button } from "@/components/ui/Button";
 
 export function ProjectCard({ project }: { project: Project }) {
@@ -9,9 +10,11 @@ export function ProjectCard({ project }: { project: Project }) {
         {project.category}
       </span>
       <h3 className="mt-2 text-xl font-semibold text-ink">{project.title}</h3>
-      <p className="mt-3 flex-1 text-sm text-ink-muted leading-relaxed">
-        {project.shortDescription}
-      </p>
+      <AdvisorProse
+        prose={project.prose}
+        compact
+        className="mt-3 flex-1 text-sm"
+      />
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href={`/projects/${project.slug}`}

@@ -31,10 +31,10 @@ export function ResearchTypeHubPage({ type }: { type: ResearchType }) {
           href="/research"
           className="text-sm font-medium text-crimson hover:text-crimson-dark"
         >
-          ← Crimson Signal Research
+          ← Insights
         </Link>
         <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-crimson">
-          Crimson Signal
+          Insights
         </p>
         <h1 className="mt-3 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl">
           {researchTypeHubTitles[type]}
@@ -61,13 +61,13 @@ export function ResearchTypeHubPage({ type }: { type: ResearchType }) {
             <h2 className="text-xl font-semibold text-ink">New research coming soon</h2>
             <p className="mt-3 max-w-2xl text-sm text-ink-muted leading-relaxed">
               This library is being expanded. Check back for new{" "}
-              {researchTypeHubTitles[type].toLowerCase()} publications from Crimson Signal.
+              {researchTypeHubTitles[type].toLowerCase()} insights from Crimson Technology.
             </p>
             <Link
               href="/research"
               className="mt-6 inline-block text-sm font-medium text-crimson hover:text-crimson-dark"
             >
-              Browse all research →
+              Browse all insights →
             </Link>
           </div>
         )}

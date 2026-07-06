@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
+import { AdvisorProse } from "@/components/sections/AdvisorProse";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { getProject, projects } from "@/content/projects";
@@ -43,9 +44,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-ink md:text-5xl">
           {project.title}
         </h1>
-        <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed">
-          {project.description}
-        </p>
+        <AdvisorProse prose={project.prose} className="mt-6 max-w-3xl text-lg" />
         {project.externalUrl && (
           <div className="mt-8">
             <Button href={project.externalUrl} external>
@@ -56,7 +55,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       </Section>
 
       <Section variant="muted" className="!py-12">
-        <h2 className="text-2xl font-semibold text-ink">Highlights</h2>
+        <h2 className="text-2xl font-semibold text-ink">What we delivered</h2>
         <ul className="mt-6 grid gap-4 md:grid-cols-2">
           {project.highlights.map((highlight) => (
             <li
@@ -68,26 +67,46 @@ export default async function ProjectDetailPage({ params }: Props) {
             </li>
           ))}
         </ul>
+        {project.outcomes && project.outcomes.length > 0 ? (
+          <>
+            <h3 className="mt-10 text-lg font-semibold text-ink">Outcomes</h3>
+            <ul className="mt-4 space-y-3">
+              {project.outcomes.map((outcome) => (
+                <li
+                  key={outcome}
+                  className="flex gap-3 rounded-lg border border-crimson/20 bg-crimson-50 p-4 text-sm text-ink-muted"
+                >
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-crimson" />
+                  {outcome}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
       </Section>
 
       {slug === "cfbverdict" && (
         <Section>
-          <h2 className="text-2xl font-semibold text-ink">Why this matters</h2>
-          <p className="mt-4 max-w-3xl text-ink-muted leading-relaxed">
-            CFBVerdict is not just a side project—it is proof that Crimson Technology
-            can take a product from concept to production. The same discipline we
-            bring to vendor evaluations and CX transformations applies to building
-            digital products: clear strategy, solid architecture, and execution that
-            works in the real world.
-          </p>
+          <h2 className="text-2xl font-semibold text-ink">Why we built it</h2>
+          <AdvisorProse
+            prose={{
+              observation:
+                "Clients asked for evidence that advisory recommendations could be translated into working software.",
+              whyItMatters:
+                "A live platform demonstrates architecture discipline and production execution more clearly than deliverables alone.",
+              recommendation:
+                "Use CFBVerdict as a reference for how we approach requirements, integrations, and production operations.",
+            }}
+            className="mt-4 max-w-3xl"
+          />
         </Section>
       )}
 
       <ContextualLinks research={relatedResearch} />
 
       <CTABand
-        title="Have a project in mind?"
-        description="Whether you need advisory guidance or hands-on digital product development, we can help."
+        title="Need something evaluated or built?"
+        description="Share what you are evaluating. We will tell you whether we can help."
       />
     </>
   );

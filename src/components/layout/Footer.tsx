@@ -14,7 +14,8 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Logo imageClassName="h-7 w-auto" />
             <p className="mt-4 text-sm text-ink-muted leading-relaxed">
-              Independent technology advisory and digital execution.
+              Independent advisory for UCaaS, CCaaS, connectivity, and contact
+              center decisions.
             </p>
             <p className="mt-4 text-sm text-ink-muted">{site.location}</p>
           </div>
@@ -61,6 +62,14 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/projects"
+                  className="text-sm text-ink-muted hover:text-crimson"
+                >
+                  Projects
+                </Link>
+              </li>
             </ul>
           </div>
 

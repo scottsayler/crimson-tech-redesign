@@ -10,7 +10,7 @@ import { createMetadata } from "@/lib/seo";
 export const metadata = createMetadata({
   title: "Projects",
   description:
-    "Advisory engagements, CX transformations, AI workflow projects, and digital products from Crimson Technology.",
+    "UCaaS evaluations, contact center migrations, AI deployments, and CFBVerdict—a product we built ourselves.",
   path: "/projects",
 });
 
@@ -29,8 +29,8 @@ export default function ProjectsPage() {
       <Section className="!pb-12">
         <SectionHeader
           eyebrow="Projects"
-          title="Advisory work and built products"
-          description="We measure success by decisions made well and systems that work in production."
+          title="Work we've done"
+          description="Vendor evaluations, contact center migrations, AI deployments, and a product we built ourselves."
         />
       </Section>
 

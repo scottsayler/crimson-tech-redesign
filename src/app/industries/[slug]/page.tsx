@@ -6,6 +6,7 @@ import {
   RelatedSolutionsSection,
 } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
+import { AdvisorProse } from "@/components/sections/AdvisorProse";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { getIndustry, industries } from "@/content/industries";
@@ -14,12 +15,12 @@ import { getSolution } from "@/content/solutions";
 import { getResearchForIndustry } from "@/lib/relationships";
 import { createMetadata } from "@/lib/seo";
 
-const DEFAULT_RESOURCES_TITLE = "Related research";
+const DEFAULT_RESOURCES_TITLE = "Related reading";
 const DEFAULT_RESOURCES_DESCRIPTION =
-  "Explore guides, frameworks, and analysis connected to this topic.";
-const INDUSTRY_SERVICES_TITLE = "Services We Provide";
+  "Guides and checklists from evaluations in this sector.";
+const INDUSTRY_SERVICES_TITLE = "What we evaluate here";
 const DEFAULT_SERVICES_DESCRIPTION =
-  "Advisory and implementation support for organizations modernizing technology in this sector.";
+  "Platform selections, renewals, and migrations we've run in similar environments.";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -61,9 +62,7 @@ export default async function IndustryDetailPage({ params }: Props) {
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-ink md:text-5xl">
           {industry.title}
         </h1>
-        <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed">
-          {industry.description}
-        </p>
+        <AdvisorProse prose={industry.prose} className="mt-6 max-w-3xl text-lg" />
         {slug === "financial-services" && (
           <div className="mt-8">
             <Button href="/crimson-cx">Explore Crimson CX</Button>
@@ -74,7 +73,7 @@ export default async function IndustryDetailPage({ params }: Props) {
       <Section variant="muted" className="!py-12">
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-semibold text-ink">Key challenges</h2>
+            <h2 className="text-2xl font-semibold text-ink">What we keep seeing</h2>
             <ul className="mt-4 space-y-3">
               {industry.challenges.map((item) => (
                 <li key={item} className="flex gap-3 text-ink-muted">
@@ -85,7 +84,7 @@ export default async function IndustryDetailPage({ params }: Props) {
             </ul>
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-ink">How we help</h2>
+            <h2 className="text-2xl font-semibold text-ink">What we do about it</h2>
             <ul className="mt-4 space-y-3">
               {industry.howWeHelp.map((item) => (
                 <li key={item} className="flex gap-3 text-ink-muted">

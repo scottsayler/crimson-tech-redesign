@@ -1,5 +1,6 @@
 import { ContactForm } from "@/components/ContactForm";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
+import { PrincipalAdvisor } from "@/components/sections/PrincipalAdvisor";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { site } from "@/content/site";
@@ -21,27 +22,31 @@ export default function ContactPage() {
       <Section className="!pb-8">
         <SectionHeader
           eyebrow="Contact"
-          title="Start a conversation"
-          description="Share what you are working on—a platform evaluation, modernization initiative, CX transformation, or new digital product. We will follow up personally."
+          title="What's on your desk?"
+          description="Share your timeline, vendors, and constraints. Scott responds personally."
         />
       </Section>
 
       <Section variant="muted" className="!py-12">
         <div className="grid gap-12 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <h2 className="text-lg font-semibold text-ink">What to expect</h2>
+            <h2 className="text-lg font-semibold text-ink">What happens next</h2>
             <ul className="mt-4 space-y-4 text-sm text-ink-muted">
               <li className="flex gap-3">
                 <span className="font-semibold text-crimson">1.</span>
-                We respond within one business day
+                Scott responds within one business day
               </li>
               <li className="flex gap-3">
                 <span className="font-semibold text-crimson">2.</span>
-                A direct conversation—not a generic sales sequence
+                A direct conversation about your evaluation: timeline, vendors, what&apos;s already been tried
               </li>
               <li className="flex gap-3">
                 <span className="font-semibold text-crimson">3.</span>
-                Independent advisory with no obligation
+                Honest assessment of whether we can help and what it would look like
+              </li>
+              <li className="flex gap-3">
+                <span className="font-semibold text-crimson">4.</span>
+                If there is a fit: scope, deliverables, and timeline
               </li>
             </ul>
 
@@ -62,6 +67,10 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
+      </Section>
+
+      <Section>
+        <PrincipalAdvisor compact />
       </Section>
 
       <ContextualLinks research={featuredResearch} />

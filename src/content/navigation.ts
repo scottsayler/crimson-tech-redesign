@@ -5,9 +5,11 @@ export type NavItem = {
 };
 
 export const primaryNav: NavItem[] = [
-  { label: "Solutions", href: "/solutions", children: "solutions" },
-  { label: "Research", href: "/research", children: "research" },
+  { label: "Services", href: "/solutions", children: "solutions" },
   { label: "Industries", href: "/industries", children: "industries" },
+  { label: "Crimson CX", href: "/crimson-cx" },
+  { label: "Projects", href: "/projects" },
+  { label: "Insights", href: "/research", children: "research" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];

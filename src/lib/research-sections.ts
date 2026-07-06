@@ -160,11 +160,25 @@ function splitRawChunks(content: string[]): RawChunk[] {
   return chunks;
 }
 
+function linesToSectionContent(lines: string[]): {
+  paragraphs: string[];
+  bullets: string[];
+  faqs: { question: string; answer: string }[];
+} {
+  const { faqs, rest } = extractFaqs(lines);
+  const paragraphs = rest.filter(
+    (line) => !isBullet(line) && !line.trim().startsWith("Answer:"),
+  );
+  const bullets = rest.filter((line) => isBullet(line)).map(stripBullet);
+  return { paragraphs, bullets, faqs };
+}
+
 function chunkToSection(chunk: RawChunk): ParsedSection | null {
   if (!chunk.header) {
-    const paragraphs = chunk.lines.filter((line) => !isBullet(line) && !isQuestion(line));
-    const bullets = chunk.lines.filter((line) => isBullet(line)).map(stripBullet);
-    if (paragraphs.length === 0 && bullets.length === 0) return null;
+    const { paragraphs, bullets, faqs } = linesToSectionContent(chunk.lines);
+    if (paragraphs.length === 0 && bullets.length === 0 && faqs.length === 0) {
+      return null;
+    }
 
     return {
       kind: paragraphs.length > 0 ? "executive-summary" : "takeaways",
@@ -173,7 +187,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
       bullets,
       pairs: [],
       options: [],
-      faqs: [],
+      faqs,
     };
   }
 
@@ -181,10 +195,8 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
   const alias = HEADER_ALIASES[normalized];
 
   if (alias) {
+    const { paragraphs, faqs } = linesToSectionContent(chunk.lines);
     const bullets = chunk.lines.filter((line) => isBullet(line));
-    const paragraphs = chunk.lines.filter(
-      (line) => !isBullet(line) && !isQuestion(line) && !line.trim().startsWith("Answer:"),
-    );
 
     if (alias.kind === "options") {
       return {
@@ -194,7 +206,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
         bullets: [],
         pairs: [],
         options: bullets.map(parseBulletItem),
-        faqs: [],
+        faqs,
       };
     }
 
@@ -209,7 +221,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
           right: item.body,
         })),
         options: [],
-        faqs: [],
+        faqs,
       };
     }
 
@@ -221,7 +233,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
         bullets: bullets.map(stripBullet),
         pairs: [],
         options: [],
-        faqs: [],
+        faqs,
       };
     }
 
@@ -232,13 +244,12 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
       bullets: bullets.map(stripBullet),
       pairs: [],
       options: [],
-      faqs: [],
+      faqs,
     };
   }
 
   if (isNamedSubsection(chunk.header)) {
-    const paragraphs = chunk.lines.filter((line) => !isBullet(line) && !isQuestion(line));
-    const bullets = chunk.lines.filter((line) => isBullet(line)).map(stripBullet);
+    const { paragraphs, bullets, faqs } = linesToSectionContent(chunk.lines);
     return {
       kind: "named",
       title: chunk.header,
@@ -246,18 +257,19 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
       bullets,
       pairs: [],
       options: [],
-      faqs: [],
+      faqs,
     };
   }
 
+  const { paragraphs, bullets, faqs } = linesToSectionContent(chunk.lines);
   return {
     kind: "narrative",
     title: chunk.header.replace(/:$/, ""),
-    paragraphs: chunk.lines.filter((line) => !isBullet(line) && !isQuestion(line)),
-    bullets: chunk.lines.filter((line) => isBullet(line)).map(stripBullet),
+    paragraphs,
+    bullets,
     pairs: [],
     options: [],
-    faqs: [],
+    faqs,
   };
 }
 

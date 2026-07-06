@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
 export function CTABand({
-  title = "Ready for a clearer path forward?",
-  description = "Tell us what you are evaluating or trying to build. We will respond with a direct next step—not a generic sales sequence.",
+  title = "What's on your evaluation list?",
+  description = "Renewal, migration, vendor selection—tell us what's actually happening. Scott responds personally.",
   primaryLabel = "Schedule a Conversation",
   primaryHref = "/contact",
   secondaryLabel,

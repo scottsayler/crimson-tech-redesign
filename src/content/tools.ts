@@ -70,7 +70,7 @@ export const TOOL_HUB_SECTIONS: {
     id: "decision-guides",
     title: "Decision Guides",
     description:
-      "Structured frameworks that turn research into actionable next steps for leadership and IT teams.",
+      "Checklists and frameworks from evaluations we've actually run—not generic IT advice repackaged.",
   },
 ];
 

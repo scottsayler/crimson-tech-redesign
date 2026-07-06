@@ -1,10 +1,10 @@
 export const site = {
   name: "Crimson Technology",
-  tagline: "Independent Technology Research. Smarter Decisions.",
+  tagline: "Independent Technology Advisory",
   description:
-    "Independent technology research and advisory to help leaders make smarter decisions.",
+    "Independent technology advisory for organizations evaluating connectivity, UCaaS, CCaaS, AI, and contact center platforms—by someone who's been in the room when these decisions go live.",
   socialDescription:
-    "Independent technology research and advisory to help leaders make smarter decisions.",
+    "Vendor evaluations, platform renewals, and technology buying decisions—without the sales agenda.",
   url: "https://crimsontech.co",
   email: "info@crimsontech.co",
   location: "Downers Grove, IL",
