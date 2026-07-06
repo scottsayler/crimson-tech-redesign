@@ -75,6 +75,18 @@ function scoreCategory(
   };
 }
 
+function normalizeAnswerScore(
+  definition: AssessmentDefinition,
+  answer: number,
+  maxScore: number
+): number {
+  const normalized = Math.round((answer / maxScore) * 100);
+  if (definition.scoreMode === "friction") {
+    return normalized;
+  }
+  return normalized;
+}
+
 function buildInsights(
   definition: AssessmentDefinition,
   answers: AssessmentAnswers,
@@ -84,13 +96,14 @@ function buildInsights(
     mode === "strength"
       ? definition.insights.strengthsCount
       : definition.insights.risksCount;
+  const isFriction = definition.scoreMode === "friction";
 
   const insights = definition.questions.flatMap((question) => {
     const answer = answers[question.id];
     if (answer === undefined) return [];
 
     const maxScore = getMaxChoiceScore(question.choices);
-    const normalized = Math.round((answer / maxScore) * 100);
+    const normalized = normalizeAnswerScore(definition, answer, maxScore);
 
     return [
       {
@@ -101,7 +114,11 @@ function buildInsights(
     ];
   });
 
-  insights.sort((a, b) => (mode === "strength" ? b.score - a.score : a.score - b.score));
+  if (isFriction) {
+    insights.sort((a, b) => (mode === "strength" ? a.score - b.score : b.score - a.score));
+  } else {
+    insights.sort((a, b) => (mode === "strength" ? b.score - a.score : a.score - b.score));
+  }
 
   return insights.slice(0, count);
 }
@@ -122,7 +139,10 @@ function buildPriorities(
   answers: AssessmentAnswers
 ): AssessmentPriority[] {
   const { recommendations, relatedContent } = definition;
-  const sortedCategories = [...categoryScores].sort((a, b) => a.score - b.score);
+  const isFriction = definition.scoreMode === "friction";
+  const sortedCategories = [...categoryScores].sort((a, b) =>
+    isFriction ? b.score - a.score : a.score - b.score
+  );
   const priorities: AssessmentPriority[] = [];
   const seen = new Set<string>();
 

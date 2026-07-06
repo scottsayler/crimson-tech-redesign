@@ -15,6 +15,7 @@ export type TopicCluster = {
   relatedIndustries: string[];
   relatedProjects: string[];
   relatedToolSlugs: string[];
+  relatedAssessmentSlugs: string[];
   learningPathSlug?: string;
   linkAliases?: string[];
 };
@@ -48,6 +49,7 @@ export const topicClusters: TopicCluster[] = [
     relatedIndustries: ["financial-services", "healthcare", "professional-services"],
     relatedProjects: ["contact-center-transformation"],
     relatedToolSlugs: [],
+    relatedAssessmentSlugs: ["banking-cx-friction-assessment"],
     linkAliases: [
       "contact center modernization",
       "ccaas evaluation",
@@ -78,6 +80,7 @@ export const topicClusters: TopicCluster[] = [
     ],
     relatedProjects: ["vendor-evaluation-advisory"],
     relatedToolSlugs: [],
+    relatedAssessmentSlugs: [],
     linkAliases: ["vendor evaluation", "technology advisory", "vendor selection"],
   },
   {
@@ -100,6 +103,7 @@ export const topicClusters: TopicCluster[] = [
     relatedIndustries: ["financial-services", "healthcare"],
     relatedProjects: ["ai-workflow-modernization"],
     relatedToolSlugs: [],
+    relatedAssessmentSlugs: [],
     linkAliases: ["ai readiness", "ai in contact centers", "ai governance"],
   },
   {
@@ -140,6 +144,7 @@ export const topicClusters: TopicCluster[] = [
       "network-assessment",
       "pots-savings-calculator",
     ],
+    relatedAssessmentSlugs: [],
     linkAliases: ["connectivity", "network resilience", "store connectivity"],
   },
   {
@@ -175,6 +180,7 @@ export const topicClusters: TopicCluster[] = [
       "pots-savings-calculator",
       "vendor-consolidation-calculator",
     ],
+    relatedAssessmentSlugs: [],
     linkAliases: ["restaurant technology", "multi-location restaurants"],
   },
 ];

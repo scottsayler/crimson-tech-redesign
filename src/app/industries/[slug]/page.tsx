@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { IndustryLibrary } from "@/components/research/navigation/IndustryLibrary";
 import { RelatedTools } from "@/components/tools/RelatedTools";
+import { RelatedAssessments } from "@/components/decision-center/RelatedAssessments";
 import {
   RelatedResearchSection,
   RelatedSolutionsSection,
@@ -64,8 +65,11 @@ export default async function IndustryDetailPage({ params }: Props) {
         </h1>
         <AdvisorProse prose={industry.prose} className="mt-6 max-w-3xl text-lg" />
         {slug === "financial-services" && (
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap gap-4">
             <Button href="/crimson-cx">Explore Crimson CX</Button>
+            <Button href="/decision-center/banking-cx-friction-assessment" variant="outline">
+              Take CX Friction Assessment
+            </Button>
           </div>
         )}
       </Section>
@@ -96,6 +100,12 @@ export default async function IndustryDetailPage({ params }: Props) {
           </div>
         </div>
       </Section>
+
+      {industry.relatedAssessments && industry.relatedAssessments.length > 0 ? (
+        <Section variant="muted" className="!py-12">
+          <RelatedAssessments items={industry.relatedAssessments} />
+        </Section>
+      ) : null}
 
       {industry.relatedTools && industry.relatedTools.length > 0 ? (
         <Section variant="muted" className="!py-12">

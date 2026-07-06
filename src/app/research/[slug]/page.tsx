@@ -6,6 +6,7 @@ import {
   TopicBreadcrumb,
 } from "@/components/research/navigation";
 import { RelatedTools } from "@/components/tools/RelatedTools";
+import { RelatedAssessments } from "@/components/decision-center/RelatedAssessments";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { Container } from "@/components/ui/Container";
@@ -133,6 +134,14 @@ export default async function ResearchDetailPage({ params }: Props) {
         currentSlug={item.slug}
         executiveResources={getExecutiveResources(item)}
       />
+
+      {item.relatedAssessments && item.relatedAssessments.length > 0 ? (
+        <Section className="!py-10 md:!py-12">
+          <Container>
+            <RelatedAssessments items={item.relatedAssessments} />
+          </Container>
+        </Section>
+      ) : null}
 
       {item.relatedTools && item.relatedTools.length > 0 ? (
         <Section className="!py-10 md:!py-12">

@@ -5,6 +5,7 @@ import { CTABand } from "@/components/sections/CTABand";
 import { PrincipalAdvisor } from "@/components/sections/PrincipalAdvisor";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { ResearchCard } from "@/components/sections/ResearchCard";
+import { AssessmentCard } from "@/components/decision-center/AssessmentCard";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -17,6 +18,7 @@ import {
   recentWork,
 } from "@/content/home";
 import { getFeaturedResearch } from "@/lib/relationships";
+import { getFeaturedDecisionCenterAssessments } from "@/content/decision-center";
 
 const heroProse = {
   observation:
@@ -55,6 +57,7 @@ const crimsonCxEvaluations = [
 export default function HomePage() {
   const featuredResearch = getFeaturedResearch(3);
   const featuredIndustries = getFeaturedIndustries();
+  const featuredAssessments = getFeaturedDecisionCenterAssessments();
 
   return (
     <>
@@ -284,6 +287,24 @@ export default function HomePage() {
           </Link>
         </div>
       </Section>
+
+      {featuredAssessments.length > 0 ? (
+        <Section>
+          <SectionHeader
+            eyebrow="Decision Center"
+            title="Understand your environment before evaluating vendors"
+            description="Assessments identify operational friction and modernization priorities—the starting point for better technology decisions."
+          />
+          <div className="grid gap-6 md:grid-cols-2">
+            {featuredAssessments.map((assessment) => (
+              <AssessmentCard key={assessment.slug} assessment={assessment} featured />
+            ))}
+          </div>
+          <div className="mt-8">
+            <Button href="/decision-center">Explore Decision Center</Button>
+          </div>
+        </Section>
+      ) : null}
 
       <CTABand
         title="Evaluating a platform, renewal, or migration?"

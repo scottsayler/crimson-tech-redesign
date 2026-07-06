@@ -53,16 +53,34 @@ export interface AssessmentInsightsConfig {
   risksCount: number;
 }
 
+export type AssessmentScoreMode = "maturity" | "friction";
+
+export interface AssessmentIntroConfig {
+  title: string;
+  subtitle: string;
+  highlights: string[];
+  eyebrow?: string;
+}
+
 export interface AssessmentDefinition {
   id: string;
-  toolSlug: string;
+  /** Decision Center route slug — `/decision-center/[slug]` */
+  slug?: string;
+  /** Legacy tools route — `/tools/[toolSlug]` */
+  toolSlug?: string;
   title: string;
   scoreLabel: string;
+  maturityLabel?: string;
+  scoreMode?: AssessmentScoreMode;
   resultsDisclaimer?: string;
+  intro?: AssessmentIntroConfig;
+  sectionNavLabel?: string;
   sections?: AssessmentSection[];
   categories: AssessmentCategory[];
   questions: AssessmentQuestion[];
   relatedContent: Record<string, AssessmentRelatedContent>;
+  relatedPages?: AssessmentRelatedContent[];
+  operationalObservations?: Record<string, string>;
   resultProfiles: AssessmentResultProfile[];
   recommendations: AssessmentRecommendationConfig;
   insights: AssessmentInsightsConfig;

@@ -11,6 +11,7 @@ export type Industry = {
   howWeHelp: string[];
   relatedServices: string[];
   relatedTools?: { slug: string; label: string }[];
+  relatedAssessments?: { slug: string; label: string }[];
   resourcesTitle?: string;
   resourcesDescription?: string;
   servicesDescription?: string;
@@ -53,6 +54,12 @@ export const industries: Industry[] = [
       "communications-collaboration",
       "ai-workflow-automation",
       "technology-advisory",
+    ],
+    relatedAssessments: [
+      {
+        slug: "banking-cx-friction-assessment",
+        label: "Score CX friction across customer journeys",
+      },
     ],
   }),
   industry({

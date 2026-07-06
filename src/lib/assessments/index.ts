@@ -12,7 +12,7 @@ export {
   saveAssessmentState,
 } from "./storage";
 
-export { getAssessmentByToolSlug, getAllAssessments } from "./registry";
+export { getAssessmentBySlug, getAssessmentByToolSlug, getAllAssessments } from "./registry";
 export {
   getSectionCompletion,
   getSectionForCategory,

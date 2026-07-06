@@ -95,6 +95,7 @@ export type Research = {
   libraryCategory?: string;
   related?: string[];
   relatedTools?: { slug: string; label: string }[];
+  relatedAssessments?: { slug: string; label: string }[];
   nextSteps?: ResearchNextStep[];
   learningPath?: string;
   learningOrder?: number;

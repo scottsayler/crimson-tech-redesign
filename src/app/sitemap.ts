@@ -6,6 +6,7 @@ import { topicClusters } from "@/content/topic-clusters";
 import { solutions } from "@/content/solutions";
 import { site } from "@/content/site";
 import { tools } from "@/content/tools";
+import { decisionCenterAssessments } from "@/content/decision-center";
 import { getExecutiveResources, getLocalExecutiveResourcePaths } from "@/lib/executive-resources";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -15,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/solutions",
     "/research",
     "/tools",
+    "/decision-center",
     "/industries",
     "/crimson-cx",
     "/projects",
@@ -24,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${site.url}${path}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
-    priority: path === "" ? 1 : path === "/research" ? 0.9 : 0.8,
+    priority: path === "" ? 1 : path === "/research" || path === "/decision-center" ? 0.9 : 0.8,
   }));
 
   const solutionPages = solutions.map((s) => ({
@@ -93,6 +95,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
+  const decisionCenterPages = decisionCenterAssessments
+    .filter((item) => item.available)
+    .map((assessment) => ({
+      url: `${site.url}/decision-center/${assessment.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.88,
+    }));
+
   return [
     ...staticPages,
     ...solutionPages,
@@ -103,5 +114,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...researchPages,
     ...downloadPages,
     ...toolPages,
+    ...decisionCenterPages,
   ];
 }

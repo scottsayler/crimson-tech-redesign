@@ -5,6 +5,7 @@ export type ResearchNavigationMeta = {
   libraryCategory?: string;
   related?: string[];
   relatedTools?: { slug: string; label: string }[];
+  relatedAssessments?: { slug: string; label: string }[];
   nextSteps?: ResearchNextStep[];
   learningPath?: string;
   learningOrder?: number;
@@ -235,6 +236,12 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "independent-technology-advisory",
     ],
     linkAliases: ["CCaaS vendor", "contact center vendor"],
+    relatedAssessments: [
+      {
+        slug: "banking-cx-friction-assessment",
+        label: "Score CX friction before vendor evaluation",
+      },
+    ],
     executiveResources: [
       {
         title: "Download the Executive Checklist",
@@ -313,6 +320,12 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "independent-technology-advisory",
     ],
     linkAliases: ["CCaaS add-on", "point solution"],
+    relatedAssessments: [
+      {
+        slug: "banking-cx-friction-assessment",
+        label: "Identify friction before scoping CCaaS modules",
+      },
+    ],
     executiveResources: [
       {
         title: "Download the Decision Matrix",
@@ -401,6 +414,12 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
       "ccaas-addon-vs-point-solution",
     ],
     linkAliases: ["CCaaS trends", "contact center technology"],
+    relatedAssessments: [
+      {
+        slug: "banking-cx-friction-assessment",
+        label: "Assess environment health before chasing trends",
+      },
+    ],
     executiveResources: [
       {
         title: "Executive Brief: CX Without a Full Journey Redesign",
