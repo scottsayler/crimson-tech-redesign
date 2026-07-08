@@ -5,6 +5,7 @@ export { ComparisonTable } from "./ComparisonTable";
 export { DecisionCard } from "./DecisionCard";
 export { ExecutiveResourceCard, ExecutiveResourceCard as ExecutiveResource } from "./ExecutiveResourceCard";
 export { ExecutiveResources } from "./ExecutiveResources";
+export { ImpactCascade } from "./ImpactCascade";
 export { InsightCallout } from "./InsightCallout";
 export { NarrativeBlock } from "./NarrativeBlock";
 export { OptionCard } from "./OptionCard";

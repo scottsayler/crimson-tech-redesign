@@ -15,6 +15,7 @@ export type SectionKind =
   | "challenges"
   | "priorities"
   | "evidence"
+  | "cascade"
   | "narrative"
   | "named";
 
@@ -71,6 +72,7 @@ const HEADER_ALIASES: Record<string, { kind: SectionKind; title: string }> = {
   },
   "common mistakes": { kind: "mistakes", title: "Common Mistakes" },
   "key takeaways": { kind: "takeaways", title: "Executive Takeaways" },
+  "impact cascade": { kind: "cascade", title: "How the Failure Spreads" },
 };
 
 function normalizeHeader(line: string): string {
@@ -398,6 +400,15 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
       /checklist/i.test(section.title) &&
       section.bullets.length > 0,
   );
+  const isFieldGuideArticle =
+    sections.some(
+      (section) =>
+        section.kind === "named" &&
+        /takeaways|mistakes we see|questions to ask before buying/i.test(section.title) &&
+        (section.bullets.length > 0 || section.paragraphs.length > 0),
+    ) ||
+    sections.filter((section) => section.kind === "named").length >= 5;
+  const skipAutoSections = isChecklistArticle || isFieldGuideArticle;
 
   for (const section of sections) {
     if (section.kind === "executive-summary") {
@@ -440,13 +451,18 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   }
 
   if (executive) {
-    const summaryParagraphs = executive.paragraphs.slice(0, 3);
+    const overflowParagraphs = executive.paragraphs.slice(3);
+    const summaryParagraphs = skipAutoSections
+      ? executive.paragraphs
+      : executive.paragraphs.slice(0, 3);
     output.unshift({
       ...executive,
       paragraphs: summaryParagraphs,
     });
 
-    looseNarrative.unshift(...executive.paragraphs.slice(3));
+    if (!skipAutoSections) {
+      looseNarrative.unshift(...overflowParagraphs);
+    }
   }
 
   const usedParagraphs = new Set<string>();
@@ -484,7 +500,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   if (
     whyMatters.length > 0 &&
     !output.some((section) => section.kind === "why-matters") &&
-    !isChecklistArticle
+    !skipAutoSections
   ) {
     whyMatters.forEach((paragraph) => usedParagraphs.add(paragraph));
     const insertAt = output.findIndex((section) => section.kind === "signs");
@@ -508,7 +524,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
     ...looseNarrative,
     ...output.flatMap((section) => section.paragraphs),
   ]).filter((paragraph) => !usedParagraphs.has(paragraph));
-  if (mistakes.length > 0 && !isChecklistArticle) {
+  if (mistakes.length > 0 && !skipAutoSections) {
     mistakes.forEach((paragraph) => usedParagraphs.add(paragraph));
     const anchorIndex = Math.max(
       output.findIndex((section) => section.kind === "why-matters"),
@@ -533,7 +549,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   const remainingNarrative = looseNarrative.filter(
     (paragraph) => !usedParagraphs.has(paragraph),
   );
-  if (remainingNarrative.length > 0 && !isChecklistArticle) {
+  if (remainingNarrative.length > 0 && !skipAutoSections) {
     const optionsIndex = output.findIndex((section) => section.kind === "options");
     const narrativeSection: ParsedSection = {
       kind: "narrative",
@@ -561,6 +577,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
     "priorities",
     "stack",
     "evidence",
+    "cascade",
     "narrative",
     "named",
     "questions",
@@ -613,7 +630,12 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
   }
 
   const takeaways = deriveTakeaways(sections);
-  if (takeaways.length > 0 && closingParagraphs.length === 0 && !isChecklistArticle) {
+  if (
+    takeaways.length > 0 &&
+    closingParagraphs.length === 0 &&
+    !skipAutoSections &&
+    !sections.some((section) => section.kind === "takeaways")
+  ) {
     structured.push({
       kind: "takeaways",
       title: "Executive Takeaways",

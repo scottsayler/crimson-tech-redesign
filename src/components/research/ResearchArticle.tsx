@@ -6,6 +6,7 @@ import {
   ComparisonTable,
   ExecutiveResources,
   InsightCallout,
+  ImpactCascade,
   NarrativeBlock,
   OptionCard,
   QuestionCard,
@@ -179,10 +180,28 @@ function renderSection(
         </Section>
       );
 
+    case "evidence":
+    case "cascade":
+      return (
+        <Section key={section.title} variant={variant} className="!py-12 md:!py-16">
+          <SectionIntro title={section.title} />
+          <div className="mt-8 space-y-6">
+            {section.kind === "cascade" && section.bullets.length > 0 ? (
+              <ImpactCascade items={section.bullets} />
+            ) : null}
+            {section.bullets.length > 0 && section.kind !== "cascade" ? (
+              <BulletGrid items={section.bullets} />
+            ) : null}
+            {section.paragraphs.length > 0 ? (
+              <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
+            ) : null}
+          </div>
+        </Section>
+      );
+
     case "stack":
     case "challenges":
     case "priorities":
-    case "evidence":
       return (
         <Section key={section.title} variant={variant} className="!py-12 md:!py-16">
           <SectionIntro title={section.title} />

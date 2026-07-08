@@ -88,6 +88,7 @@ export function linkParagraphText(
     const match = findEarliestMatch(remaining, state);
     if (!match) {
       nodes.push(remaining);
+      remaining = "";
       break;
     }
 
