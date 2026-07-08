@@ -7,6 +7,8 @@ export { ExecutiveResourceCard, ExecutiveResourceCard as ExecutiveResource } fro
 export { ExecutiveResources } from "./ExecutiveResources";
 export { ImpactCascade } from "./ImpactCascade";
 export { InsightCallout } from "./InsightCallout";
+export { MistakeCard } from "./MistakeCard";
+export { MistakesSection } from "./MistakesSection";
 export { NarrativeBlock } from "./NarrativeBlock";
 export { OptionCard } from "./OptionCard";
 export { QuestionCard } from "./QuestionCard";

@@ -7,13 +7,13 @@ import {
   ExecutiveResources,
   InsightCallout,
   ImpactCascade,
+  MistakesSection,
   NarrativeBlock,
   OptionCard,
   QuestionCard,
   SectionIntro,
   TakeawayList,
   TimelineList,
-  WarningBox,
 } from "@/components/research/primitives";
 import { Section } from "@/components/ui/Section";
 import {
@@ -23,6 +23,7 @@ import {
 import {
   isStructuredResearch,
   parseResearchContent,
+  resolveMistakeItems,
   type ParsedSection,
 } from "@/lib/research-sections";
 import type { ExecutiveResourceItem } from "@/content/research";
@@ -84,17 +85,21 @@ function renderSection(
         </Section>
       );
 
-    case "mistakes":
+    case "mistakes": {
+      const mistakeItems = resolveMistakeItems(section);
       return (
         <Section key={section.title} variant={variant} className="!py-12 md:!py-16">
           <SectionIntro title={section.title} />
-          <div className="mt-8 grid gap-4">
-            {section.bullets.map((bullet) => (
-              <WarningBox key={bullet} text={bullet} />
-            ))}
+          <div className="mt-8">
+            <MistakesSection
+              intro={section.paragraphs}
+              mistakes={mistakeItems}
+              linkState={linkState}
+            />
           </div>
         </Section>
       );
+    }
 
     case "what-good-looks-like":
       return (
@@ -240,14 +245,24 @@ function renderSection(
         <Section key={section.title} variant={variant} className="!py-12 md:!py-16">
           <SectionIntro title={section.title} />
           <div className="mt-8 space-y-6">
-            {section.bullets.length > 0 ? (
-              isChecklistSection(section) ? (
-                <ChecklistCards items={section.bullets} />
-              ) : (
-                <BulletGrid items={section.bullets} />
-              )
-            ) : null}
-            <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
+            {section.mistakes.length > 0 ? (
+              <MistakesSection
+                intro={section.paragraphs}
+                mistakes={section.mistakes}
+                linkState={linkState}
+              />
+            ) : (
+              <>
+                {section.bullets.length > 0 ? (
+                  isChecklistSection(section) ? (
+                    <ChecklistCards items={section.bullets} />
+                  ) : (
+                    <BulletGrid items={section.bullets} />
+                  )
+                ) : null}
+                <NarrativeBlock paragraphs={section.paragraphs} linkState={linkState} />
+              </>
+            )}
           </div>
         </Section>
       );

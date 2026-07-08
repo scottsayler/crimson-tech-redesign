@@ -19,6 +19,11 @@ export type SectionKind =
   | "narrative"
   | "named";
 
+export type MistakeItem = {
+  title: string;
+  paragraphs: string[];
+};
+
 export type ParsedSection = {
   kind: SectionKind;
   title: string;
@@ -27,6 +32,7 @@ export type ParsedSection = {
   pairs: { left: string; right: string }[];
   options: { title: string; body: string }[];
   faqs: { question: string; answer: string }[];
+  mistakes: MistakeItem[];
 };
 
 export type ParsedArticle = {
@@ -117,6 +123,93 @@ function parseAnswer(line: string): string {
   return line.trim().replace(/^Answer:\s*/, "");
 }
 
+export function isMistakesSectionTitle(title: string): boolean {
+  return /\b(five\s+biggest\s+mistakes|mistakes\s+we\s+see|common\s+mistakes)\b/i.test(
+    title.trim(),
+  );
+}
+
+function isMistakeGroupStopTitle(title: string): boolean {
+  return (
+    /^(executive takeaways|questions to ask|frequently asked)/i.test(title.trim()) ||
+    /checklist$/i.test(title.trim())
+  );
+}
+
+function expectedMistakeCount(title: string): number | null {
+  if (/\bfive\b/i.test(title)) return 5;
+  return null;
+}
+
+function bulletsToMistakeItems(bullets: string[]): MistakeItem[] {
+  return bullets.map((bullet) => {
+    const colonIndex = bullet.indexOf(":");
+    if (colonIndex > 0 && colonIndex < 60) {
+      const title = bullet.slice(0, colonIndex).trim();
+      const body = bullet.slice(colonIndex + 1).trim();
+      return {
+        title,
+        paragraphs: body ? [body] : [],
+      };
+    }
+
+    return {
+      title: "",
+      paragraphs: [bullet],
+    };
+  });
+}
+
+function groupStructuredMistakeSections(sections: ParsedSection[]): ParsedSection[] {
+  const output: ParsedSection[] = [];
+  let index = 0;
+
+  while (index < sections.length) {
+    const section = sections[index];
+
+    if (section.kind === "named" && isMistakesSectionTitle(section.title)) {
+      const intro = [...section.paragraphs];
+      const items: MistakeItem[] = [];
+      const limit = expectedMistakeCount(section.title) ?? 8;
+      let childIndex = index + 1;
+
+      while (childIndex < sections.length && items.length < limit) {
+        const child = sections[childIndex];
+        if (child.kind !== "named") break;
+        if (child.bullets.length > 0) break;
+        if (isMistakeGroupStopTitle(child.title)) break;
+        if (child.paragraphs.length === 0) break;
+
+        items.push({
+          title: child.title,
+          paragraphs: child.paragraphs,
+        });
+        childIndex += 1;
+      }
+
+      if (items.length > 0) {
+        output.push({
+          kind: "named",
+          title: section.title,
+          paragraphs: intro,
+          bullets: [],
+          pairs: [],
+          options: [],
+          faqs: section.faqs,
+          mistakes: items,
+        });
+        index = childIndex;
+        continue;
+      }
+    }
+
+    output.push(section);
+    index += 1;
+  }
+
+  return output;
+}
+
 function isNamedSubsection(line: string): boolean {
   const trimmed = line.trim();
   if (!trimmed || trimmed.length > 64) return false;
@@ -190,6 +283,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
       pairs: [],
       options: [],
       faqs,
+      mistakes: [],
     };
   }
 
@@ -209,6 +303,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
         pairs: [],
         options: bullets.map(parseBulletItem),
         faqs,
+        mistakes: [],
       };
     }
 
@@ -224,6 +319,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
         })),
         options: [],
         faqs,
+        mistakes: [],
       };
     }
 
@@ -236,6 +332,21 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
         pairs: [],
         options: [],
         faqs,
+        mistakes: [],
+      };
+    }
+
+    if (alias.kind === "mistakes") {
+      const strippedBullets = bullets.map(stripBullet);
+      return {
+        kind: alias.kind,
+        title: alias.title,
+        paragraphs,
+        bullets: strippedBullets,
+        pairs: [],
+        options: [],
+        faqs,
+        mistakes: bulletsToMistakeItems(strippedBullets),
       };
     }
 
@@ -247,6 +358,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
       pairs: [],
       options: [],
       faqs,
+      mistakes: [],
     };
   }
 
@@ -260,6 +372,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
       pairs: [],
       options: [],
       faqs,
+      mistakes: [],
     };
   }
 
@@ -272,6 +385,7 @@ function chunkToSection(chunk: RawChunk): ParsedSection | null {
     pairs: [],
     options: [],
     faqs,
+    mistakes: [],
   };
 }
 
@@ -485,6 +599,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
         pairs: [],
         options: [],
         faqs: [],
+        mistakes: [],
       };
       if (signsIndex >= 0) {
         output.splice(signsIndex + 1, 0, whySection);
@@ -512,6 +627,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
       pairs: [],
       options: [],
       faqs: [],
+      mistakes: [],
     };
     if (insertAt >= 0) {
       output.splice(insertAt + 1, 0, whySection);
@@ -538,6 +654,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
       pairs: [],
       options: [],
       faqs: [],
+      mistakes: bulletsToMistakeItems(mistakes),
     };
     if (anchorIndex >= 0) {
       output.splice(anchorIndex + 1, 0, mistakeSection);
@@ -559,6 +676,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
       pairs: [],
       options: [],
       faqs: [],
+      mistakes: [],
     };
     if (optionsIndex >= 0) {
       output.splice(optionsIndex, 0, narrativeSection);
@@ -614,6 +732,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
       pairs: [],
       options: [],
       faqs: uniqueFaqs,
+      mistakes: [],
     });
   }
 
@@ -626,6 +745,7 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
       pairs: [],
       options: [],
       faqs: [],
+      mistakes: [],
     });
   }
 
@@ -644,10 +764,19 @@ function reorganizeArticle(sections: ParsedSection[]): ParsedSection[] {
       pairs: [],
       options: [],
       faqs: [],
+      mistakes: [],
     });
   }
 
   return structured;
+}
+
+export function resolveMistakeItems(section: ParsedSection): MistakeItem[] {
+  if (section.mistakes.length > 0) {
+    return section.mistakes;
+  }
+
+  return bulletsToMistakeItems(section.bullets);
 }
 
 export function parseResearchContent(content: string[]): ParsedArticle {
@@ -666,7 +795,8 @@ export function parseResearchContent(content: string[]): ParsedArticle {
   });
 
   const merged = mergeSignSections(withFaqsExtracted);
-  return { sections: reorganizeArticle(merged) };
+  const grouped = groupStructuredMistakeSections(merged);
+  return { sections: reorganizeArticle(grouped) };
 }
 
 export function isStructuredResearch(content: string[]): boolean {
