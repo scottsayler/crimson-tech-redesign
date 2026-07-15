@@ -346,7 +346,7 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
     ],
   },
   "independent-technology-advisory": {
-    tags: ["advisory", "vendor neutral", "technology strategy", "evaluation"],
+    tags: ["advisory", "criteria-based", "technology strategy", "evaluation"],
     libraryCategory: "Advisory",
     topicCluster: "technology-vendor-evaluation",
     learningPath: "technology-vendor-evaluation",

@@ -23,8 +23,9 @@ export const credentialStats: CredentialStat[] = [
   },
   {
     value: "Independent",
-    label: "No vendor commissions",
-    detail: "Recommendations based on your requirements and operating model",
+    label: "Criteria-based",
+    detail:
+      "Transparent evaluation. Flexible funding—participating technology providers after selection, or fee-based",
   },
   {
     value: "Operator-led",
@@ -178,12 +179,32 @@ export const engagementStandards = [
 
 export const aboutWhatWeAre = {
   observation:
-    "Crimson Technology is an independent advisory firm focused on technology buying decisions—UCaaS, CCaaS, connectivity, AI, and contact center platforms.",
+    "Crimson Technology is an independent technology advisory firm. Every engagement begins with documented business and technical requirements.",
   whyItMatters:
-    "These decisions shape daily operations for years, so the advisor should understand production constraints, not only vendor presentations.",
+    "Vendors are evaluated against those criteria using a transparent methodology, and recommendations are based on the results of that evaluation—not vendor preferences.",
   recommendation:
-    "Engage us when you need evaluation support without reseller incentives or a platform agenda.",
+    "Most engagements are funded by participating technology providers after a client selects a solution, allowing many organizations to receive advisory services without consulting fees. Fee-based advisory engagements are also available when preferred or appropriate.",
 } as const;
+
+/** Short funding disclosure for homepage, solutions, and other surfaces. */
+export const engagementFunding =
+  "Most engagements are funded by participating technology providers after a client selects a solution, allowing many organizations to receive advisory services without consulting fees. Fee-based advisory engagements are also available when preferred or appropriate.";
+
+export const engagementFundingFaq = [
+  {
+    question: "How are you paid?",
+    answer:
+      "Most engagements are funded by participating technology providers after a client selects a solution. This allows many organizations to receive advisory services without consulting fees. Fee-based engagements are also available.",
+  },
+  {
+    question: "Does that affect your recommendations?",
+    answer:
+      "No. Recommendations are based on documented business and technical requirements established before vendors are evaluated. The engagement model does not change the evaluation methodology or the criteria used to assess solutions.",
+  },
+] as const;
+
+export const independencePrimaryStatement =
+  "Independent in how recommendations are made. Flexible in how engagements are funded.";
 
 export const originStory = {
   observation:
@@ -231,8 +252,8 @@ export const engagementTypes = [
 ] as const;
 
 export const independenceProof = [
-  "No reseller agreements tied to platform selection",
-  "No vendor-funded rankings or sponsored recommendations",
-  "Evaluation frameworks published before engagement begins",
-  "Recommendations documented with rationale for stakeholder review",
+  "Requirements documented before vendors are evaluated",
+  "Recommendations based on documented business and technical criteria",
+  "Transparent evaluation methodology",
+  "Flexible engagement model, technology-provider funded or fee-based",
 ];

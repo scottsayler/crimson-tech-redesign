@@ -166,14 +166,14 @@ export const recentWork: RecentWorkItem[] = [
 
 export const independencePrinciples = [
   {
-    title: "No vendor commissions",
+    title: "Recommendations based on your requirements",
     prose: {
       observation:
-        "Some technology recommendations are influenced by reseller incentives rather than client requirements.",
+        "Technology evaluations drift when sales narratives rewrite what matters before requirements are documented.",
       whyItMatters:
-        "Incentive-driven advice can skew platform selection and create avoidable long-term operating cost.",
+        "Without shared criteria, shortlists favor presentation quality over fit for your operating model.",
       recommendation:
-        "Work with an advisor who documents decision criteria and has no commission tied to your final platform choice.",
+        "Document business and technical requirements before vendors are evaluated, and score finalists against those criteria.",
     },
   },
   {

@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import {
   aboutWhatWeAre,
+  engagementFundingFaq,
   engagementTypes,
   founderProfile,
   independenceProof,
@@ -23,7 +24,7 @@ const aboutHero = {
   whyItMatters:
     "Technology buying decisions affect operations for years and require production experience, not only presentation experience.",
   recommendation:
-    "Work with us when you need principal-led evaluation support without reseller incentives.",
+    "Work with us when you need principal-led evaluation support grounded in documented requirements and a transparent methodology.",
 };
 
 export const metadata = createMetadata({
@@ -125,6 +126,21 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+      </Section>
+
+      <Section>
+        <SectionHeader
+          title="Engagement funding"
+          description="Independent in how recommendations are made. Flexible in how engagements are funded."
+        />
+        <dl className="mx-auto mt-8 max-w-3xl space-y-8">
+          {engagementFundingFaq.map((item) => (
+            <div key={item.question}>
+              <dt className="text-lg font-semibold text-ink">{item.question}</dt>
+              <dd className="mt-2 text-ink-muted leading-relaxed">{item.answer}</dd>
+            </div>
+          ))}
+        </dl>
       </Section>
 
       <ContextualLinks research={featuredResearch} solutions={solutions.slice(0, 3)} />

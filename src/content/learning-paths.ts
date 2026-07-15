@@ -107,7 +107,7 @@ export const learningPaths: LearningPath[] = [
       {
         slug: "independent-technology-advisory",
         rationale:
-          "Establish evaluation criteria and independence requirements before vendor meetings begin.",
+          "Document business and technical requirements and scoring criteria before vendor meetings begin.",
       },
       {
         slug: "sales-vs-implementation",

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { independenceProof } from "@/content/credibility";
+import { engagementFunding, independencePrimaryStatement, independenceProof } from "@/content/credibility";
 import { getFeaturedIndustries } from "@/content/industries";
 import {
   evaluationAreas,
@@ -203,10 +203,14 @@ export default function HomePage() {
       <Section variant="muted">
         <SectionHeader
           title="Independent evaluation"
-          description="Recommendations based on your requirements, operating model, and production constraints."
+          description={independencePrimaryStatement}
           align="center"
         />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-ink-muted">
+          Requirements are documented before vendors are evaluated. Recommendations
+          follow a transparent methodology—and engagement funding is disclosed up front.
+        </p>
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {independencePrinciples.map((item) => (
             <div
               key={item.title}
@@ -229,6 +233,9 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-ink-muted">
+          {engagementFunding}
+        </p>
       </Section>
 
       <Section>

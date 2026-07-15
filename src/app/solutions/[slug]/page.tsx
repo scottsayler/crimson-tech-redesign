@@ -128,11 +128,13 @@ export default async function SolutionDetailPage({ params }: Props) {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
             <h2 className="text-xl font-semibold text-ink">
-              Independent recommendations
+              Technology decisions you can defend
             </h2>
             <p className="mt-2 max-w-xl text-sm text-ink-muted">
-              No vendor commissions. Recommendations documented with rationale for
-              stakeholder review.
+              Recommendations based on documented business and technical criteria,
+              evaluated through a transparent methodology. Most engagements are funded
+              by participating technology providers after a client selects a solution;
+              fee-based advisory is also available.
             </p>
           </div>
           <Button href="/contact">Talk about this</Button>
