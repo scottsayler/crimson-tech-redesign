@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FrictionHeatmap } from "@/components/banking-cx-assessment/FrictionHeatmap";
 import { FrictionRanking } from "@/components/banking-cx-assessment/FrictionRanking";
 import { ScoreCard } from "@/components/banking-cx-assessment/ScoreCard";
@@ -19,21 +19,7 @@ import { loadAssessmentResult } from "@/lib/banking-cx-assessment/storage";
 import type { AssessmentResult } from "@/lib/banking-cx-assessment/types";
 
 export function AssessmentResults() {
-  const [result, setResult] = useState<AssessmentResult | null>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setResult(loadAssessmentResult());
-    setLoaded(true);
-  }, []);
-
-  if (!loaded) {
-    return (
-      <div className="mx-auto max-w-2xl text-center text-ink-muted">
-        Loading your results…
-      </div>
-    );
-  }
+  const [result] = useState<AssessmentResult | null>(() => loadAssessmentResult());
 
   if (!result) {
     return (

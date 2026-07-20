@@ -213,10 +213,6 @@ export function AssessmentRunner({ definition, onComplete, introFallback }: Asse
   const allAnswered = results.answeredCount === totalQuestions;
 
   function updateAnswer(questionId: string, score: number) {
-    if (!startedAtRef.current) {
-      startedAtRef.current = Date.now();
-    }
-
     const nextAnswers = { ...answers, [questionId]: score };
     setAnswers(nextAnswers);
 
