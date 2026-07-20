@@ -102,7 +102,7 @@ export const recentWork: RecentWorkItem[] = [
     href: "/projects/ai-workflow-modernization",
   },
   {
-    title: "Contact Center Modernization",
+    title: "Contact Center Transformation",
     prose: {
       observation:
         "A legacy ACD and disconnected WFM tools were driving agent desktop complexity during an active CCaaS evaluation.",

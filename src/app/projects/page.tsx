@@ -29,6 +29,7 @@ export default function ProjectsPage() {
     <>
       <Section className="!pb-12">
         <SectionHeader
+          as="h1"
           eyebrow="Projects"
           title="Work we've done"
           description="Vendor evaluations, contact center migrations, AI deployments, and a product we built ourselves."

@@ -4,14 +4,18 @@ export function SectionHeader({
   description,
   align = "left",
   light = false,
+  as = "h2",
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   align?: "left" | "center";
   light?: boolean;
+  /** Use h1 for the page hero; keep h2 for in-page section headers. */
+  as?: "h1" | "h2";
 }) {
   const alignClass = align === "center" ? "text-center mx-auto max-w-3xl" : "max-w-3xl";
+  const TitleTag = as;
 
   return (
     <div className={`mb-12 md:mb-16 ${alignClass}`}>
@@ -24,13 +28,13 @@ export function SectionHeader({
           {eyebrow}
         </p>
       )}
-      <h2
+      <TitleTag
         className={`text-3xl font-semibold tracking-tight md:text-4xl ${
           light ? "text-white" : "text-ink"
         }`}
       >
         {title}
-      </h2>
+      </TitleTag>
       {description && (
         <p
           className={`mt-4 text-lg leading-relaxed ${

@@ -25,6 +25,7 @@ export default function IndustriesPage() {
     <>
       <Section className="!pb-12">
         <SectionHeader
+          as="h1"
           eyebrow="Industries"
           title="Same evaluations, different constraints"
           description="A CCaaS evaluation for a bank has different compliance rules than one for a restaurant chain. We've done both."

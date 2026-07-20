@@ -44,6 +44,7 @@ export default function SolutionsPage() {
     <>
       <Section className="!pb-12">
         <SectionHeader
+          as="h1"
           eyebrow="Services"
           title="What are you evaluating?"
           description="Platform renewals, vendor selections, migrations, and AI programs."

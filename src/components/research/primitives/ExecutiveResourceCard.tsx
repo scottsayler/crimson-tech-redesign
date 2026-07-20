@@ -196,7 +196,7 @@ export function ExecutiveResourceCard({
             <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl border border-stone-200 bg-white sm:h-32 sm:w-48">
               <Image
                 src={resource.thumbnailPath}
-                alt=""
+                alt={`${resource.title} preview`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 640px) 100vw, 192px"

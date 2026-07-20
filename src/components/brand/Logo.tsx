@@ -26,11 +26,10 @@ export function Logo({
     <Link
       href="/"
       className={`inline-flex shrink-0 items-center ${className}`}
-      aria-label={site.name}
     >
       <Image
         src={src}
-        alt=""
+        alt={site.name}
         width={width}
         height={height}
         priority

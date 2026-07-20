@@ -16,9 +16,10 @@ export function createMetadata({
   const ogImageUrl = `${site.url}${site.ogImage}`;
 
   return {
+    metadataBase: new URL(site.url),
     title: fullTitle,
     description,
-    alternates: path ? { canonical: url } : undefined,
+    alternates: { canonical: url },
     icons: {
       icon: [
         { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },

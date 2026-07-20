@@ -77,7 +77,7 @@ export const projects: Project[] = [
   }),
   project({
     slug: "contact-center-transformation",
-    title: "Contact Center Modernization",
+    title: "Contact Center Transformation",
     category: "CX Transformation",
     shortDescription:
       "Legacy ACD to CCaaS migration planned to protect peak-period service levels.",

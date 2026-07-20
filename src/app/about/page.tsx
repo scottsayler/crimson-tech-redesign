@@ -40,7 +40,7 @@ export default function AboutPage() {
   return (
     <>
       <Section className="!pb-12">
-        <SectionHeader eyebrow="About" title="About Crimson Technology" />
+        <SectionHeader as="h1" eyebrow="About" title="About Crimson Technology" />
         <AdvisorProse prose={aboutHero} className="mt-6 max-w-3xl" />
       </Section>
 

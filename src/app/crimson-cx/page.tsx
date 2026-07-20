@@ -36,6 +36,7 @@ export default function CrimsonCXPage() {
     <>
       <Section className="!pb-12" variant="crimson">
         <SectionHeader
+          as="h1"
           eyebrow="Practice Area · Crimson Technology"
           title="CCaaS, contact centers, and CX technology for banks and credit unions"
         />

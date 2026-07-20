@@ -21,6 +21,7 @@ export default function ContactPage() {
     <>
       <Section className="!pb-8">
         <SectionHeader
+          as="h1"
           eyebrow="Contact"
           title="What's on your desk?"
           description="Share your timeline, vendors, and constraints. Scott responds personally."
