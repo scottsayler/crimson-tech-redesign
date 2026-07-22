@@ -8,6 +8,9 @@ export function CTABand({
   primaryHref = "/contact",
   secondaryLabel,
   secondaryHref,
+  analyticsEvent = "contact_cta_click",
+  analyticsCtaLocation = "cta_band",
+  analyticsArticleSlug,
 }: {
   title?: string;
   description?: string;
@@ -15,7 +18,18 @@ export function CTABand({
   primaryHref?: string;
   secondaryLabel?: string;
   secondaryHref?: string;
+  analyticsEvent?: string;
+  analyticsCtaLocation?: string;
+  analyticsArticleSlug?: string;
 }) {
+  const isContactCta =
+    primaryHref === "/contact" || primaryHref.startsWith("/contact?");
+  const eventName = isContactCta
+    ? analyticsEvent
+    : analyticsEvent === "contact_cta_click"
+      ? undefined
+      : analyticsEvent;
+
   return (
     <section className="bg-crimson-50 py-16 md:py-20">
       <Container>
@@ -27,7 +41,14 @@ export function CTABand({
             <p className="mt-4 text-lg text-ink-muted leading-relaxed">{description}</p>
           ) : null}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Button href={primaryHref}>{primaryLabel}</Button>
+            <Button
+              href={primaryHref}
+              analyticsEvent={eventName}
+              analyticsCtaLocation={analyticsCtaLocation}
+              analyticsArticleSlug={analyticsArticleSlug}
+            >
+              {primaryLabel}
+            </Button>
             {secondaryLabel && secondaryHref ? (
               <Button href={secondaryHref} variant="outline">
                 {secondaryLabel}

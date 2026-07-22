@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AssessmentRunner } from "@/components/decision-center/AssessmentRunner";
 import { AssessmentProfiles } from "@/components/decision-center/AssessmentProfiles";
 import { CTABand } from "@/components/sections/CTABand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import {
@@ -10,6 +11,11 @@ import {
   getDecisionCenterAssessment,
 } from "@/content/decision-center";
 import { getAssessmentBySlug } from "@/lib/assessments";
+import {
+  buildBreadcrumbList,
+  buildSchemaGraph,
+  buildWebApplication,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -45,8 +51,24 @@ export default async function DecisionCenterAssessmentPage({ params }: Props) {
     notFound();
   }
 
+  const path = `/decision-center/${catalog.slug}`;
+
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildWebApplication({
+            name: catalog.title,
+            description: catalog.description,
+            path,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Decision Center", path: "/decision-center" },
+            { name: catalog.title, path },
+          ]),
+        ])}
+      />
       <Section className="!pb-8">
         <Container>
           <Link

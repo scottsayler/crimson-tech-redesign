@@ -198,8 +198,8 @@ export function RelatedToolsSection({
   items,
   variant = "muted",
   showViewAll = true,
-  title = "Decision tools",
-  description = "Calculators and assessments connected to this topic.",
+  title = "Decision Center resources",
+  description = "Assessments and calculators connected to this topic.",
 }: {
   items: Tool[];
   variant?: SectionVariant;
@@ -222,10 +222,10 @@ export function RelatedToolsSection({
       </div>
       {showViewAll ? (
         <Link
-          href="/tools"
+          href="/decision-center"
           className="mt-6 inline-block text-sm font-medium text-crimson hover:text-crimson-dark"
         >
-          View all tools →
+          View Decision Center →
         </Link>
       ) : null}
     </Section>

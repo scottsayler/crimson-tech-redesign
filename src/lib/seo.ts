@@ -5,10 +5,13 @@ export function createMetadata({
   title,
   description,
   path = "",
+  index = true,
 }: {
   title: string;
   description: string;
   path?: string;
+  /** Set false for utility/results pages that should stay out of search results. */
+  index?: boolean;
 }): Metadata {
   const fullTitle =
     title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
@@ -20,6 +23,12 @@ export function createMetadata({
     title: fullTitle,
     description,
     alternates: { canonical: url },
+    robots: index
+      ? undefined
+      : {
+          index: false,
+          follow: false,
+        },
     icons: {
       icon: [
         { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },

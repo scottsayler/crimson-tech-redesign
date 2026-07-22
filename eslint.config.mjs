@@ -13,6 +13,21 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Google Apps Script entry points (doGet/doPost) and editor helpers are
+  // invoked by the Apps Script runtime, not by module imports.
+  {
+    files: ["google-apps-script/**/*.{js,gs}"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          varsIgnorePattern:
+            "^(doGet|doPost|setupSheet|testNotificationEmail)$",
+          argsIgnorePattern: "^_",
+        },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;

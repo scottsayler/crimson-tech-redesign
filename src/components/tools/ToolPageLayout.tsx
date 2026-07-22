@@ -22,10 +22,10 @@ export function ToolPageLayout({ tool }: { tool: Tool }) {
       <Section className="!pb-10 md:!pb-12">
         <Container>
           <Link
-            href="/tools"
+            href="/decision-center"
             className="text-sm font-medium text-crimson hover:text-crimson-dark"
           >
-            ← Technology Decision Center
+            ← Decision Center
           </Link>
           <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
             <ContentBadge

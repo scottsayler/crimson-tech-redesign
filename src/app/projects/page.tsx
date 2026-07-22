@@ -1,16 +1,22 @@
 import { CTABand } from "@/components/sections/CTABand";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { ProjectCard } from "@/components/sections/ProjectCard";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { projects } from "@/content/projects";
 import { getFeaturedResearch } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
   title: "Projects",
   description:
-    "UCaaS evaluations, contact center migrations, AI deployments, and CFBVerdict—a product we built ourselves.",
+    "UCaaS evaluations, contact center migrations, AI deployments, and CFBVerdict, a product we built ourselves.",
   path: "/projects",
 });
 
@@ -27,6 +33,20 @@ export default function ProjectsPage() {
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: "Projects",
+            description:
+              "UCaaS evaluations, contact center migrations, AI deployments, and CFBVerdict, a product we built ourselves.",
+            path: "/projects",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+          ]),
+        ])}
+      />
       <Section className="!pb-12">
         <SectionHeader
           as="h1"

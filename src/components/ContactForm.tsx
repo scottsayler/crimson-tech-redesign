@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics/track";
 
 const interests = [
   "Technology Advisory",
@@ -16,11 +17,13 @@ type FormState = "idle" | "submitting" | "success" | "error";
 export function ContactForm() {
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const validationTrackedRef = useRef(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setFormState("submitting");
     setErrorMessage("");
+    validationTrackedRef.current = false;
 
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -45,17 +48,28 @@ export function ContactForm() {
       const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
+        trackEvent("contact_form_error", { error_type: "server" });
         setErrorMessage(data.error ?? "Something went wrong. Please try again.");
         setFormState("error");
         return;
       }
 
+      trackEvent("contact_form_submit", { status: "success" });
       setFormState("success");
       form.reset();
     } catch {
-      setErrorMessage("Unable to send your message. Please try again or email us directly.");
+      trackEvent("contact_form_error", { error_type: "server" });
+      setErrorMessage(
+        "Unable to send your message. Please try again or email us directly.",
+      );
       setFormState("error");
     }
+  }
+
+  function handleInvalid() {
+    if (validationTrackedRef.current) return;
+    validationTrackedRef.current = true;
+    trackEvent("contact_form_error", { error_type: "validation" });
   }
 
   if (formState === "success") {
@@ -70,8 +84,8 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="absolute left-[-9999px]" aria-hidden="true">
+    <form onSubmit={handleSubmit} onInvalid={handleInvalid} className="space-y-6">
+      <div className="hidden" aria-hidden="true">
         <label htmlFor="company_website">Company website</label>
         <input
           type="text"
@@ -173,7 +187,11 @@ export function ContactForm() {
       </div>
 
       {formState === "error" && errorMessage ? (
-        <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <p
+          role="alert"
+          aria-live="assertive"
+          className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+        >
           {errorMessage}
         </p>
       ) : null}

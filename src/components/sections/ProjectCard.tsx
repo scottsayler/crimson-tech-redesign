@@ -9,7 +9,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <span className="text-xs font-semibold uppercase tracking-wider text-crimson">
         {project.category}
       </span>
-      <h3 className="mt-2 text-xl font-semibold text-ink">{project.title}</h3>
+      <h2 className="mt-2 text-xl font-semibold text-ink">{project.title}</h2>
       <AdvisorProse
         prose={project.prose}
         compact

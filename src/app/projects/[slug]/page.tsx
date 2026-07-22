@@ -2,10 +2,16 @@ import { notFound } from "next/navigation";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { AdvisorProse } from "@/components/sections/AdvisorProse";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { getProject, projects } from "@/content/projects";
 import { getResearchForProject } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildCreativeWork,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -34,9 +40,24 @@ export default async function ProjectDetailPage({ params }: Props) {
   if (!project) notFound();
 
   const relatedResearch = getResearchForProject(slug);
+  const path = `/projects/${project.slug}`;
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCreativeWork({
+            name: project.title,
+            description: project.shortDescription,
+            path,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+            { name: project.title, path },
+          ]),
+        ])}
+      />
       <Section className="!pb-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-crimson">
           {project.category}

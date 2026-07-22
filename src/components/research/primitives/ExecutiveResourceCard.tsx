@@ -251,6 +251,9 @@ export function ExecutiveResourceCard({
           download={isExternal ? undefined : fileName}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
+          data-analytics-event="resource_download"
+          data-analytics-resource-name={resource.title}
+          data-analytics-resource-type={resource.badge}
           className={`inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-crimson px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-crimson-dark ${
             isCompact ? "w-full" : "lg:self-center"
           }`}

@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getFeaturedIndustries, industries } from "@/content/industries";
 import { solutions } from "@/content/solutions";
 import { getFeaturedResearch } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -23,6 +29,20 @@ export default function IndustriesPage() {
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: "Industries",
+            description:
+              "Technology advisory for financial services, multi-location businesses, restaurants, and professional services.",
+            path: "/industries",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Industries", path: "/industries" },
+          ]),
+        ])}
+      />
       <Section className="!pb-12">
         <SectionHeader
           as="h1"

@@ -3,9 +3,11 @@ import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { ResearchHubListingCard } from "@/components/sections/ResearchHubListingCard";
 import { ResearchTypeNav } from "@/components/sections/ResearchTypeNav";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import {
   getResearchByTypeSorted,
+  getResearchHubPath,
   researchTypeDescriptions,
   type ResearchType,
 } from "@/content/research";
@@ -15,6 +17,11 @@ import {
   getRelatedIndustriesForResearchType,
   getRelatedSolutionsForResearchType,
 } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 
 export function ResearchTypeHubPage({ type }: { type: ResearchType }) {
   const items = getResearchByTypeSorted(type);
@@ -23,18 +30,34 @@ export function ResearchTypeHubPage({ type }: { type: ResearchType }) {
   const featuredResearch = getFeaturedResearchForType(type, 3).filter(
     (item) => !items.some((entry) => entry.slug === item.slug),
   );
+  const hubTitle = researchTypeHubTitles[type];
+  const hubPath = getResearchHubPath(type);
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: hubTitle,
+            description: researchTypeDescriptions[type],
+            path: hubPath,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Research", path: "/research" },
+            { name: hubTitle, path: hubPath },
+          ]),
+        ])}
+      />
       <Section className="!pb-8">
         <Link
           href="/research"
           className="text-sm font-medium text-crimson hover:text-crimson-dark"
         >
-          ← Insights
+          ← Research
         </Link>
         <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-crimson">
-          Insights
+          Research
         </p>
         <h1 className="mt-3 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl">
           {researchTypeHubTitles[type]}
@@ -61,13 +84,13 @@ export function ResearchTypeHubPage({ type }: { type: ResearchType }) {
             <h2 className="text-xl font-semibold text-ink">New research coming soon</h2>
             <p className="mt-3 max-w-2xl text-sm text-ink-muted leading-relaxed">
               This library is being expanded. Check back for new{" "}
-              {researchTypeHubTitles[type].toLowerCase()} insights from Crimson Technology.
+              {researchTypeHubTitles[type].toLowerCase()} research from Crimson Technology.
             </p>
             <Link
               href="/research"
               className="mt-6 inline-block text-sm font-medium text-crimson hover:text-crimson-dark"
             >
-              Browse all insights →
+              Browse all research →
             </Link>
           </div>
         )}

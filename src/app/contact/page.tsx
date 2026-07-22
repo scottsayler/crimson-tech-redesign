@@ -1,10 +1,17 @@
 import { ContactForm } from "@/components/ContactForm";
+import { ContactPageAnalytics } from "@/components/analytics/ContactPageAnalytics";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { PrincipalAdvisor } from "@/components/sections/PrincipalAdvisor";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { site } from "@/content/site";
 import { getFeaturedResearch } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildContactPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -19,6 +26,21 @@ export default function ContactPage() {
 
   return (
     <>
+      <ContactPageAnalytics />
+      <JsonLd
+        data={buildSchemaGraph([
+          buildContactPage({
+            name: "Contact Crimson Technology",
+            description:
+              "Start a conversation with Crimson Technology about technology advisory, Crimson CX, AI, communications, or digital products.",
+            path: "/contact",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+        ])}
+      />
       <Section className="!pb-8">
         <SectionHeader
           as="h1"

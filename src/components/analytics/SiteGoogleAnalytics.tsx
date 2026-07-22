@@ -1,7 +1,11 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-
-const GA_MEASUREMENT_ID = "G-P6YQVPG270";
+import { getGaMeasurementId, isAnalyticsEnabled } from "@/lib/analytics/config";
 
 export function SiteGoogleAnalytics() {
-  return <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />;
+  if (!isAnalyticsEnabled()) return null;
+
+  const gaId = getGaMeasurementId();
+  if (!gaId) return null;
+
+  return <GoogleAnalytics gaId={gaId} />;
 }

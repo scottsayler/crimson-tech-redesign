@@ -4,6 +4,7 @@ import { CredibilityBar } from "@/components/sections/CredibilityBar";
 import { EngagementStandards } from "@/components/sections/EngagementStandards";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { AdvisorProse } from "@/components/sections/AdvisorProse";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import {
@@ -16,6 +17,12 @@ import {
 } from "@/content/credibility";
 import { solutions } from "@/content/solutions";
 import { getFeaturedResearch } from "@/lib/relationships";
+import {
+  buildAboutPage,
+  buildBreadcrumbList,
+  buildFaqPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 const aboutHero = {
@@ -39,6 +46,26 @@ export default function AboutPage() {
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildAboutPage({
+            name: "About Crimson Technology",
+            description:
+              "Scott Sayler and independent technology advisory for UCaaS, CCaaS, connectivity, and contact center evaluations.",
+            path: "/about",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+          buildFaqPage(
+            engagementFundingFaq.map((item) => ({
+              question: item.question,
+              answer: item.answer,
+            })),
+          ),
+        ])}
+      />
       <Section className="!pb-12">
         <SectionHeader as="h1" eyebrow="About" title="About Crimson Technology" />
         <AdvisorProse prose={aboutHero} className="mt-6 max-w-3xl" />

@@ -1,4 +1,4 @@
-import { getProject, projects, type Project } from "@/content/projects";
+import { getProject, type Project } from "@/content/projects";
 import { getResearch, research, type Research } from "@/content/research";
 import {
   getTopicCluster,
@@ -6,7 +6,7 @@ import {
   type TopicCluster,
   type TopicClusterCategory,
 } from "@/content/topic-clusters";
-import { getTool, tools, type Tool } from "@/content/tools";
+import { getTool, type Tool } from "@/content/tools";
 
 function uniqueBySlug<T extends { slug: string }>(items: T[]): T[] {
   const seen = new Set<string>();

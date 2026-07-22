@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck && npm run build",
+    "check:links": "node scripts/check-internal-links.mjs",
+    "audit:pages": "node scripts/audit-page-quality.mjs",
+    "audit:production": "node scripts/audit-production.mjs",
+    "test:analytics": "node --test scripts/analytics-track.safety.test.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",

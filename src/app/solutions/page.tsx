@@ -5,11 +5,17 @@ import { CredibilityBar } from "@/components/sections/CredibilityBar";
 import { EngagementStandards } from "@/components/sections/EngagementStandards";
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { AdvisorProse } from "@/components/sections/AdvisorProse";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { practices } from "@/content/practices";
 import { solutions } from "@/content/solutions";
 import { getFeaturedResearch } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 const servicesIntro = {
@@ -42,6 +48,20 @@ export default function SolutionsPage() {
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: "Services",
+            description:
+              "UCaaS, CCaaS, connectivity, AI, and contact center evaluations before you sign.",
+            path: "/solutions",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/solutions" },
+          ]),
+        ])}
+      />
       <Section className="!pb-12">
         <SectionHeader
           as="h1"

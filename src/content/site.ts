@@ -2,9 +2,9 @@ export const site = {
   name: "Crimson Technology",
   tagline: "Independent Technology Advisory",
   description:
-    "Independent technology advisory for organizations evaluating connectivity, UCaaS, CCaaS, AI, and contact center platforms—by someone who's been in the room when these decisions go live.",
+    "Independent technology advisory for multi-location organizations and financial institutions making high-cost connectivity, UCaaS, CCaaS, and contact center decisions.",
   socialDescription:
-    "Vendor evaluations, platform renewals, and technology buying decisions—without the sales agenda.",
+    "Vendor evaluations, platform renewals, and technology buying decisions grounded in documented requirements.",
   url: "https://crimsontech.co",
   email: "info@crimsontech.co",
   location: "Downers Grove, IL",

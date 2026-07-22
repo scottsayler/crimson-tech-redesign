@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/solutions",
     "/research",
-    "/tools",
     "/decision-center",
     "/industries",
     "/crimson-cx",
@@ -24,35 +23,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
   ].map((path) => ({
     url: `${site.url}${path}`,
-    lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: path === "" ? 1 : path === "/research" || path === "/decision-center" ? 0.9 : 0.8,
   }));
 
   const solutionPages = solutions.map((s) => ({
     url: `${site.url}/solutions/${s.slug}`,
-    lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   const industryPages = industries.map((i) => ({
     url: `${site.url}/industries/${i.slug}`,
-    lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   const projectPages = projects.map((p) => ({
     url: `${site.url}/projects/${p.slug}`,
-    lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
   const researchHubPages = Object.values(RESEARCH_HUB_PATHS).map((path) => ({
     url: `${site.url}${path}`,
-    lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.85,
   }));
@@ -60,13 +54,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const topicClusterPages = [
     {
       url: `${site.url}/research/topics`,
-      lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.88,
     },
     ...topicClusters.map((cluster) => ({
       url: `${site.url}/research/topics/${cluster.slug}`,
-      lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.87,
     })),
@@ -90,7 +82,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const toolPages = tools.map((tool) => ({
     url: `${site.url}/tools/${tool.slug}`,
-    lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.85,
   }));
@@ -99,7 +90,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((item) => item.available)
     .map((assessment) => ({
       url: `${site.url}/decision-center/${assessment.slug}`,
-      lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.88,
     }));

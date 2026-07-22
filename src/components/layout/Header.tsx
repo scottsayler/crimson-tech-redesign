@@ -5,15 +5,14 @@ import { useState } from "react";
 import { industries } from "@/content/industries";
 import { ctaNav, primaryNav } from "@/content/navigation";
 import { practices } from "@/content/practices";
-import { research } from "@/content/research";
+import {
+  RESEARCH_TYPES,
+  getResearchHubPath,
+  researchTypeLabels,
+} from "@/content/research";
 import { solutions } from "@/content/solutions";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
-import {
-  formatContentBadgeText,
-  getResearchBadgeLabel,
-  getResearchTypeDefaultCompletionTime,
-} from "@/lib/content-badges";
 
 type DropdownType = "solutions" | "industries" | "research";
 
@@ -66,29 +65,25 @@ export function Header() {
       return (
         <>
           <Link
-            href="/tools"
+            href="/research/topics"
             className="block rounded-md px-3 py-2 hover:bg-stone-50"
           >
             <span className="block text-sm font-medium text-ink">
-              Technology Decision Center
+              Decision areas
             </span>
             <span className="mt-0.5 block text-xs text-ink-muted line-clamp-1">
-              Interactive calculators and assessments
+              Topic hubs that group related research
             </span>
           </Link>
           <div className="my-2 border-t border-stone-100" />
-          {research.slice(0, 6).map((child) => (
+          {RESEARCH_TYPES.map((researchType) => (
             <Link
-              key={child.slug}
-              href={`/research/${child.slug}`}
+              key={researchType}
+              href={getResearchHubPath(researchType)}
               className="block rounded-md px-3 py-2 hover:bg-stone-50"
             >
-              <span className="block text-sm font-medium text-ink">{child.title}</span>
-              <span className="mt-0.5 block text-xs text-ink-muted line-clamp-1">
-                {formatContentBadgeText(
-                  getResearchBadgeLabel(child.type),
-                  getResearchTypeDefaultCompletionTime(child.type)
-                )}
+              <span className="block text-sm font-medium text-ink">
+                {researchTypeLabels[researchType]}
               </span>
             </Link>
           ))}
@@ -145,20 +140,20 @@ export function Header() {
       return (
         <>
           <Link
-            href="/tools"
+            href="/research/topics"
             className="block py-1 text-sm font-medium text-ink"
             onClick={() => setMobileOpen(false)}
           >
-            Technology Decision Center
+            Decision areas
           </Link>
-          {research.slice(0, 6).map((child) => (
+          {RESEARCH_TYPES.map((researchType) => (
             <Link
-              key={child.slug}
-              href={`/research/${child.slug}`}
+              key={researchType}
+              href={getResearchHubPath(researchType)}
               className="block py-1 text-sm text-ink-muted"
               onClick={() => setMobileOpen(false)}
             >
-              {child.title}
+              {researchTypeLabels[researchType]}
             </Link>
           ))}
         </>
@@ -226,18 +221,25 @@ export function Header() {
               </Link>
             );
           })}
-          <Button href={ctaNav.href} className="ml-4 !px-4 !py-2 text-sm">
+          <Button
+            href={ctaNav.href}
+            className="ml-4 !px-4 !py-2 text-sm"
+            analyticsEvent="contact_cta_click"
+            analyticsCtaLocation="header_desktop"
+          >
             {ctaNav.label}
           </Button>
         </nav>
 
         <button
           type="button"
-          className="lg:hidden rounded-md p-2 text-ink"
+          className="rounded-md p-2 text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson/30 lg:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-nav"
         >
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
             {mobileOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
@@ -248,9 +250,14 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-stone-200 bg-white lg:hidden">
+        <div id="mobile-nav" className="border-t border-stone-200 bg-white lg:hidden">
           <div className="px-6 py-4">
-            <Button href={ctaNav.href} className="mb-4 w-full">
+            <Button
+              href={ctaNav.href}
+              className="mb-4 w-full"
+              analyticsEvent="contact_cta_click"
+              analyticsCtaLocation="header_mobile"
+            >
               {ctaNav.label}
             </Button>
             {primaryNav.map((item) => (

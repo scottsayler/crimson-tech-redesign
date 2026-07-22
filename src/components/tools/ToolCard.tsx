@@ -21,7 +21,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
         For {tool.audience.slice(0, 3).join(", ")}
         {tool.audience.length > 3 ? ", and more" : ""}
       </p>
-      <span className="mt-4 text-sm font-medium text-crimson">Open tool →</span>
+      <span className="mt-4 text-sm font-medium text-crimson">Open →</span>
     </Link>
   );
 }

@@ -1,27 +1,48 @@
 import Link from "next/link";
 import { CTABand } from "@/components/sections/CTABand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { topicClusters } from "@/content/topic-clusters";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { getTopicClusterArticles } from "@/lib/topic-clusters";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
   title: "Decision Areas",
   description:
-    "Topic clusters organizing research, tools, and advisory context around major technology decisions.",
+    "Topic hubs organizing research and Decision Center resources around major technology decisions.",
   path: "/research/topics",
 });
 
 export default function TopicClustersPage() {
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: "Decision Areas",
+            description:
+              "Topic hubs organizing research and Decision Center resources around major technology decisions.",
+            path: "/research/topics",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Research", path: "/research" },
+            { name: "Decision Areas", path: "/research/topics" },
+          ]),
+        ])}
+      />
       <Section className="!pb-10 md:!pb-12">
         <Link
           href="/research"
           className="text-sm font-medium text-crimson hover:text-crimson-dark"
         >
-          ← Insights
+          ← Research
         </Link>
         <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-crimson">
           Decision areas
@@ -30,8 +51,8 @@ export default function TopicClustersPage() {
           From research to decisions
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-ink-muted">
-          Organized paths through related evaluations, frameworks, and tools—so you
-          can move from understanding the problem to making a defensible choice.
+          Organized paths through related research and Decision Center resources so
+          you can move from understanding the problem to preparing a defensible choice.
         </p>
       </Section>
 
@@ -39,7 +60,7 @@ export default function TopicClustersPage() {
         <SectionHeader
           eyebrow="Browse"
           title="Major decision areas"
-          description="Each cluster groups related research, services, projects, and calculators around a recurring technology decision."
+          description="Each cluster groups related research, services, projects, and Decision Center resources around a recurring technology decision."
         />
         <div className="grid gap-6 md:grid-cols-2">
           {topicClusters.map((cluster) => {

@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
+import { AnalyticsClickCapture } from "@/components/analytics/AnalyticsClickCapture";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { SiteGoogleAnalytics } from "@/components/analytics/SiteGoogleAnalytics";
+import { SiteVercelAnalytics } from "@/components/analytics/SiteVercelAnalytics";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/content/site";
+import { buildSiteGraph } from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 import "./globals.css";
 
@@ -19,27 +22,6 @@ export const metadata: Metadata = createMetadata({
   description: site.description,
 });
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: site.name,
-  description: site.description,
-  url: site.url,
-  logo: `${site.url}${site.logo}`,
-  image: `${site.url}${site.ogImage}`,
-  email: site.email,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Downers Grove",
-    addressRegion: "IL",
-    addressCountry: "US",
-  },
-  founder: {
-    "@type": "Person",
-    name: "Scott Sayler",
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,16 +30,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+        <JsonLd data={buildSiteGraph()} />
       </head>
       <body className="flex min-h-full flex-col bg-white text-ink">
+        <a href="#main-content" className="skip-to-content">
+          Skip to content
+        </a>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
-        <Analytics />
+        <AnalyticsClickCapture />
+        <SiteVercelAnalytics />
         <SiteGoogleAnalytics />
         <MicrosoftClarity />
       </body>

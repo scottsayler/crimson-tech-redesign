@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Crimson Technology website
 
-## Getting Started
+Next.js site for Crimson Technology (independent technology advisory).
 
-First, run the development server:
+## Scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Local development server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript (`tsc --noEmit`) |
+| `npm run check` | lint → typecheck → build |
+| `npm run check:links` | Crawl a running production server and fail on broken internal links |
+| `npm run audit:pages` | Local SEO/page-quality audit against a running production server |
+| `npm run audit:production` | Smoke-test a deployed (or local production) site via `SITE_URL` |
+| `npm run test:analytics` | Safety checks for the analytics track helper |
+
+## Internal link check
+
+Run against a production build (not `next dev`):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In another terminal:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run check:links
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Options:
 
-## Learn More
+```bash
+npm run check:links -- --base-url=http://127.0.0.1:3000
+npm run check:links -- --allow-redirect-links
+```
 
-To learn more about Next.js, take a look at the following resources:
+The checker:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Seeds from `sitemap.xml` plus core static routes
+- Ignores external, `mailto:`, `tel:`, and fragment-only links
+- Follows redirects intentionally and reports redirect chains/loops
+- Fails (exit code 1) on broken internal targets
+- By default also fails when an internal href still points at a legacy redirect source (for example `/tools` → `/decision-center`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+It is intentionally **not** part of `npm run check` until you want it in CI.
 
-## Deploy on Vercel
+## Page-quality audit
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build && npm run start
+npm run audit:pages
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Writes `seo-crawl/local-audit-report.json`.
+
+## Production smoke test
+
+```bash
+SITE_URL=https://crimsontech.co npm run audit:production
+```
+
+Against a local production server:
+
+```bash
+npm run build && npm run start
+SITE_URL=http://127.0.0.1:3000 npm run audit:production
+```
+
+Checks homepage, research, decision center, contact, sitemap, robots, production canonicals, legacy redirects, results `noindex`, and internal links on the tested pages. Does **not** submit the contact form.
+
+## Analytics
+
+Production builds load:
+
+- Google Analytics 4 (`NEXT_PUBLIC_GA_MEASUREMENT_ID`, default `G-P6YQVPG270`)
+- Microsoft Clarity (`NEXT_PUBLIC_CLARITY_PROJECT_ID`)
+- Vercel Analytics
+
+These scripts are gated to `NODE_ENV=production` and do not load during `next dev`.
+
+Conversion events are emitted through `src/lib/analytics/track.ts` (never direct `gtag` calls in UI). Events exclude names, emails, phone numbers, free-form messages, and assessment answers.
+
+## Production launch checklist
+
+Complete before and after go-live. Items marked **manual** must be verified on the live domain by a human.
+
+### Environment variables (Vercel / host)
+
+- [ ] `RESEND_API_KEY`
+- [ ] `CONTACT_FROM_EMAIL` (verified Resend sender)
+- [ ] `CONTACT_TO_EMAIL`
+- [ ] `GOOGLE_SHEETS_WEBHOOK_URL` (optional contact / assessment capture)
+- [ ] `GOOGLE_SHEETS_WEBHOOK_SECRET` (required for Banking CX Sheets webhook)
+- [ ] `ASSESSMENT_RESULTS_WEBHOOK_URL` (optional)
+- [ ] `NEXT_PUBLIC_GA_MEASUREMENT_ID` (optional override)
+- [ ] `NEXT_PUBLIC_CLARITY_PROJECT_ID` (optional override)
+
+### Resend
+
+- [ ] **Manual:** Sender domain verified in Resend
+- [ ] **Manual:** Send a real contact-form test from production and confirm inbox delivery
+- [ ] Confirm spam/honeypot still blocks obvious bot payloads
+
+### Analytics
+
+- [ ] **Manual:** GA4 Realtime shows a production page view
+- [ ] **Manual:** Trigger `contact_form_submit` with a test lead and confirm in GA4 DebugView / Realtime
+- [ ] **Manual:** Clarity session appears for the production hostname
+- [ ] Confirm analytics scripts are absent on local `next dev`
+
+### Domain and SEO
+
+- [ ] Primary domain is `https://crimsontech.co`
+- [ ] Canonicals use `https://crimsontech.co` (no preview hostnames)
+- [ ] `https://crimsontech.co/sitemap.xml` returns 200
+- [ ] `https://crimsontech.co/robots.txt` returns 200 and references the sitemap
+- [ ] Legacy `/tools`, `/services`, `/insights` permanently redirect to canonical paths
+- [ ] Assessment results URL remains `noindex`
+
+### Automated checks (run against production after deploy)
+
+```bash
+SITE_URL=https://crimsontech.co npm run audit:production
+```
+
+Optional deeper crawl (requires the live origin to accept the same checks as local):
+
+```bash
+npm run check:links -- --base-url=https://crimsontech.co
+npm run audit:pages -- --base-url=https://crimsontech.co
+```
+
+### Search Console and performance (**manual**)
+
+- [ ] Submit sitemap in Google Search Console
+- [ ] Inspect a research article and the homepage URL
+- [ ] Run PageSpeed Insights on homepage, research hub, one article, Decision Center, one tool, and contact
+- [ ] Review Core Web Vitals field data after enough traffic accumulates
+
+### Privacy
+
+- [ ] Privacy policy still accurately describes analytics/cookies in use
+- [ ] No PII is sent in custom GA4 event parameters

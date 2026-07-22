@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { FrictionHeatmap } from "@/components/banking-cx-assessment/FrictionHeatmap";
 import { FrictionRanking } from "@/components/banking-cx-assessment/FrictionRanking";
 import { LikertScale } from "@/components/banking-cx-assessment/LikertScale";
@@ -18,6 +18,10 @@ import {
   assessmentSectionDescClass,
   assessmentSectionTitleClass,
 } from "@/components/banking-cx-assessment/assessment-ui";
+import {
+  trackAssessmentCompleted,
+  trackAssessmentStarted,
+} from "@/lib/analytics/assessment-events";
 import {
   ASSESSMENT_AREAS,
   TOTAL_LIKERT_QUESTIONS,
@@ -102,6 +106,7 @@ export function AssessmentWizard() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const hasTrackedStartRef = useRef(false);
 
   const totalSteps = STEP_LABELS.length;
   const isProfileStep = step === 0;
@@ -243,6 +248,10 @@ export function AssessmentWizard() {
       return;
     }
     setError(null);
+    if (!hasTrackedStartRef.current) {
+      hasTrackedStartRef.current = true;
+      trackAssessmentStarted("banking-cx-friction-assessment");
+    }
     setStep((s) => Math.min(s + 1, totalSteps - 1));
   }
 
@@ -269,6 +278,9 @@ export function AssessmentWizard() {
       }
 
       saveAssessmentResult(data.result);
+      trackAssessmentCompleted({
+        assessmentId: "banking-cx-friction-assessment",
+      });
       router.push("/decision-center/banking-cx-friction-assessment/results");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");

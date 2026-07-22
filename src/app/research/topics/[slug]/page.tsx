@@ -8,12 +8,18 @@ import {
   RelatedSolutionsSection,
 } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { getTopicCluster, topicClusters } from "@/content/topic-clusters";
 import { getIndustry } from "@/content/industries";
 import { getProject } from "@/content/projects";
 import { getSolution } from "@/content/solutions";
 import { getLearningPath } from "@/content/learning-paths";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import {
   getTopicClusterArticles,
   getTopicClusterTools,
@@ -77,9 +83,25 @@ export default async function TopicClusterPage({ params }: Props) {
           nextSteps: learningPath.steps.slice(1, 3),
         }
       : undefined;
+  const path = `/research/topics/${cluster.slug}`;
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: cluster.title,
+            description: cluster.description,
+            path,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Research", path: "/research" },
+            { name: "Decision Areas", path: "/research/topics" },
+            { name: cluster.title, path },
+          ]),
+        ])}
+      />
       <Section className="!pb-10 md:!pb-12">
         <Link
           href="/research/topics"

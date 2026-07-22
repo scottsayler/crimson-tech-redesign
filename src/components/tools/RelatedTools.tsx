@@ -22,11 +22,11 @@ export function RelatedTools({ items }: { items: RelatedToolLink[] }) {
   return (
     <div className="rounded-xl border border-crimson/15 bg-crimson-50 p-6">
       <p className="text-xs font-semibold uppercase tracking-wider text-crimson">
-        Interactive tools
+        Evaluate
       </p>
       <p className="mt-2 max-w-2xl text-sm text-ink-muted">
-        Quantify outage impact and score network readiness with calculators built for restaurant
-        operators.
+        Related Decision Center assessments and calculators for quantifying impact and scoring
+        readiness.
       </p>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {resolved.map((item) => (
@@ -40,7 +40,7 @@ export function RelatedTools({ items }: { items: RelatedToolLink[] }) {
               completionTime={getToolCompletionTime(item.tool)}
             />
             <span className="mt-3 text-sm font-semibold text-ink">{item.label}</span>
-            <span className="mt-2 text-sm text-crimson">Open tool →</span>
+            <span className="mt-2 text-sm text-crimson">Open →</span>
           </Link>
         ))}
       </div>

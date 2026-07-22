@@ -3,7 +3,8 @@ import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { ResearchCard } from "@/components/sections/ResearchCard";
 import { ResearchTypeNav } from "@/components/sections/ResearchTypeNav";
-import { ToolCard } from "@/components/tools/ToolCard";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -18,19 +19,23 @@ import {
   researchTypeDescriptions,
 } from "@/content/research";
 import { solutions } from "@/content/solutions";
-import { getFeaturedTools } from "@/content/tools";
 import { ContentBadge } from "@/components/ui/ContentBadge";
 import {
   getResearchBadgeLabel,
   getResearchTypeDefaultCompletionTime,
 } from "@/lib/content-badges";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+} from "@/lib/schema";
 import { getTopicClusterArticles } from "@/lib/topic-clusters";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "Insights",
+  title: "Research",
   description:
-    "Technology buying guidance, decision frameworks, and vendor comparisons from Crimson Technology.",
+    "Practical decision guides, field analysis, and technology education from evaluations Crimson Technology has run with operating teams.",
   path: "/research",
 });
 
@@ -43,37 +48,56 @@ export default function ResearchPage() {
 
   return (
     <>
-      {/* Publication masthead */}
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: "Research",
+            description:
+              "Practical decision guides, field analysis, and technology education from evaluations Crimson Technology has run with operating teams.",
+            path: "/research",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Research", path: "/research" },
+          ]),
+        ])}
+      />
       <section className="relative overflow-hidden bg-white py-16 md:py-24">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#f5f5f4_1px,transparent_1px),linear-gradient(to_bottom,#f5f5f4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
         <Container className="relative">
           <p className="text-sm font-semibold uppercase tracking-wider text-crimson">
-            Insights
+            Research
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Notes from real evaluations
+            Decision guides from real evaluations
           </h1>
-          <p className="mt-6 max-w-3xl text-lg text-ink-muted leading-relaxed md:text-xl">
-            Checklists, buying guides, and opinions from evaluations we&apos;ve
-            actually run—CCaaS vendor selection, POTS replacement, network
-            readiness, AI in contact centers.
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
+            Research covers practical guides, problem analysis, technology
+            explainers, and field notes that help buyers understand tradeoffs and
+            decision criteria before vendor selection.
           </p>
+          <div className="mt-8">
+            <Button href="/decision-center" variant="outline">
+              Open the Decision Center
+            </Button>
+          </div>
         </Container>
       </section>
 
-      {/* Featured */}
       {featuredItems.length > 0 ? (
         <Section variant="muted">
-        <SectionHeader
-          eyebrow="Featured"
-          title="Start here"
-          description="The evaluations and write-ups we'd send a colleague facing the same decision."
-        />
+          <SectionHeader
+            eyebrow="Featured"
+            title="Start here"
+            description="Guides and write-ups we would send a colleague facing the same decision."
+          />
           <div className="grid gap-6 lg:grid-cols-2">
             {featuredItems.map((item, index) => (
               <div
                 key={item.slug}
-                className={index === 0 && featuredItems.length > 1 ? "lg:col-span-2" : ""}
+                className={
+                  index === 0 && featuredItems.length > 1 ? "lg:col-span-2" : ""
+                }
               >
                 <ResearchCard item={item} featured={index === 0} />
               </div>
@@ -82,34 +106,11 @@ export default function ResearchPage() {
         </Section>
       ) : null}
 
-      {/* Interactive tools */}
       <Section>
-        <SectionHeader
-          eyebrow="Technology Decision Center"
-          title="Run the numbers"
-          description="Outage cost per hour, POTS savings, network readiness scores—before you approve the spend."
-        />
-        <div className="grid gap-6 md:grid-cols-2">
-          {getFeaturedTools().map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} />
-          ))}
-        </div>
-        <div className="mt-8">
-          <Link
-            href="/tools"
-            className="text-sm font-medium text-crimson hover:text-crimson-dark"
-          >
-            View all tools →
-          </Link>
-        </div>
-      </Section>
-
-      {/* Decision areas */}
-      <Section variant="muted">
         <SectionHeader
           eyebrow="Decision areas"
           title="Organized by major decisions"
-          description="Topic clusters connecting research, tools, services, and engagements—so you can move from reading to action."
+          description="Topic hubs that group related research around recurring technology decisions."
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {topicClusters.map((cluster) => {
@@ -131,7 +132,9 @@ export default function ResearchPage() {
                   <span className="text-xs text-ink-muted">
                     {articleCount} {articleCount === 1 ? "article" : "articles"}
                   </span>
-                  <span className="text-xs font-medium text-crimson">Explore →</span>
+                  <span className="text-xs font-medium text-crimson">
+                    Explore →
+                  </span>
                 </div>
               </Link>
             );
@@ -145,12 +148,11 @@ export default function ResearchPage() {
         </Link>
       </Section>
 
-      {/* Browse by type */}
-      <Section>
+      <Section variant="muted">
         <SectionHeader
           eyebrow="Browse"
           title="By format"
-          description="Checklists for active evaluations. Buying guides for platform decisions. Problem pages for when you're not sure what you're solving yet."
+          description="Checklists for active evaluations. Buying guides for platform decisions. Problem pages for when the issue is still being framed."
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {RESEARCH_TYPES.map((researchType) => {
@@ -164,13 +166,15 @@ export default function ResearchPage() {
                 <div className="flex items-center justify-between gap-2">
                   <ContentBadge
                     label={getResearchBadgeLabel(researchType)}
-                    completionTime={getResearchTypeDefaultCompletionTime(researchType)}
+                    completionTime={getResearchTypeDefaultCompletionTime(
+                      researchType,
+                    )}
                   />
                   <span className="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs font-medium text-ink-muted">
                     {count}
                   </span>
                 </div>
-                <p className="mt-2 flex-1 text-sm text-ink-muted leading-relaxed">
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">
                   {researchTypeDescriptions[researchType]}
                 </p>
                 <span className="mt-4 text-xs font-medium text-crimson">
@@ -182,18 +186,32 @@ export default function ResearchPage() {
         </div>
       </Section>
 
-      {/* All publications */}
-      <Section variant="muted">
+      <Section>
         <SectionHeader
           eyebrow="Library"
-          title="All insights"
-          description="Everything we've published—newest first."
+          title="All research"
+          description="Published guides and analysis, newest first."
         />
         <ResearchTypeNav />
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {libraryItems.map((item) => (
             <ResearchCard key={item.slug} item={item} />
           ))}
+        </div>
+      </Section>
+
+      <Section variant="muted">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+            Ready to evaluate your environment
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-ink-muted">
+            Assessments and calculators live in the Decision Center. Use them to
+            score friction, quantify impact, and prepare decision inputs.
+          </p>
+          <div className="mt-8">
+            <Button href="/decision-center">Open the Decision Center</Button>
+          </div>
         </div>
       </Section>
 

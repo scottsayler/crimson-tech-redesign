@@ -13,6 +13,118 @@ export type RecentWorkItem = {
   external?: boolean;
 };
 
+export type HomepagePracticePath = {
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+};
+
+export type HomepageProofPoint = {
+  value: string;
+  label: string;
+  detail: string;
+};
+
+/** Homepage hero and journey copy. Kept here so page.tsx stays structural. */
+export const homepageHero = {
+  eyebrow: "Independent Technology Advisory",
+  title: "Technology decisions you can defend",
+  paragraphs: [
+    "Crimson Technology helps organizations make high-cost technology decisions with requirements and evaluation criteria documented before vendors enter the conversation.",
+    "The work is built for multi-location organizations and financial institutions that need a recommendation they can take through governance with confidence.",
+  ],
+  primaryCta: { label: "Start a Conversation", href: "/contact" },
+  secondaryCta: {
+    label: "Explore the decision process",
+    href: "#decision-process",
+  },
+} as const;
+
+export const homepageBuyerContext = {
+  title: "Built for complex buying environments",
+  paragraphs: [
+    "Crimson is best suited for multi-location operators, banks, and credit unions facing renewals, migrations, or platform selections where integration, compliance, and operating constraints matter as much as features.",
+    "Engagements often involve connectivity and managed networks, UCaaS and CCaaS, AI and automation, or contact center technology. Those categories matter, but the starting point is always the decision in front of you and the criteria required to make it.",
+  ],
+} as const;
+
+export const homepageProcess = {
+  title: "How an evaluation runs",
+  description:
+    "Crimson defines requirements and scoring criteria before vendors shape the conversation. The work then moves from current-state assessment through clarification, recommendation design, and implementation support.",
+} as const;
+
+export const homepageProof = {
+  title: "Experience that shows up in production",
+  description:
+    "Advisory work is led by operators who have guided platform decisions through selection, cutover, and early production support.",
+  points: [
+    {
+      value: "100+",
+      label: "Cloud migrations guided",
+      detail: "UCaaS cutovers, CCaaS replacements, and carrier consolidations",
+    },
+    {
+      value: "Operator-led",
+      label: "Production experience",
+      detail:
+        "Planning informed by go-live, adoption, and post-launch support realities",
+    },
+    {
+      value: "Advisory → Execute",
+      label: "Through go-live",
+      detail:
+        "Support continues from selection into implementation and early production",
+    },
+  ] satisfies HomepageProofPoint[],
+  outcomes: [
+    "Finalist list reduced from five to two in six weeks",
+    "Platform selected on CRM integration fit",
+    "WFM integration scope defined in contract terms",
+    "After-call summarization deployed for contact center agents",
+  ],
+} as const;
+
+export const homepagePracticePaths: HomepagePracticePath[] = [
+  {
+    title: "Multi-location technology",
+    description:
+      "Connectivity, UCaaS, and store network decisions for operators managing many sites with shared standards and local constraints.",
+    href: "/industries/multi-location-businesses",
+    linkLabel: "Explore multi-location work",
+  },
+  {
+    title: "Financial services and Crimson CX",
+    description:
+      "CCaaS, contact center operations, and CX technology evaluations shaped around banking and credit union compliance requirements.",
+    href: "/crimson-cx",
+    linkLabel: "Explore Crimson CX",
+  },
+  {
+    title: "Research",
+    description:
+      "Decision guides, problem analysis, and technology education from evaluations already run with operating teams.",
+    href: "/research",
+    linkLabel: "Explore research",
+  },
+];
+
+export const homepageIndependence = {
+  title: "Independent evaluation. Flexible funding.",
+  lead:
+    "Recommendations are based on documented business and technical requirements established before vendors are evaluated. The engagement model does not change the evaluation methodology or the criteria used to assess solutions.",
+} as const;
+
+export const homepageFinalCta = {
+  title: "Discuss an upcoming technology decision",
+  description:
+    "Share your timeline, constraints, and what is already on the table. Scott responds personally.",
+  primaryLabel: "Start a Conversation",
+  primaryHref: "/contact",
+} as const;
+
+/** Retained content used by earlier homepage layouts; kept for reuse elsewhere. */
 export const evaluationAreas: EvaluationArea[] = [
   {
     title: "Connectivity & Internet",

@@ -12,6 +12,8 @@ export function AssessmentConsultingCTA() {
       <Link
         href="/contact"
         className="mt-6 inline-flex rounded-lg bg-crimson px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-crimson-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson/30"
+        data-analytics-event="contact_cta_click"
+        data-analytics-cta-location="assessment_consulting_cta"
       >
         Schedule a Strategy Conversation
       </Link>

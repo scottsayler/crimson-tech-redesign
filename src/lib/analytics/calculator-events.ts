@@ -1,8 +1,26 @@
+import { trackEvent } from "@/lib/analytics/track";
+
 const DOWNTIME_CALCULATOR_ID = "downtime-cost-calculator";
 
-function sendEvent(eventName: string, params?: Record<string, unknown>) {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
-  window.gtag("event", eventName, params);
+export function trackCalculatorStarted(calculatorId: string) {
+  trackEvent("decision_resource_start", {
+    resource_name: calculatorId,
+    resource_type: "calculator",
+  });
+}
+
+/** Kept for call-site compatibility. Completion is reported via trackCalculatorCompleted. */
+export function trackCalculatorResultGenerated(
+  params: Record<string, string | number> & { calculatorId: string },
+) {
+  void params;
+  // Intentionally no-op: avoid duplicate calculator_complete events and raw totals.
+}
+
+export function trackCalculatorCompleted(calculatorId: string) {
+  trackEvent("calculator_complete", {
+    resource_name: calculatorId,
+  });
 }
 
 export function getImpactBucket(totalImpact: number): string {
@@ -17,28 +35,6 @@ export function getSavingsBucket(monthlySavings: number): string {
   if (monthlySavings < 5_000) return "1k_5k";
   if (monthlySavings < 15_000) return "5k_15k";
   return "over_15k";
-}
-
-export function trackCalculatorStarted(calculatorId: string) {
-  sendEvent("calculator_started", {
-    calculator_id: calculatorId,
-  });
-}
-
-export function trackCalculatorResultGenerated(
-  params: Record<string, string | number> & { calculatorId: string }
-) {
-  const { calculatorId, ...eventParams } = params;
-  sendEvent("calculator_result_generated", {
-    calculator_id: calculatorId,
-    ...eventParams,
-  });
-}
-
-export function trackCalculatorCompleted(calculatorId: string) {
-  sendEvent("calculator_completed", {
-    calculator_id: calculatorId,
-  });
 }
 
 export {

@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { FrictionHeatmap } from "@/components/banking-cx-assessment/FrictionHeatmap";
 import { FrictionRanking } from "@/components/banking-cx-assessment/FrictionRanking";
 import { ScoreCard } from "@/components/banking-cx-assessment/ScoreCard";
 import { ScoreGauge } from "@/components/banking-cx-assessment/ScoreGauge";
+import { useClientStoredValue } from "@/hooks/useClientStoredValue";
 import { getAiReadinessNarrative } from "@/lib/banking-cx-assessment/insights";
 import {
   formatAssetSize,
@@ -16,10 +16,17 @@ import {
 } from "@/lib/banking-cx-assessment/format";
 import { getHighestFrictionAreas } from "@/lib/banking-cx-assessment/scoring";
 import { loadAssessmentResult } from "@/lib/banking-cx-assessment/storage";
-import type { AssessmentResult } from "@/lib/banking-cx-assessment/types";
 
 export function AssessmentResults() {
-  const [result] = useState<AssessmentResult | null>(() => loadAssessmentResult());
+  const { value: result, ready } = useClientStoredValue(loadAssessmentResult);
+
+  if (!ready) {
+    return (
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="text-ink-muted">Loading results…</p>
+      </div>
+    );
+  }
 
   if (!result) {
     return (

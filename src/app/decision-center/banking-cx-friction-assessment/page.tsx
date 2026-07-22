@@ -3,20 +3,27 @@ import { AssessmentWizard } from "@/components/banking-cx-assessment/AssessmentW
 import { PrivacyDisclaimer } from "@/components/banking-cx-assessment/PrivacyDisclaimer";
 import { AssessmentProfiles } from "@/components/decision-center/AssessmentProfiles";
 import { CTABand } from "@/components/sections/CTABand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { getDecisionCenterAssessment } from "@/content/decision-center";
 import { TOTAL_LIKERT_QUESTIONS } from "@/lib/banking-cx-assessment/areas";
+import {
+  buildBreadcrumbList,
+  buildSchemaGraph,
+  buildWebApplication,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 const catalog = getDecisionCenterAssessment("banking-cx-friction-assessment");
+const assessmentPath = "/decision-center/banking-cx-friction-assessment";
 
 export const metadata = createMetadata({
   title: catalog?.title ?? "Banking CX Friction Assessment",
   description:
     catalog?.description ??
     "Evaluate operational friction across ten customer journeys before CCaaS, CRM, or AI investments.",
-  path: "/decision-center/banking-cx-friction-assessment",
+  path: assessmentPath,
 });
 
 export default function BankingCxFrictionAssessmentPage() {
@@ -26,6 +33,20 @@ export default function BankingCxFrictionAssessmentPage() {
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildWebApplication({
+            name: catalog.title,
+            description: catalog.description,
+            path: assessmentPath,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Decision Center", path: "/decision-center" },
+            { name: catalog.title, path: assessmentPath },
+          ]),
+        ])}
+      />
       <Section className="!pb-8">
         <Container>
           <Link

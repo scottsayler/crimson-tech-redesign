@@ -4,7 +4,6 @@ import type {
   AssessmentResults,
   CategoryScore,
 } from "@/lib/assessments/types";
-import { AssessmentSectionIcon } from "@/components/tools/AssessmentSectionIcon";
 import { RecommendationSection } from "@/components/tools/assessment/RecommendationSection";
 import { buildClassifiedRecommendations } from "@/components/tools/assessment/classify-recommendations";
 import { JourneyScoreChart } from "./JourneyScoreChart";

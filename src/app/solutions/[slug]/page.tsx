@@ -4,6 +4,7 @@ import { CTABand } from "@/components/sections/CTABand";
 import { EngagementStandards } from "@/components/sections/EngagementStandards";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { AdvisorProse } from "@/components/sections/AdvisorProse";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -12,6 +13,11 @@ import {
   getIndustriesForSolution,
   getResearchForSolution,
 } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildSchemaGraph,
+  buildService,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 type Props = {
@@ -41,9 +47,24 @@ export default async function SolutionDetailPage({ params }: Props) {
 
   const relatedResearch = getResearchForSolution(slug);
   const relatedIndustries = getIndustriesForSolution(slug);
+  const path = `/solutions/${solution.slug}`;
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildService({
+            name: solution.title,
+            description: solution.shortDescription,
+            path,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/solutions" },
+            { name: solution.title, path },
+          ]),
+        ])}
+      />
       <Section className="!pb-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-crimson">
           Services

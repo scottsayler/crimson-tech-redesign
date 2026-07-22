@@ -48,7 +48,7 @@ export function TopicClusterLibrary({
     <Section variant={variant} className="!py-12 md:!py-16">
       <div className="max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-wider text-crimson">
-          Decision area
+          Read
         </p>
         <h2 className="mt-2 text-3xl font-semibold tracking-tight text-ink">
           {cluster.title}

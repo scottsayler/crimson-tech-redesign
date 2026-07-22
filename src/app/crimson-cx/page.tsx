@@ -3,6 +3,7 @@ import { CTABand } from "@/components/sections/CTABand";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { PrincipalAdvisor } from "@/components/sections/PrincipalAdvisor";
 import { AdvisorProse } from "@/components/sections/AdvisorProse";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import {
@@ -18,12 +19,17 @@ import {
   getResearchForPractice,
   getSolutionsForIndustrySlug,
 } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildSchemaGraph,
+  buildService,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
   title: "Crimson CX",
   description:
-    "CCaaS evaluations, contact center migrations, and AI adoption for banks and credit unions—with compliance tested before you sign.",
+    "CCaaS evaluations, contact center migrations, and AI adoption for banks and credit unions with compliance tested before you sign.",
   path: "/crimson-cx",
 });
 
@@ -34,6 +40,20 @@ export default function CrimsonCXPage() {
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildService({
+            name: "Crimson CX",
+            description:
+              "CCaaS evaluations, contact center migrations, and AI adoption for banks and credit unions with compliance tested before you sign.",
+            path: "/crimson-cx",
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Crimson CX", path: "/crimson-cx" },
+          ]),
+        ])}
+      />
       <Section className="!pb-12" variant="crimson">
         <SectionHeader
           as="h1"

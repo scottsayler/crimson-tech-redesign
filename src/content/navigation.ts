@@ -9,7 +9,8 @@ export const primaryNav: NavItem[] = [
   { label: "Industries", href: "/industries", children: "industries" },
   { label: "Crimson CX", href: "/crimson-cx" },
   { label: "Projects", href: "/projects" },
-  { label: "Insights", href: "/research", children: "research" },
+  { label: "Research", href: "/research", children: "research" },
+  { label: "Decision Center", href: "/decision-center" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];

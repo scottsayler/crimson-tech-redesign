@@ -1,46 +1,25 @@
-type CategoryScorePayload = Record<string, number>;
-
-function sendEvent(eventName: string, params?: Record<string, unknown>) {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
-  window.gtag("event", eventName, params);
-}
+import { trackEvent } from "@/lib/analytics/track";
 
 export function trackAssessmentStarted(assessmentId: string) {
-  sendEvent("assessment_started", {
-    assessment_id: assessmentId,
+  trackEvent("decision_resource_start", {
+    resource_name: assessmentId,
+    resource_type: "assessment",
   });
 }
 
 export function trackAssessmentCompleted({
   assessmentId,
-  overallScore,
-  maturityLevel,
-  categoryScores,
   durationSeconds,
 }: {
   assessmentId: string;
-  overallScore: number;
-  maturityLevel: string;
-  categoryScores: CategoryScorePayload;
-  durationSeconds: number;
+  overallScore?: number;
+  maturityLevel?: string;
+  categoryScores?: Record<string, number>;
+  durationSeconds?: number;
 }) {
-  sendEvent("assessment_completed", {
-    assessment_id: assessmentId,
-  });
-
-  sendEvent("assessment_score", {
-    assessment_id: assessmentId,
-    score: overallScore,
-    maturity_level: maturityLevel,
-  });
-
-  sendEvent("assessment_category_scores", {
-    assessment_id: assessmentId,
-    ...categoryScores,
-  });
-
-  sendEvent("assessment_duration", {
-    assessment_id: assessmentId,
+  // Aggregate completion only — never send answers or PII.
+  trackEvent("assessment_complete", {
+    assessment_name: assessmentId,
     duration_seconds: durationSeconds,
   });
 }

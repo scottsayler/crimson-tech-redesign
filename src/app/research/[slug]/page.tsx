@@ -9,6 +9,7 @@ import { RelatedTools } from "@/components/tools/RelatedTools";
 import { RelatedAssessments } from "@/components/decision-center/RelatedAssessments";
 import { ContextualLinks } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import {
@@ -28,6 +29,13 @@ import {
   getProjectsForResearch,
   getSolutionsForResearch,
 } from "@/lib/relationships";
+import {
+  buildArticle,
+  buildBreadcrumbList,
+  buildFaqPage,
+  buildSchemaGraph,
+  getResearchFaqs,
+} from "@/lib/schema";
 import {
   getLearningPathContext,
   getRecommendedNextReading,
@@ -81,6 +89,8 @@ export default async function ResearchDetailPage({ params }: Props) {
   const continueReading = getRecommendedNextReading(item);
   const relatedTopics = getRelatedTopics(item, 3);
   const seeAlso = getSeeAlso(item, 3);
+  const faqs = getResearchFaqs(item.content);
+  const path = `/research/${item.slug}`;
 
   const date = new Date(item.date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -90,6 +100,27 @@ export default async function ResearchDetailPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildArticle({
+            title: item.title,
+            description: item.excerpt,
+            path,
+            datePublished: item.date,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Research", path: "/research" },
+            {
+              name: researchTypeHubTitles[item.type],
+              path: getResearchHubPath(item.type),
+            },
+            { name: item.title, path },
+          ]),
+          buildFaqPage(faqs),
+        ])}
+      />
+
       <Section className="!pb-10 md:!pb-12">
         <div className="flex flex-col gap-4">
           <Link
@@ -166,7 +197,11 @@ export default async function ResearchDetailPage({ params }: Props) {
         tools={clusterTools}
       />
 
-      <CTABand />
+      <CTABand
+        analyticsEvent="research_cta_click"
+        analyticsCtaLocation="research_article"
+        analyticsArticleSlug={item.slug}
+      />
     </>
   );
 }

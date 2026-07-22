@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/tools",
+        destination: "/decision-center",
+        permanent: true,
+      },
+      {
         source: "/research",
         has: [{ type: "query", key: "type", value: "problem-page" }],
         destination: "/research/problems",

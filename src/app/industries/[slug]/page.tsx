@@ -8,12 +8,19 @@ import {
 } from "@/components/sections/ContextualLinks";
 import { CTABand } from "@/components/sections/CTABand";
 import { AdvisorProse } from "@/components/sections/AdvisorProse";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { getIndustry, industries } from "@/content/industries";
 import { getIndustryLibrary } from "@/content/industry-libraries";
 import { getSolution } from "@/content/solutions";
 import { getResearchForIndustry } from "@/lib/relationships";
+import {
+  buildBreadcrumbList,
+  buildCollectionPage,
+  buildSchemaGraph,
+  buildService,
+} from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
 
 const DEFAULT_RESOURCES_TITLE = "Related reading";
@@ -53,9 +60,29 @@ export default async function IndustryDetailPage({ params }: Props) {
     .filter((service): service is NonNullable<typeof service> => Boolean(service));
   const library = getIndustryLibrary(slug);
   const relatedResearch = getResearchForIndustry(slug);
+  const path = `/industries/${industry.slug}`;
 
   return (
     <>
+      <JsonLd
+        data={buildSchemaGraph([
+          buildCollectionPage({
+            name: industry.title,
+            description: industry.shortDescription,
+            path,
+          }),
+          buildService({
+            name: `${industry.title} technology advisory`,
+            description: industry.shortDescription,
+            path,
+          }),
+          buildBreadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Industries", path: "/industries" },
+            { name: industry.title, path },
+          ]),
+        ])}
+      />
       <Section className="!pb-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-crimson">
           Industries
