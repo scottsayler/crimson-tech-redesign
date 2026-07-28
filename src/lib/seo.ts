@@ -15,7 +15,9 @@ export function createMetadata({
 }): Metadata {
   const fullTitle =
     title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
-  const url = `${site.url}${path}`;
+  // Prefer a trailing slash on the homepage so the canonical matches the URL Google crawls
+  // (`https://example.com/`) and avoids "Duplicate without user-selected canonical".
+  const url = !path || path === "/" ? `${site.url}/` : `${site.url}${path}`;
   const ogImageUrl = `${site.url}${site.ogImage}`;
 
   return {

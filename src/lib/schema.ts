@@ -15,7 +15,7 @@ export type BreadcrumbItem = {
 };
 
 export function absoluteUrl(path = ""): string {
-  if (!path) return site.url;
+  if (!path || path === "/") return `${site.url}/`;
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return `${site.url}${path.startsWith("/") ? path : `/${path}`}`;
 }
@@ -25,7 +25,7 @@ export function buildOrganization(): SchemaNode {
     "@type": "Organization",
     "@id": `${site.url}/#organization`,
     name: site.name,
-    url: site.url,
+    url: absoluteUrl(),
     logo: absoluteUrl(site.logo),
     image: absoluteUrl(site.ogImage),
     email: site.email,
@@ -53,7 +53,7 @@ export function buildProfessionalService(): SchemaNode {
     "@id": `${site.url}/#professional-service`,
     name: site.name,
     description: site.description,
-    url: site.url,
+    url: absoluteUrl(),
     image: absoluteUrl(site.ogImage),
     email: site.email,
     areaServed: "US",
@@ -81,7 +81,7 @@ export function buildWebSite(): SchemaNode {
     "@type": "WebSite",
     "@id": `${site.url}/#website`,
     name: site.name,
-    url: site.url,
+    url: absoluteUrl(),
     description: site.description,
     publisher: {
       "@id": `${site.url}/#organization`,

@@ -196,12 +196,9 @@ async function main() {
     if (!canonical) {
       issues.push({ path, severity: "error", message: "Missing canonical" });
     } else {
-      const expected = `https://crimsontech.co${path === "/" ? "" : path}`;
-      const expectedHomeSlash = "https://crimsontech.co/";
-      if (
-        canonical !== expected &&
-        !(path === "/" && (canonical === expected || canonical === expectedHomeSlash))
-      ) {
+      const expected =
+        path === "/" ? "https://crimsontech.co/" : `https://crimsontech.co${path}`;
+      if (canonical !== expected) {
         issues.push({
           path,
           severity: "error",

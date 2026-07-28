@@ -110,19 +110,14 @@ async function main() {
     if (!html) continue;
 
     const canonical = getCanonical(html);
-    const expectedPath = path === "/" ? "" : path;
-    const expected = `${PRODUCTION_ORIGIN}${expectedPath}`;
-    const expectedHome = `${PRODUCTION_ORIGIN}/`;
+    const expected = path === "/" ? `${PRODUCTION_ORIGIN}/` : `${PRODUCTION_ORIGIN}${path}`;
     if (!canonical) {
       errors.push(`${path}: missing canonical`);
-    } else if (
-      canonical !== expected &&
-      !(path === "/" && (canonical === expected || canonical === expectedHome))
-    ) {
+    } else if (canonical !== expected) {
       // Local audits still expect production canonicals from metadataBase.
       if (!canonical.startsWith(PRODUCTION_ORIGIN)) {
         errors.push(`${path}: canonical not production domain (${canonical})`);
-      } else if (canonical !== expected && canonical !== expectedHome) {
+      } else {
         errors.push(`${path}: canonical mismatch (${canonical})`);
       }
     }

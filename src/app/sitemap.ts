@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy",
   ].map((path) => ({
-    url: `${site.url}${path}`,
+    url: path === "" ? `${site.url}/` : `${site.url}${path}`,
     changeFrequency: "monthly" as const,
     priority: path === "" ? 1 : path === "/research" || path === "/decision-center" ? 0.9 : 0.8,
   }));
