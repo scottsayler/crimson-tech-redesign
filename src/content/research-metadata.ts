@@ -75,9 +75,16 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
     learningPath: "restaurant-connectivity",
     learningOrder: 3,
     related: [
+      "restaurant-technology-standardization",
       "restaurants-best-internet",
       "restaurant-network-visibility",
       "restaurant-network-checklist",
+    ],
+    relatedTools: [
+      {
+        slug: "network-assessment",
+        label: "Score network readiness",
+      },
     ],
     linkAliases: ["restaurant networking", "store networking"],
   },
@@ -128,13 +135,13 @@ export const researchNavigationMeta: Record<string, ResearchNavigationMeta> = {
     linkAliases: ["POTS replacement", "pots lines"],
   },
   "restaurants-pots-replacement": {
-    tags: ["pots", "decision framework", "infrastructure", "restaurants"],
+    tags: ["pots", "analog lines", "infrastructure", "restaurants"],
     libraryCategory: "Infrastructure",
     topicCluster: "connectivity",
     related: [
       "restaurant-pots-replacement",
       "restaurants-best-internet",
-      "restaurant-technology-standardization",
+      "restaurant-network-checklist",
     ],
     relatedTools: [
       {
